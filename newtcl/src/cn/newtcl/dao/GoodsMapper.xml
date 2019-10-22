@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.newtcl.dao.GoodsMapper">
+
+<resultMap id="BaseResultMap" type="cn.newtcl.entity.Goods">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="oldprice" jdbcType="DOUBLE" property="oldprice" />
+    <result column="nowprice" jdbcType="DOUBLE" property="nowprice" />
+    <result column="cost" jdbcType="DOUBLE" property="cost" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="describable" jdbcType="VARCHAR" property="describable" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+  </resultMap>
+
+
+    <select id="find" parameterType="cn.newtcl.entity.Goods" resultMap="BaseResultMap">
+        select * from goods
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="name != null">
+                and name like #{name}
+            </if>
+            <if test="typeId != null">
+                and type_id = #{typeId}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="managerId != null">
+                and manager_id = #{managerId}
+            </if>
+        </where>
+    </select>
+    
+    <select id="countGoods" parameterType="cn.newtcl.entity.Goods" resultType="Integer">
+        select count(*) from goods where manager_id=#{managerId} and type_id=#{typeId} and status=1
+    </select>
+    
+    <insert id="add" parameterType="cn.newtcl.entity.Goods" useGeneratedKeys="true" keyProperty="id">
+            INSERT INTO goods (name,photo,oldprice,nowprice,cost,stock,describable,type_id,manager_id,status)
+         VALUES (#{name},#{photo},#{oldprice},#{nowprice},#{cost},#{stock},#{describable},#{typeId},#{managerId},1)
+    </insert>
+    
+    <update id="update" parameterType="cn.newtcl.entity.Goods">
+        UPDATE goods
+        <set>
+            <if test="name != null">
+                name=#{name},
+            </if>
+            <if test="photo != null">
+                photo=#{photo},
+            </if>
+            <if test="oldprice != null">
+                oldprice=#{oldprice},
+            </if>
+            <if test="nowprice != null">
+                nowprice=#{nowprice},
+            </if>
+            <if test="cost != null">
+                cost=#{cost},
+            </if>
+            <if test="stock != null">
+                stock=#{stock},
+            </if>
+             <if test="status != null">
+                status=#{status},
+            </if>
+            <if test="describable != null">
+                describable=#{describable},
+            </if>
+        </set>
+          where id=#{id}
+    </update>
+    
+    <update id="delete" parameterType="cn.newtcl.entity.Goods">
+        update goods
+        <set>
+            status = 0
+        </set>
+        WHERE id = #{id}
+    </update>
+    
+    <update id="deleteGoodsByMenuId" parameterType="Integer">
+        update goods
+        <set>
+            status = 0
+        </set>
+        WHERE type_id = #{id}
+    </update>  
+</mapper>

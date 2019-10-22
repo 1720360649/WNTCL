@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.newtcl.dao.UserMapper">
+
+ <resultMap id="BaseResultMap" type="cn.newtcl.entity.User">
+   <id column="id" jdbcType="INTEGER" property="id" />
+   <result column="phone" jdbcType="VARCHAR" property="phone" />
+   <result column="password" jdbcType="VARCHAR" property="password" />
+   <result column="name" jdbcType="VARCHAR" property="name" />
+   <result column="email" jdbcType="VARCHAR" property="email" />
+   <result column="balance" jdbcType="DOUBLE" property="balance" />
+   <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+   <result column="paypassword" jdbcType="INTEGER" property="payPassword" />
+   <result column="qqopenid" jdbcType="VARCHAR" property="qqOpenId" />
+   <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+   <result column="alipayopenid" jdbcType="VARCHAR" property="alipayOpenid" />
+   <result column="wechatopenid" jdbcType="VARCHAR" property="wechatOpenid" />
+   <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+ </resultMap>
+ 
+ 
+  <insert id="add" parameterType="cn.newtcl.entity.User" useGeneratedKeys="true" keyProperty="id">
+ 	insert into `user` (`phone`,`password`,`name`,`email`,`balance`,`manager_id`,`paypassword`,`qqopenid`,`avatar`,`alipayopenid`,`wechatopenid`,`jurisdiction`)
+    values (#{phone},#{password},#{name},#{email},0,#{managerId},#{payPassword},#{qqOpenId},#{avatar},#{alipayOpenid},#{wechatOpenid},#{jurisdiction})
+ </insert>
+ 
+ <select id="login" parameterType="cn.newtcl.entity.User" resultType="cn.newtcl.entity.User">
+ 	select * from user 
+ 	<where>
+ 		<if test="id != null">
+  			`id` = #{id}
+  		</if>
+  		<if test="phone != null">
+  			and `phone` = #{phone}
+  		</if>
+  		<if test="email != null">
+  			and `email` = #{email}
+  		</if>
+ 	</where>
+ </select>
+ 
+ <update id="updateUser">
+ 	update `user`
+	 	<set>
+	 		<if test="phone != null">
+	 			`phone` = #{phone}
+	 		</if>
+	 		<if test="password != null">
+	 			`password` = #{password}
+	 		</if>
+	 		<if test="name != null">
+	 			`name` = #{name}
+	 		</if>
+	 		<if test="email != null">
+	 			`email` = #{email}
+	 		</if>
+	 		<if test="balance != null">
+	 			`balance` = #{balance}
+	 		</if>
+	 		<if test="managerId != null">
+	 			`manager_id` = #{managerId}
+	 		</if>
+	 		<if test="payPassword != null">
+	 			`paypassword` = #{payPassword}
+	 		</if>
+	 		<if test="qqOpenId != null">
+	 			`qqopenid` = #{qqOpenId}
+	 		</if>
+	 		<if test="avatar != null">
+	 			`avatar` = #{avatar}
+	 		</if>
+	 		<if test="alipayOpenid != null">
+	 			`alipayopenid` = #{alipayOpenid}
+	 		</if>
+	 		<if test="wechatOpenid != null">
+	 			`wechatopenid` = #{wechatOpenid}
+	 		</if>
+	 	</set>
+	 	where id = #{id}
+ </update>
+ 
+    <select id="findUserById" parameterType="Integer" resultType="User">
+        select id,name,phone from user
+        <where>
+            id=#{id}
+        </where>
+    </select>
+    
+  <select id="getMe" parameterType="cn.newtcl.entity.User" resultType="cn.newtcl.entity.User">
+  	select * from user 
+  	<where>
+  		<if test="id != null">
+  			`id` = #{id}
+  		</if>
+  		<if test="phone != null">
+  			and `phone` = #{phone}
+  		</if>
+		<if test="qqOpenId != null">
+  			and `qqopenid` = #{qqOpenId}
+  		</if>
+  		<if test="alipayOpenid != null">
+  			and `alipayopenid` = #{alipayOpenid}
+  		</if> 
+  		<if test="wechatOpenid != null">
+  			and `wechatopenid` = #{wechatOpenid}
+  		</if>   		
+  	</where>
+  </select>
+  
+  <select id="find" parameterType="cn.newtcl.entity.User" resultMap="BaseResultMap">
+  	select * from `user` 
+  	<where>
+  		<if test="id != null">
+  			`id` = #{id}
+  		</if>
+  		<if test="phone != null">
+  			and `phone` = #{phone}
+  		</if>
+  		<if test="password != null">
+	 		and `password` = #{password}
+	 	</if>
+	 	<if test="name != null">
+	 		and `name` = #{name}
+		</if>
+	 	<if test="email != null">
+	 		and `email` = #{email}
+	 	</if>
+	 	<if test="balance != null">
+	 		and `balance` = #{balance}
+	 	</if>
+	 	<if test="managerId != null">
+	 		and `manager_id` = #{managerId}
+	 	</if>
+	 	<if test="payPassword != null">
+	 		and `paypassword` = #{payPassword}
+	 	</if>
+	 	<if test="qqOpenId != null">
+	 		and `qqopenid` = #{qqOpenId}
+	 	</if>
+	 	<if test="avatar != null">
+	 		and `avatar` = #{avatar}
+	 	</if>
+  		<if test="alipayOpenid != null">
+  			and `alipayopenid` = #{alipayOpenid}
+  		</if> 
+  		<if test="wechatOpenid != null">
+  			and `wechatopenid` = #{wechatOpenid}
+  		</if>   		
+  	</where>
+  </select>
+    
+</mapper>

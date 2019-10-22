@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.newtcl.dao.TypeMapper">
+
+  <resultMap id="BaseResultMap" type="cn.newtcl.entity.Type">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+  </resultMap>
+  
+  <resultMap id="TypeAndGoodsMap" type="cn.newtcl.entity.TypeAndGoods">
+    <result column="goodsid" jdbcType="INTEGER" property="goodsId" />
+    <result column="typename" jdbcType="VARCHAR" property="tyupeName" />
+    <result column="typeid" jdbcType="INTEGER" property="typeId"/>
+    <result column="name" jdbcType="VARCHAR" property="goodsName" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="oldprice" jdbcType="DOUBLE" property="oldprice" />
+    <result column="nowprice" jdbcType="DOUBLE" property="nowprice" />
+    <result column="cost" jdbcType="DOUBLE" property="cost" />
+    <result column="stock" jdbcType="INTEGER" property="stock" />
+    <result column="describable" jdbcType="VARCHAR" property="describable" />
+  </resultMap>
+  
+  
+  <select id="find" parameterType="cn.newtcl.entity.Type" resultMap="BaseResultMap">
+  	select * from `type`
+  	<where>
+  		<if test="id != null">
+  			id = #{id}
+  		</if>
+  		<if test="name != null">
+  			and name like #{id}
+  		</if>
+  		<if test="managerId != null">
+  			and `manager_id` = #{managerId}
+  		</if>
+  	</where>
+  </select> 
+  
+  <select id="count">
+  	select count(*) from `type`
+  	<where>
+  		<if test="id != null">
+  			id = #{id}
+  		</if>
+  		<if test="managerId != null">
+  			and `manager_id` = #{managerId}
+  		</if>
+  	</where>
+  </select>
+  
+  <insert id="add" parameterType="cn.newtcl.entity.Type" useGeneratedKeys="true" keyProperty="id">
+  	insert into `type` (name,manager_id)
+  	values (#{name},#{managerId})
+  </insert>
+  
+  <update id="update" parameterType="cn.newtcl.entity.Type">
+  	update `type` 
+  	<set>
+  		<if test="name != null">
+  			name = #{name}
+  		</if>
+  		<if test="name != null">
+  			`manager_id` = #{managerId}
+  		</if>
+  	</set>
+  	where id = #{id}
+  </update>
+  
+  <delete id="delete" parameterType="cn.newtcl.entity.Type">
+  	delete from `type`
+  	<where>
+  		<if test="id != null">
+  			id = #{id}
+  		</if>
+  		<if test="managerId != null">
+  			and `manager_id` = #{managerId}
+  		</if>
+  	</where>
+  </delete>
+  
+  <select id="findTypeAndGoods" parameterType="cn.newtcl.entity.Type" resultMap="TypeAndGoodsMap">
+  	select `type`.id as `typeid`, `type`.`name`as typename,goods.id as goodsid, goods.`name`, photo , oldprice, nowprice, cost, stock, describable from `type`,goods
+	where `type`.id = goods.type_id
+	and `type`.manager_id = #{managerId}
+	and `status` = 1
+  </select>
+  
+</mapper>
