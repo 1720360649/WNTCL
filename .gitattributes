@@ -1,1 +1,1 @@
-*.js linguist-language=[SSM]
+*.js linguist-language=[Spring,SpringMVC,Mybatis]
