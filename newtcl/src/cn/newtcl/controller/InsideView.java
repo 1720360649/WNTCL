@@ -47,13 +47,13 @@ public class InsideView {
 	@RequestMapping("/supporter")
 	public String supporter(){
 		
-		if(loginCheck())
-			return "jsps/tologin";
-		
-		if(!("s").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
-			return "jsps/noPermission";
-		
-		session.setAttribute("managerid", ((User)session.getAttribute("wntcluser")).getId());
+//		if(loginCheck())
+//			return "jsps/tologin";
+//		
+//		if(!("s").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
+//			return "jsps/noPermission";
+//		
+//		session.setAttribute("managerid", ((User)session.getAttribute("wntcluser")).getId());
 		
 		return "jsps/supporter";
 	}

@@ -1,5 +1,6 @@
 package cn.newtcl.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.newtcl.entity.NewReturn;
@@ -48,5 +49,11 @@ public interface OrdersService {
 	 * @return List<Map<String, Object>>
 	 */
 	public NewReturn findForMap(Map<String, Object> map);
+	
+	/**
+	 * 
+	 * @return Orders 只含 total , time
+	 */
+	public List<Orders> BusinessAnalysis();
 	
 }

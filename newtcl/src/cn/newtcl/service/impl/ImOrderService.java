@@ -135,5 +135,11 @@ public class ImOrderService implements OrdersService{
 		return result;
 	}
 
+	@Override
+	public List<Orders> BusinessAnalysis() {
+		
+		return ordersMapper.BusinessAnalysis();
+	}
+
 	
 }

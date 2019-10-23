@@ -19,5 +19,5 @@ public interface OrdersMapper {
 	
 	public List<Map<String, Object>> findForMap(Map<String, Object> map);
 	
-	
+	public List<Orders> BusinessAnalysis();
 }

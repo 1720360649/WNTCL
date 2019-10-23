@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.newtcl.entity.Information;
 import cn.newtcl.entity.NewReturn;
+import cn.newtcl.entity.Orders;
 import cn.newtcl.entity.Type;
 import cn.newtcl.entity.TypeAndGoods;
 import cn.newtcl.entity.User;
@@ -58,9 +59,17 @@ public class SupporterController {
 	
 	@RequestMapping("/businessanalysis")
 	@ResponseBody
-	public User BusinessAnalysis(){
+	public List<Orders> BusinessAnalysis(){
+		List<Orders> list = null;
+		int min = 0;
+		int old = 0;
+		Double arr[][];
 		
-		return null;
+		list = imOrderService.BusinessAnalysis();
+		if(list == null || list.size() < 1){
+			return null;
+		}
+		return list;
 	}
 	
 	@RequestMapping("getmeshop")

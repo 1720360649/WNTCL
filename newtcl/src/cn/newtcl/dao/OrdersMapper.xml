@@ -103,6 +103,11 @@
 <select id="getMe" parameterType="cn.newtcl.entity.Orders" resultType="cn.newtcl.entity.Orders">
 	select * from where id = #{id}
 </select>
-  
+
+ <select id="BusinessAnalysis" resultType="cn.newtcl.entity.Orders">
+ 	select sum(total) as total,date(time) as `time` from `orders` 
+	where (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[ <= ]]> date(time))
+	GROUP BY date(time)
+ </select>
   
 </mapper>
