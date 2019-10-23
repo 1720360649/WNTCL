@@ -109,7 +109,7 @@ public class UserController {
 			if(up.out(avatar, phone)){
 				//信息写入数据库
 				User user = new User();
-   				user.setAvatar("/Avatars/"+phone+".jpg");
+   				user.setAvatar("http://wntcl.top/Avatars/"+phone+".jpg");
    				user.setPhone(phone);
    				user.setName(name);
    				user.setPassword(password);

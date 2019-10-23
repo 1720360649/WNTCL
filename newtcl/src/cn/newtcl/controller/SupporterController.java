@@ -50,7 +50,7 @@ public class SupporterController {
 		if(user == null || user.getId() == null){
 			return null;
 		}
-		
+	
 		user.setPassword("0");
 		user.setPayPassword(0);
 		

@@ -20,7 +20,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <script type="text/javascript" src="<%=path %>/utils/jquery/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="<%=path %>/utils/toastr/toastr.min.js"></script>
  	<script type="text/javascript" src="<%=path %>/utils/layui/layui.js"></script>
- 	<script type="text/javascript" src="<%=path %>/utils/flot-2.1.3/source/jquery.flot.js"></script>
+ 	<script type="text/javascript" src="<%=path %>/utils/Echarts/echarts.min.js"></script>
+ 	
  	
 	
  	<link rel="icon" href="<%=path %>/img/new.ico" type="image/x-icon">

@@ -178,16 +178,29 @@
   
   <script type="text/javascript">
   //定义flot数据
+
   var flotdata = null;
+  var minday = 0;
+  var month = 0;
   
   	function uload(){
   	
+  	//时间加载
+  	var obj=new Date();
+	var day=obj.getDate();
+	month = obj.getMonth();
+	minday = day-6;
+
+  	
 	  	//加载店铺基本信息!
 	  	$.post("<%=path%>/supporter/getme.do",{},function(data){
-	  		if(data == null){
+	  		//if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
+	  		if(false){
 	  			alert("获取登陆信息失败!请重新登陆!");
 	  			window.location.href="http://wntcl.top/login/login.jsp";
 	  		}else{
+	  			document.getElementById("essential_top_on_img").src = data.avatar+"";
+	  		
 	  			$("#essential_top_on_txt").html(data.name);
 	  			
 	  			var str = "<ul>";
@@ -220,27 +233,28 @@
   		
   		//加载flot绘图!
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
-			flotdata = data;
+			if(data == null || data.length < 1){
+			
+			}else{
+			
+			}
+			viewplay();
   		});
-  		
+ 
   	}
-  	
+
   	/*************************************float绘图********************************/
-	function flotplay(){
-		if(flotdata == null){
-			$("#flotbox").html("暂无数据分析结果!");
-		}else{
-			alert(flotdata);
-		}
-	}	
-	
+	function viewplay(){
+		
+	}
+
   	//*************************************自适应***********************************/
   	function windowauto(){
   		$(".menuType").css({
   			"line-height":windowHeight*0.1+"px",
   			"font-size":windowHeight*0.03+"px"
   		});
-  
+ 
   		$("#essential_top_on").css({
   			"margin-top":(windowHeight*0.25)*0.175+"px"
   		});
@@ -278,8 +292,6 @@
   			"margin": windowHeight*0.075+"px auto"
   		});
   		
-  		//将float函数置于自适应函数内以适应宽高
-  		flotplay();
 }
 
 </script>
