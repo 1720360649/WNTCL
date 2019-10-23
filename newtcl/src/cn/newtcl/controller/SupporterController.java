@@ -61,11 +61,11 @@ public class SupporterController {
 	@ResponseBody
 	public List<Orders> BusinessAnalysis(){
 		List<Orders> list = null;
-		int min = 0;
-		int old = 0;
-		Double arr[][];
-		
-		list = imOrderService.BusinessAnalysis();
+		User user = (User)session.getAttribute("wntcluser");
+		if(user == null || user.getId() == null){
+			return null;
+		}
+		list = imOrderService.BusinessAnalysis(user.getId());
 		if(list == null || list.size() < 1){
 			return null;
 		}

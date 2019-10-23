@@ -112,11 +112,10 @@
     	width: 100%;
 	}
 	
-	#flotbox{
+	#viewbox{
 		text-align:center;
 		color:rgba(0,0,0,0.5);
-		background: rgba(0,0,0,0.05);
-		
+	
 		/*		文字不可选中*/
 		-webkit-touch-callout: none; /* iOS Safari */
 
@@ -133,7 +132,7 @@
 		unselectable="on"
 	
 	}
-
+	
 	</style>
 
   </head>
@@ -150,7 +149,7 @@
     <div id='essential' class="showbox Activebox">
     	<div id="essential_top">
     		<div id="essential_top_on">
-    			<img id="essential_top_on_img" alt="" src="<%=path %>/img/wechat.png">
+    			<img id="essential_top_on_img" alt="" src="<%=path %>/img/avtar.jpg">
     			<div id="essential_top_on_txt">店铺名</div>
     			<div id="essential_top_on_meassage">
     				<ul>
@@ -162,7 +161,7 @@
     			</div>
     		</div>
     	</div>
-    	<div id="essential_bottom"><div id="flotbox"></div></div>
+    	<div id="essential_bottom"><div id="viewbox"></div></div>
     </div>
     <div id='shop' class="showbox">
     	
@@ -177,30 +176,29 @@
   </body>
   
   <script type="text/javascript">
-  //定义flot数据
-
-  var flotdata = null;
-  var minday = 0;
-  var month = 0;
+  
+	//数据
+	var chartdata = null;
+	//日期
+  	var minday = 0;
+  	var nowday = 0;
+  	var nowmonth = 0;
   
   	function uload(){
-  	
-  	//时间加载
-  	var obj=new Date();
-	var day=obj.getDate();
-	month = obj.getMonth();
-	minday = day-6;
-
-  	
+  		//初始化时间
+  		var temp = new Date();
+  		nowday = temp.getDate();
+  		nowmonth = temp.getMonth()+1;
+  		minday = nowday-6;
+  
 	  	//加载店铺基本信息!
 	  	$.post("<%=path%>/supporter/getme.do",{},function(data){
-	  		//if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
-	  		if(false){
+	  		if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
 	  			alert("获取登陆信息失败!请重新登陆!");
 	  			window.location.href="http://wntcl.top/login/login.jsp";
 	  		}else{
 	  			document.getElementById("essential_top_on_img").src = data.avatar+"";
-	  		
+	  	
 	  			$("#essential_top_on_txt").html(data.name);
 	  			
 	  			var str = "<ul>";
@@ -233,21 +231,65 @@
   		
   		//加载flot绘图!
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
+  			//数据存储数组
+  			var arr = new Array();
+  			
 			if(data == null || data.length < 1){
-			
+				chartdata = [0,0,0,0,0,0,0];
 			}else{
-			
+				//初始化数组
+				for(var i=0;i<32;i++){
+					arr[i] = 0;
+				}
+				//数据覆盖
+				for(var i=0;i<data.length;i++){
+					var str = data[i].time;
+					var day = parseInt(str.substring(str.length,str.length-2));
+					arr[day] = data[i].total;
+				}
+				chartdata = [arr[minday],arr[minday+1],arr[minday+2],
+				arr[minday+3],arr[minday+4],arr[minday+5],arr[minday+6]];
 			}
-			viewplay();
+			windowauto();
   		});
- 
+	
   	}
-
+  
   	/*************************************float绘图********************************/
 	function viewplay(){
+		//判断数据是否存在
+		if(chartdata == null)
+			return 0;
 		
+		//初始化Echarts
+		var myChart = echarts.init(document.getElementById('viewbox'));
+		
+		var month = nowmonth+"/";
+		// 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '七日营业额'
+            },
+            tooltip: {},
+            legend: {
+                data:['营业额']
+            },
+            xAxis: {
+                data: [month+(minday),month+(minday+1),month+(minday+2),
+                month+(minday+3),month+(minday+4),month+(minday+5),
+                month+(minday+6)]
+            },
+            yAxis: {},
+            series: [{
+                name: '营业额',
+                type: 'line',
+                data: chartdata
+            }]
+        };
+       // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
 	}
-
+	
   	//*************************************自适应***********************************/
   	function windowauto(){
   		$(".menuType").css({
@@ -283,15 +325,17 @@
   			"width":((windowWidth*0.85-((windowHeight*0.25)*0.65+40))/2)+"px",
   			"line-height":((windowHeight*0.25)*0.65)*0.3+"px"
   		});
-  	
-  		$("#flotbox").css({
+  
+  		$("#viewbox").css({
   			"height":windowHeight*0.6+"px",
   			"width":windowHeight*0.7+"px",
   			"line-height":windowHeight*0.6+"px",
   			"font-size":windowHeight*0.05+"px",
   			"margin": windowHeight*0.075+"px auto"
   		});
-  		
+  	
+  		//报表适应布局
+  		viewplay();
 }
 
 </script>
