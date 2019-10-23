@@ -190,7 +190,7 @@
 	}
 	
 	.shopping_gopayment{
-		position:absolute;
+		position:fixed;
 		right:0px;
 		bottom:0px;
 		color:white;

@@ -54,6 +54,6 @@ public interface OrdersService {
 	 * 
 	 * @return Orders 只含 total , time
 	 */
-	public List<Orders> BusinessAnalysis();
+	public List<Orders> BusinessAnalysis(Integer id);
 	
 }

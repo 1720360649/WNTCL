@@ -22,28 +22,28 @@
 	 	update `orders`
 	 	<set>
 	 		<if test="table != null">
-	 			`table` = #{table}
+	 			`table` = #{table},
 	 		</if>
 	 		<if test="total != null">
-	 			`total` = #{total}
+	 			`total` = #{total},
 	 		</if>
 	 		<if test="time != null">
-	 			`time` = #{time}
+	 			`time` = #{time},
 	 		</if>
 	 		<if test="makestatus != null">
-	 			`makestatus` = #{makestatus}
+	 			`makestatus` = #{makestatus},
 	 		</if>
 	 		<if test="deliverystatus != null">
-	 			`deliverystatus` = #{deliverystatus}
+	 			`deliverystatus` = #{deliverystatus},
 	 		</if>
 	 		<if test="describable != null">
-	 			`describable` = #{describable}
+	 			`describable` = #{describable},
 	 		</if>
 	 		<if test="userId != null">
-	 			`user_id` = #{userId}
+	 			`user_id` = #{userId},
 	 		</if>
 	 		<if test="managerId != null">
-	 			`manager_id` = #{managerId}
+	 			`manager_id` = #{managerId},
 	 		</if>
 	 	</set>
 	 	where id = #{id}
@@ -53,10 +53,10 @@
  	update orders 
  	<set>
  		<if test="makestatus != null">
- 			`makestatus` = #{makestatus}
+ 			`makestatus` = #{makestatus},
  		</if>
  		<if test="deliverystatus != null">
-	 		`deliverystatus` = #{deliverystatus}
+	 		`deliverystatus` = #{deliverystatus},
 	 	</if>
  	</set>
  	where id = #{id}
@@ -96,7 +96,7 @@
 		<if test="managerId != null">
 		 	and manager_id = #{managerId}
 		</if>  	
-
+	
  	</where>
  </select>
 
@@ -104,9 +104,10 @@
 	select * from where id = #{id}
 </select>
 
- <select id="BusinessAnalysis" resultType="cn.newtcl.entity.Orders">
+ <select id="BusinessAnalysis" parameterType="java.lang.Integer" resultType="cn.newtcl.entity.Orders">
  	select sum(total) as total,date(time) as `time` from `orders` 
 	where (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[ <= ]]> date(time))
+	and manager_id = #{id}
 	GROUP BY date(time)
  </select>
   

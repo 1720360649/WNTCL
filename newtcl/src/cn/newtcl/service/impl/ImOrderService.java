@@ -136,9 +136,9 @@ public class ImOrderService implements OrdersService{
 	}
 
 	@Override
-	public List<Orders> BusinessAnalysis() {
+	public List<Orders> BusinessAnalysis(Integer id) {
 		
-		return ordersMapper.BusinessAnalysis();
+		return ordersMapper.BusinessAnalysis(id);
 	}
 
 	

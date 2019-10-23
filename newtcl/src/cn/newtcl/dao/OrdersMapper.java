@@ -2,7 +2,6 @@ package cn.newtcl.dao;
 
 import java.util.List;
 import java.util.Map;
-
 import cn.newtcl.entity.Orders;
 
 public interface OrdersMapper {
@@ -19,5 +18,5 @@ public interface OrdersMapper {
 	
 	public List<Map<String, Object>> findForMap(Map<String, Object> map);
 	
-	public List<Orders> BusinessAnalysis();
+	public List<Orders> BusinessAnalysis(Integer id);
 }

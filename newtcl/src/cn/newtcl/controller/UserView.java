@@ -41,6 +41,11 @@ public class UserView {
 		return "user/showpage";
 	}
 	
+	@RequestMapping("showpage")
+    public String showpage(){
+    	return "user/showpage";
+    }
+
     @RequestMapping("payment")
     public String payment(){
     	if(loginCheck())
