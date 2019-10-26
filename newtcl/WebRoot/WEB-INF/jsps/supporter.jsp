@@ -118,7 +118,20 @@
 	
 		/*		文字不可选中*/
 		-webkit-touch-callout: none; /* iOS Safari */
-
+	}  
+	
+	#shop{
+		
+	}  
+	
+	#staff{
+		display: none;
+	}
+	
+	#orders{
+		display:none;
+	}
+	
 		-webkit-user-select: none; /* Chrome/Safari/Opera */
 
 		-khtml-user-select: none; /* Konqueror */
@@ -185,6 +198,7 @@
   	var nowmonth = 0;
   
   	function uload(){
+  
   		//初始化时间
   		var temp = new Date();
   		nowday = temp.getDate();
@@ -228,8 +242,44 @@
 	  			windowauto();
 	  		}
 	  	});
+	  	
+  	//基本信息加载
+  	$.post("<%=path%>/supporter/getme.do",{},function(data){
+  		//if(data == null){
+  		if(false){
+  			alert("获取登陆信息失败!请重新登陆!");
+  			window.location.href="http://wntcl.top/login/login.jsp";
+  		}else{
+  			$("#essential_top_on_txt").html(data.name);
+  			
+  			var str = "<ul>";
+  			str+="<li>电话:&nbsp;&nbsp;"+data.phone+"</li>";
+  			
+  			if(data.qqOpenId == null || data.qqOpenId == ""){
+  				str+="<li>QQ:&nbsp;&nbsp;未绑定</li>";
+  			}else{
+  				str+="<li>QQ:&nbsp;&nbsp;已绑定</li>";
+  			}
+  			
+  			if(data.alipayOpenid == null || data.alipayOpenid == ""){
+  				str+="<li>邮箱:&nbsp;&nbsp;未绑定</li>";
+  			}else{
+  				str+="<li>邮箱:&nbsp;&nbsp;"+data.email+"</li>";
+  			}
+  			
+  			if(data.alipayOpenid == null || data.alipayOpenid == ""){
+  				str+="<li>支付宝:&nbsp;&nbsp;未绑定</li>";
+  			}else{
+  				str+="<li>支付宝:&nbsp;&nbsp;已绑定</li>";
+  			}
+  			str += "</ul>";
+  			
+  			$("#essential_top_on_meassage").html(str);
+  			
+  		}
+  	});
   		
-  		//加载flot绘图!
+
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
   			//数据存储数组
   			var arr = new Array();
@@ -289,7 +339,7 @@
        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 	}
-	
+
   	//*************************************自适应***********************************/
   	function windowauto(){
   		$(".menuType").css({
@@ -333,7 +383,7 @@
   			"font-size":windowHeight*0.05+"px",
   			"margin": windowHeight*0.075+"px auto"
   		});
-  	
+  
   		//报表适应布局
   		viewplay();
 }
