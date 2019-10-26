@@ -22,14 +22,15 @@
 	
 	<style type="text/css">
 	#aside{
-       	background: #DFDEE3;
        	position: fixed;
        	left:0;
        	height: 100%;
        	width: 15%;
+       	color:white;
        	border-right: #cccccc 1px solid;
+       	background: rgba(0,0,0,0.8);
     }
-   
+  
     .menuType{
     	height: 10%;
     	text-align: center;
@@ -56,18 +57,11 @@
        	background: white;
     }
     
-    .showbox{
-    	display: none;
-    }
-    
-    .Activebox{
-    	display:block;
-    }
-    
     #essential{
     	height: 100%;
     	width: 85%;
     	margin-left: 15%;
+    	display:none;
     }
     
     #essential_top{
@@ -118,11 +112,61 @@
 	
 		/*		文字不可选中*/
 		-webkit-touch-callout: none; /* iOS Safari */
+
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+
+		-khtml-user-select: none; /* Konqueror */
+
+		-moz-user-select: none; /* Firefox */
+
+		-ms-user-select: none; /* Internet Explorer/Edge */
+
+		user-select: none; 
+		
+		unselectable="on"
 	}  
 	
 	#shop{
-		
+		height: 100%;
+    	width: 85%;
+    	margin-left: 15%;
 	}  
+	
+	#shop_aside{	
+       	left:0;
+       	height: 100%;
+       	width: 15%;
+       	border-right: #cccccc 1px solid;
+       	background:gray; 
+	}
+	
+	#shop_aside div{
+		height: 6%;
+    	text-align: center;
+    	cursor:pointer;
+    	color:white;
+    	border:none;
+    	border-bottom:0.5px solid white;
+    	/*		文字不可选中*/
+		-webkit-touch-callout: none; /* iOS Safari */
+
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+
+		-khtml-user-select: none; /* Konqueror */
+
+		-moz-user-select: none; /* Firefox */
+
+		-ms-user-select: none; /* Internet Explorer/Edge */
+
+		user-select: none; 
+		
+		unselectable="on"
+	}
+	
+	#shop_aside div:HOVER{
+		background: white;
+		color: black;
+	}
 	
 	#staff{
 		display: none;
@@ -153,13 +197,13 @@
   <body>
  
   	<aside id="aside">
-	        <div class="menuType menuActive">基本信息</div>
-	        <div class="menuType">我的店铺</div>
-	        <div class="menuType">我的员工</div>
-	        <div class="menuType">用户订单</div>
+	        <div class="menuType menuActive" onclick="gottype(this)">基本信息</div>
+	        <div class="menuType" onclick="gottype(this)">我的店铺</div>
+	        <div class="menuType" onclick="gottype(this)">我的员工</div>
+	        <div class="menuType" onclick="gottype(this)">用户订单</div>
     </aside>
     
-    <div id='essential' class="showbox Activebox">
+    <div id='essential'>
     	<div id="essential_top">
     		<div id="essential_top_on">
     			<img id="essential_top_on_img" alt="" src="<%=path %>/img/avtar.jpg">
@@ -176,13 +220,26 @@
     	</div>
     	<div id="essential_bottom"><div id="viewbox"></div></div>
     </div>
-    <div id='shop' class="showbox">
+    <div id="shop">
+    	<div id="shop_left">
+    		<aside id="shop_aside">
+		        <div>类别1</div>
+		        <div>类别2</div>
+		        <div>类别3</div>
+		        <div style="border:2px dashed white;">+</div>
+	   		</aside>
+    	</div>
+    	<div id="shop_right">
+    		<ul>
+    			<li></li>
+    			<li></li>
+    		</ul>
+    	</div>
+    </div>
+    <div id='staff'>
     	
     </div>
-    <div id='staff' class="showbox">
-    	
-    </div>
-    <div id='orders' class="showbox">
+    <div id='orders'>
     	
     </div>
   
@@ -198,7 +255,7 @@
   	var nowmonth = 0;
   
   	function uload(){
-  
+ 
   		//初始化时间
   		var temp = new Date();
   		nowday = temp.getDate();
@@ -207,7 +264,8 @@
   
 	  	//加载店铺基本信息!
 	  	$.post("<%=path%>/supporter/getme.do",{},function(data){
-	  		if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
+	  		//if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
+	  		if(false){
 	  			alert("获取登陆信息失败!请重新登陆!");
 	  			window.location.href="http://wntcl.top/login/login.jsp";
 	  		}else{
@@ -242,44 +300,8 @@
 	  			windowauto();
 	  		}
 	  	});
-	  	
-  	//基本信息加载
-  	$.post("<%=path%>/supporter/getme.do",{},function(data){
-  		//if(data == null){
-  		if(false){
-  			alert("获取登陆信息失败!请重新登陆!");
-  			window.location.href="http://wntcl.top/login/login.jsp";
-  		}else{
-  			$("#essential_top_on_txt").html(data.name);
-  			
-  			var str = "<ul>";
-  			str+="<li>电话:&nbsp;&nbsp;"+data.phone+"</li>";
-  			
-  			if(data.qqOpenId == null || data.qqOpenId == ""){
-  				str+="<li>QQ:&nbsp;&nbsp;未绑定</li>";
-  			}else{
-  				str+="<li>QQ:&nbsp;&nbsp;已绑定</li>";
-  			}
-  			
-  			if(data.alipayOpenid == null || data.alipayOpenid == ""){
-  				str+="<li>邮箱:&nbsp;&nbsp;未绑定</li>";
-  			}else{
-  				str+="<li>邮箱:&nbsp;&nbsp;"+data.email+"</li>";
-  			}
-  			
-  			if(data.alipayOpenid == null || data.alipayOpenid == ""){
-  				str+="<li>支付宝:&nbsp;&nbsp;未绑定</li>";
-  			}else{
-  				str+="<li>支付宝:&nbsp;&nbsp;已绑定</li>";
-  			}
-  			str += "</ul>";
-  			
-  			$("#essential_top_on_meassage").html(str);
-  			
-  		}
-  	});
-  		
-
+  
+		//经营信息加载
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
   			//数据存储数组
   			var arr = new Array();
@@ -300,17 +322,22 @@
 				chartdata = [arr[minday],arr[minday+1],arr[minday+2],
 				arr[minday+3],arr[minday+4],arr[minday+5],arr[minday+6]];
 			}
-			windowauto();
+			viewplay();
   		});
 	
   	}
-  
-  	/*************************************float绘图********************************/
+  	
+  	/*************************************标签切换**************************************/
+ 	 function gottype(obj){
+      	$(".menuType").removeClass("menuActive");	
+      	$(obj).addClass("menuActive");
+      }
+  	/*************************************Echarts绘图********************************/
 	function viewplay(){
 		//判断数据是否存在
 		if(chartdata == null)
 			return 0;
-		
+	
 		//初始化Echarts
 		var myChart = echarts.init(document.getElementById('viewbox'));
 		
@@ -339,6 +366,9 @@
        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 	}
+	
+	
+	
 
   	//*************************************自适应***********************************/
   	function windowauto(){
@@ -383,9 +413,12 @@
   			"font-size":windowHeight*0.05+"px",
   			"margin": windowHeight*0.075+"px auto"
   		});
-  
-  		//报表适应布局
-  		viewplay();
+  		
+  		$("#shop_aside div").css({
+  			"line-height": windowHeight*0.06+"px",
+  			"font-size" : windowHeight*0.025+"px"
+  		});
+  		
 }
 
 </script>
