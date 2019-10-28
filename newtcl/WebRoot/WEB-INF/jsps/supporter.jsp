@@ -132,12 +132,17 @@
     	margin-left: 15%;
 	}  
 	
-	#shop_aside{	
-       	left:0;
+	#shop_left{
+		position:fixed;
+		overflow-x:hidden;
+       	left:15%;
        	height: 100%;
-       	width: 15%;
-       	border-right: #cccccc 1px solid;
-       	background:gray; 
+       	width: 13%;
+       	background:gray;
+	}
+	
+	#shop_aside{
+		
 	}
 	
 	#shop_aside div{
@@ -146,7 +151,10 @@
     	cursor:pointer;
     	color:white;
     	border:none;
+    	margin-top:5px;
+    	border-top:0.5px solid white;
     	border-bottom:0.5px solid white;
+    	
     	/*		文字不可选中*/
 		-webkit-touch-callout: none; /* iOS Safari */
 
@@ -163,11 +171,54 @@
 		unselectable="on"
 	}
 	
+	#shop_aside .typeActive{
+		background: white;
+		color: black;
+	}
+	
 	#shop_aside div:HOVER{
 		background: white;
 		color: black;
 	}
 	
+	#shop_right{
+		position:fixed;
+		overflow-x:hidden;
+		right:0;
+		height: 100%;
+		width:72%;
+	}
+	
+	#shop_right div{
+		display: none;
+	}
+	
+	#shop_right div li{
+		float:left;
+		border:1px solid green;
+	}
+	
+	#shop_right div li img{
+		display: block;
+	}
+	
+	#shop_right div li div{
+		display: block;
+		margin-left: 2%;
+		margin-bottom:5px;
+	}
+
+	.goodsname{
+		border: none;
+		margin-left: 2%;
+	}
+	
+	#shop_right div li div input{
+		border: none;
+		text-align: center;
+		background: rgba(0,0,0,0.05);
+	}
+
 	#staff{
 		display: none;
 	}
@@ -175,7 +226,7 @@
 	#orders{
 		display:none;
 	}
-	
+
 		-webkit-user-select: none; /* Chrome/Safari/Opera */
 
 		-khtml-user-select: none; /* Konqueror */
@@ -223,17 +274,68 @@
     <div id="shop">
     	<div id="shop_left">
     		<aside id="shop_aside">
-		        <div>类别1</div>
-		        <div>类别2</div>
-		        <div>类别3</div>
+		        <div class="type typeActive" onclick="ontype(this,'#t1')">类别1</div>
+		        <div class="type" onclick="ontype(this,'#t2')">类别2</div>
+		        <div class="type" onclick="ontype(this,'#t3')">类别3</div>
+		        <div class="type" onclick="ontype(this,'#t4')">类别4</div>
 		        <div style="border:2px dashed white;">+</div>
 	   		</aside>
-    	</div>
+    	</div>	
     	<div id="shop_right">
-    		<ul>
-    			<li></li>
-    			<li></li>
-    		</ul>
+    		<div id="t1">
+    			<ul>
+	    			<li>
+						<img alt="" src="<%=path%>/upload/image/0f01b0c6-cf3e-43c9-860d-6193d95d9069.jpg">
+						<input class="goodsname" type="text" readonly="readonly" value="sssssss" 
+						onclick="goodsedit(this)" onblur="goodseditlast(this,'name')">
+						
+						<div class="nowpice">现价:<input type="number" value=""
+						onclick="goodsedit(this)" onblur="goodseditlast(this,'newpice')">
+						</div>	 
+						
+						<div class="oldpice">原价:<input type="number" value=""
+						onclick="goodsedit(this)" onblur="goodseditlast(this,'oldpice')">
+						</div>
+						
+						<div class="goodstock">库存:<input type="number" value=""
+						onclick="goodsedit(this)" onblur="goodseditlast(this,'goodstock')">
+						</div>
+					</li>	
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+	    			<li></li>
+    			</ul>
+    		</div>
+    		<div id="t2">
+    			<ul>
+	    			<li>222222222222222222222222222222</li>
+	    			<li></li>
+    			</ul>
+    		</div>
+    		<div id="t3">
+    			<ul>
+	    			<li>3333333333333333333333333333333333333</li>
+	    			<li></li>
+    			</ul>
+    		</div>
+    		<div id="t4">
+    			<ul>
+	    			<li>4444444444444444444444444444444444444</li>
+	    			<li></li>
+    			</ul>
+    		</div>
     	</div>
     </div>
     <div id='staff'>
@@ -253,6 +355,9 @@
   	var minday = 0;
   	var nowday = 0;
   	var nowmonth = 0;
+  	//数据
+  	var oldname=null;
+  	var nowname=null;
   
   	function uload(){
  
@@ -324,20 +429,70 @@
 			}
 			viewplay();
   		});
+  		
+  		//店铺商品加载!
 	
+		$("#t1").css({
+			"display":"block"
+		});	
   	}
-  	
+	
   	/*************************************标签切换**************************************/
  	 function gottype(obj){
       	$(".menuType").removeClass("menuActive");	
       	$(obj).addClass("menuActive");
       }
+   	/***************************************类型切换***************************************/
+   	function ontype(obj,str){
+   		//标签样式切换
+   		$(".type").removeClass("typeActive");	
+      	$(obj).addClass("typeActive");
+      	//类型详情切换
+      	$("#shop_right div").css({
+      		"display":"none"
+      	});
+      	$(str).css({
+			"display":"block"
+		});	
+   	}
+   	/*************************************信息修改*************************************/
+   	//获得焦点
+  	function goodsedit(obj){
+  		oldname = obj.value;
+  		
+  		$(obj).removeAttr("readonly");
+  		$(obj).css({
+  			"border":"1px solid"
+  		});
+  	}
+  	//失去焦点
+	function goodseditlast(obj,keyword){
+		nowname = obj.value;
+		if(nowname == null || nowname == ""){
+			obj.value = oldname;
+			$(obj).css({
+				"border":"none"
+			});
+		}else{
+			$(obj).addClass("readonly");
+			$(obj).css({
+				"border":"none"
+			});
+			if(oldname == nowname){
+				
+			}else{
+				
+			}
+		}
+		
+	}  	
+  	
   	/*************************************Echarts绘图********************************/
 	function viewplay(){
 		//判断数据是否存在
 		if(chartdata == null)
 			return 0;
-	
+
 		//初始化Echarts
 		var myChart = echarts.init(document.getElementById('viewbox'));
 		
@@ -419,6 +574,38 @@
   			"font-size" : windowHeight*0.025+"px"
   		});
   		
+  		$("#shop_right div li").css({
+  			"height":windowHeight*0.38+"px",
+  			"width":(windowHeight*0.35)*0.8+"px",
+  			"margin-left":windowHeight*0.05+"px",
+  			"margin-top":windowHeight*0.03+"px"
+  		});
+  		
+  		$("#shop_right div li img").css({
+  			"height":windowHeight*0.2+"px",
+  			"width":(windowHeight*0.35)*0.8+"px"
+  		});
+  		
+  		$(".goodsname").css({
+  			"height":windowHeight*0.045+"px",
+  			"line-height":windowHeight*0.045+"px",
+  			"width":(windowHeight*0.35)*0.78+"px",
+  			"font-size":windowHeight*0.03+"px"
+  		});
+  		
+  		$("#shop_right div li div").css({
+  			"height":windowHeight*0.04+"px",
+  			"line-height":windowHeight*0.04+"px",
+  			"width":(windowHeight*0.35)*0.78+"px",
+  			"font-size":windowHeight*0.024+"px"
+  		});
+  		
+  		$("#shop_right div li div input").css({
+  			"height":windowHeight*0.04+"px",
+  			"line-height":windowHeight*0.04+"px",
+  			"width":(windowHeight*0.35)*0.62+"px"
+  		});
+  	
 }
 
 </script>
