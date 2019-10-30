@@ -80,10 +80,15 @@
   </delete>
   
   <select id="findTypeAndGoods" parameterType="cn.newtcl.entity.Type" resultMap="TypeAndGoodsMap">
-  	select `type`.id as `typeid`, `type`.`name`as typename,goods.id as goodsid, goods.`name`, photo , oldprice, nowprice, cost, stock, describable from `type`,goods
-	where `type`.id = goods.type_id
+  	select * from
+	(
+	select `type`.id as `typeid`, `type`.`name`as typename,goods.id as goodsid, goods.`name`, photo , oldprice,nowprice, cost, stock, describable 
+	from `type`,goods
+	where goods.type_id = `type`.id
 	and `type`.manager_id = #{managerId}
 	and `status` = 1
+	) as good
+	order by goodsid desc
   </select>
   
 </mapper>
