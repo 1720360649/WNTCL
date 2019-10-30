@@ -140,9 +140,9 @@
        	width: 13%;
        	background:gray;
 	}
-	
+
 	#shop_aside{
-		
+		float: left;
 	}
 	
 	#shop_aside div{
@@ -181,6 +181,40 @@
 		color: black;
 	}
 	
+	#shop_aside input{
+		height: 6%;
+		text-align: center;
+	}
+	
+	#shop_aside .deltype{
+		position: absolute;
+		right:1px;
+		margin-top:-20px;
+		background: #56A4EB;
+		color: red;
+		border:none;
+		display: none;
+		
+		/*		文字不可选中*/
+		-webkit-touch-callout: none; /* iOS Safari */
+
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+
+		-khtml-user-select: none; /* Konqueror */
+
+		-moz-user-select: none; /* Firefox */
+
+		-ms-user-select: none; /* Internet Explorer/Edge */
+
+		user-select: none; 
+		
+		unselectable="on"
+	}
+	#shop_aside .deltype:HOVER{
+		background: red;
+		color: white;
+	}
+		
 	#shop_right{
 		position:fixed;
 		overflow-x:hidden;
@@ -189,7 +223,7 @@
 		width:72%;
 	}
 	
-	#shop_right div{
+	.typebox{
 		display: none;
 	}
 	
@@ -213,6 +247,36 @@
 		margin-left: 2%;
 	}
 	
+	#shop_right .addgood{
+		text-align: center;
+		cursor: pointer;
+		color: white;
+		background: gray;
+		border: 1px solid white;
+		
+		/*		文字不可选中*/
+		-webkit-touch-callout: none; /* iOS Safari */
+
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+
+		-khtml-user-select: none; /* Konqueror */
+
+		-moz-user-select: none; /* Firefox */
+
+		-ms-user-select: none; /* Internet Explorer/Edge */
+
+		user-select: none; 
+		
+		unselectable="on"
+	}
+	
+	#shop_right .addgood:HOVER{
+		color: green;
+		background: white;
+		border: 1px solid gray;
+	}
+	
+
 	#shop_right div li div input{
 		border: none;
 		text-align: center;
@@ -274,70 +338,21 @@
     <div id="shop">
     	<div id="shop_left">
     		<aside id="shop_aside">
-		        <div class="type typeActive" onclick="ontype(this,'#t1')">类别1</div>
-		        <div class="type" onclick="ontype(this,'#t2')">类别2</div>
-		        <div class="type" onclick="ontype(this,'#t3')">类别3</div>
-		        <div class="type" onclick="ontype(this,'#t4')">类别4</div>
-		        <div style="border:2px dashed white;">+</div>
+		        <div class="type typeActive" onclick="ontype(this,'#t1')" oncontextmenu="typesmenu(this)">加载中</div>
+		        <div class="addtypes" style="border:2px dashed white;" onclick="onaddtypes()">+</div>
 	   		</aside>
     	</div>	
     	<div id="shop_right">
     		<div id="t1">
     			<ul>
 	    			<li>
-						<img alt="" src="<%=path%>/upload/image/0f01b0c6-cf3e-43c9-860d-6193d95d9069.jpg">
-						<input class="goodsname" type="text" readonly="readonly" value="sssssss" 
-						onclick="goodsedit(this)" onblur="goodseditlast(this,'name')">
-						
-						<div class="nowpice">现价:<input type="number" value=""
-						onclick="goodsedit(this)" onblur="goodseditlast(this,'newpice')">
-						</div>	 
-						
-						<div class="oldpice">原价:<input type="number" value=""
-						onclick="goodsedit(this)" onblur="goodseditlast(this,'oldpice')">
-						</div>
-						
-						<div class="goodstock">库存:<input type="number" value=""
-						onclick="goodsedit(this)" onblur="goodseditlast(this,'goodstock')">
-						</div>
+						<div style="text-align: center;line-height: 25%;">加载中</div>
 					</li>	
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-	    			<li></li>
-    			</ul>
-    		</div>
-    		<div id="t2">
-    			<ul>
-	    			<li>222222222222222222222222222222</li>
-	    			<li></li>
-    			</ul>
-    		</div>
-    		<div id="t3">
-    			<ul>
-	    			<li>3333333333333333333333333333333333333</li>
-	    			<li></li>
-    			</ul>
-    		</div>
-    		<div id="t4">
-    			<ul>
-	    			<li>4444444444444444444444444444444444444</li>
-	    			<li></li>
     			</ul>
     		</div>
     	</div>
     </div>
+    
     <div id='staff'>
     	
     </div>
@@ -366,7 +381,12 @@
   		nowday = temp.getDate();
   		nowmonth = temp.getMonth()+1;
   		minday = nowday-6;
-  
+ 
+  		//阻止默认右键菜单
+		document.body.addEventListener("contextmenu",function(e){
+           	e.returnValue = false;//false的时候禁用，要恢复的时候改成true
+		})
+ 
 	  	//加载店铺基本信息!
 	  	$.post("<%=path%>/supporter/getme.do",{},function(data){
 	  		//if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
@@ -430,32 +450,59 @@
 			viewplay();
   		});
   		
-  		//店铺商品加载!
-	
-		$("#t1").css({
-			"display":"block"
-		});	
+  		//商品页加载
+  		shopload();
+		
+  	}
+  	
+  	/*************************************商品信息页加载************************************/
+  	function shopload(){
+  		//加载标签
+		$.post("<%=path%>/supporter/findtype.do",{},function(data){
+		
+			$("#shop_left").html(data.html);
+			
+			//店铺商品加载!
+			$.post("<%=path%>/supporter/getmeshop.do",{},function(data){
+		  		if("0" == data.code){
+		  			alert("未查询到信息!");
+		  			//window.location.href="http://wntcl.top/login/login.jsp";
+		  		}else {
+		  			$("#shop_right").html(data.html);
+		  			$(".typebox").css({
+						"display":"none"
+					});	
+		  			$("#t1").css({
+						"display":"block"
+					});	
+					
+					windowauto();
+		  		}
+	  		});
+		});
   	}
 	
-  	/*************************************标签切换**************************************/
+  	/*************************************主标签切换**************************************/
  	 function gottype(obj){
       	$(".menuType").removeClass("menuActive");	
       	$(obj).addClass("menuActive");
       }
    	/***************************************类型切换***************************************/
    	function ontype(obj,str){
+   		//页面位置还原
+   		$("#shop_right").animate({scrollTop:0}, 10);
    		//标签样式切换
    		$(".type").removeClass("typeActive");	
       	$(obj).addClass("typeActive");
       	//类型详情切换
-      	$("#shop_right div").css({
+      	$(".typebox").css({
       		"display":"none"
       	});
       	$(str).css({
 			"display":"block"
 		});	
    	}
-   	/*************************************信息修改*************************************/
+   	/*************************************标签信息修改*************************************/
    	//获得焦点
   	function goodsedit(obj){
   		oldname = obj.value;
@@ -485,7 +532,84 @@
 			}
 		}
 		
-	}  	
+	}
+	/*************************************类别添加***************************************/
+	//点击
+	function onaddtypes(){
+		$(".addtypes").before("<input class=\"addtypesinput\" type=\"text\" onblur=\"addtypesonblur(this)\">");
+		$(".addtypesinput").focus();
+        $(".addtypesinput").select();
+		windowauto();
+	}
+	//输入失焦
+	function addtypesonblur(obj){
+		var val = obj.value;
+		$(".addtypesinput").remove();
+		if(val == null || val == ""){
+			return ;
+		}
+		$(".addtypes").before("<div class=\"type newtype\">"+val+"</div>");
+		//开始添加标签
+		$.post("<%=path%>/supporter/addtype.do",{"name":val},function(data){
+			if(data.code == "1"){
+				shopload();
+			}else{
+				alert("添加失败!请重试!");
+			}
+  		});
+
+		//自适应
+		windowauto();
+	}
+	
+	/**************************************标签右键菜单************************************/
+	function typesmenu(obj,id){
+		
+		$(obj).find("div").css({
+			"display":"block"
+		});
+		$(obj).mouseleave(function(){
+  			$(obj).find("div").css({
+				"display":"none"
+			});
+		});
+		$(obj).find("div").mouseenter(function(){
+  			$(obj).find("div").css({
+				"display":"block"
+			});
+		});
+	}
+	
+	/**************************************类别删除***********************************/
+	function deltype(obj,id){
+	
+		var e=arguments.callee.caller.arguments[0] || window.event; // 兼容火狐
+       e.stopPropagation(); //防止事件冒泡
+	
+		$(obj).css({
+			"display":"none"
+		});
+		
+		if(confirm("确定要删除该分类吗？删除后不可恢复!")){
+			$.post("<%=path%>/supporter/deltype.do",{"id":id},function(data){
+				if(data.code == "1"){
+						shopload();
+				}else{
+					alert("添加失败!请重试!");
+					$(obj).css({
+						"display":"block"
+					});
+				}
+	  		});
+  		}else{
+  			$(obj).css({
+				"display":"block"
+			});
+  		}
+  		
+	}
+	
+	/**************************************菜品添加***********************************/
   	
   	/*************************************Echarts绘图********************************/
 	function viewplay(){
@@ -570,10 +694,24 @@
   		});
   		
   		$("#shop_aside div").css({
+  			"width":windowWidth*0.13+"px",
   			"line-height": windowHeight*0.06+"px",
   			"font-size" : windowHeight*0.025+"px"
   		});
   		
+  		$("#shop_aside .addtypesinput").css({
+  			"width":windowWidth*0.13+"px",
+  			"line-height": windowHeight*0.06+"px",
+  			"font-size" : windowHeight*0.025+"px"
+  		});
+  		
+  		$("#shop_aside .deltype").css({
+  			"width":windowWidth*0.1+"px",
+  			"height":windowHeight*0.04+"px",
+  			"line-height": windowHeight*0.04+"px",
+  			"font-size" : windowHeight*0.02+"px"
+  		});
+  	
   		$("#shop_right div li").css({
   			"height":windowHeight*0.38+"px",
   			"width":(windowHeight*0.35)*0.8+"px",
@@ -591,6 +729,13 @@
   			"line-height":windowHeight*0.045+"px",
   			"width":(windowHeight*0.35)*0.78+"px",
   			"font-size":windowHeight*0.03+"px"
+  		});
+  		
+  		$("#shop_right .addgood").css({
+  			"height":windowHeight*0.38+"px",
+  			"width":(windowHeight*0.35)*0.8+"px",
+  			"line-height":windowHeight*0.38+"px",
+  			"font-size":windowHeight*0.3+"px"
   		});
   		
   		$("#shop_right div li div").css({
