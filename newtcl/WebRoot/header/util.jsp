@@ -14,18 +14,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
     
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/font_awesome/css/font-awesome.min.css">
-    <link type="text/css" rel="stylesheet" href="<%=path %>/utils/jquery_toast/css/toast.style.css">
+    <link type="text/css" rel="stylesheet" href="<%=path %>/utils/toastr/toastr.min.css">
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/layui/css/layui.css">
     
     <script type="text/javascript" src="<%=path %>/utils/jquery/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript" src="<%=path %>/utils/jquery_toast/js/toast.script.js"></script>
+    <script type="text/javascript" src="<%=path %>/utils/toastr/toastr.min.js"></script>
  	<script type="text/javascript" src="<%=path %>/utils/layui/layui.js"></script>
  	<script type="text/javascript" src="<%=path %>/utils/Echarts/echarts.min.js"></script>
  	
- 
+ 	
 	
  	<link rel="icon" href="<%=path %>/img/new.ico" type="image/x-icon">
- 
+ 	
 
  	<!-- <script type="text/javascript" src="<%=path %>/js/fullscreen.js"></script>  -->
  
@@ -76,37 +76,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  			windowauto();
         }
    
-       
-        });
         
-/**************************************提示弹窗********************************************/
-function jquerytoast(title,message,width){
-	$.Toast(title, message , "error", {
-  					appendTo: "#loginbox",
-	                stack: true,
-	                position_class: "toast-top-center",
-	                has_icon:true,
-	                has_close_btn:true,
-	                fullscreen:false,
-	                width: width,
-	                timeout:3000,
-	                sticky:true,
-	                has_progress:true,
-	                rtl:false,
-           });
-           
-     $(".toast-item-wrapper .toast-title").css({
-         "font-size":windowHeight*0.03+"px"
-     });
-     $(".toast-item-wrapper .toast-message").css({
-         "font-size":windowHeight*0.05+"px",
-         "width":"auto"
-     });
-     $(".toast-item-wrapper i.toast-icon").css({
-         "font-size":windowHeight*0.04+"px",
-         "line-height":windowHeight*0.08+"px"
-     });
-}
+ /*******************************toastr弹窗初始化**************************  */
+            toastr.options = {
+                "showDuration": "300",//显示的动画时间
+                "hideDuration": "500",//消失的动画时间
+                "timeOut": "2000", //展现时间
+                "extendedTimeOut": "1000",//加长展示时间
+                "positionClass": "toast-top-center",//展示位置
+                "showEasing": "swing",//显示时的动画缓冲方式
+                "hideEasing": "linear",//消失时的动画缓冲方式
+                "showMethod": "fadeIn",//显示时的动画方式
+                "hideMethod": "fadeOut" //消失时的动画方式
+            };
+        });
         
  /**********************************全屏监听********************************  */
  	//isFullscreenForNoScroll();

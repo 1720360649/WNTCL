@@ -33,7 +33,7 @@ public class ImTypeService implements TypeService {
 					re.setMessage("未传入查询参数");
 					return re;
 				}
-	
+		
 		List<Type> list = typeMapper.find(type);
 		if(list !=null && list.size()>0){
 			re.setCode("1");
@@ -104,10 +104,10 @@ public class ImTypeService implements TypeService {
 		int temp = typeMapper.delete(type);
 		if(temp > 0){
 			re.setCode("1");
-			re.setMessage("类别删除成功!");
+			re.setMessage("类别下架成功!");
 		}else{
 			re.setCode("0");
-			re.setMessage("类别删除失败!");
+			re.setMessage("类别下架失败!");
 		}
 		return re;
 	}

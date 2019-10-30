@@ -69,7 +69,7 @@ public class GoodsController {
 					for(int i=0;i<list.size();i++){
 						TypeAndGoods good = list.get(i);
 						main.append("<div class=\"goodsshow_good\"><div class=\"goodsshow_good_img\"> <img"
-									+"src=\"/newtcl"+good.getPhoto()+"\"></div>" +"<div class=\"goodsshow_good_name\">"
+									+" src=\"/newtcl"+good.getPhoto()+"\"></div>" +"<div class=\"goodsshow_good_name\">"
                                     +good.getGoodsName()+"</div><div class=\"goodsshow_good_price\">¥"
                                     +good.getNowprice()+"<div class=\"goodsshow_good_add\"onclick=\"goodsshow_good_add("
                                     +good.getGoodsId()+")\"><img src=\"/newtcl/img/add.png\"/></div></div></div>");

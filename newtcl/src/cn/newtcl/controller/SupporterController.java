@@ -76,175 +76,61 @@ public class SupporterController {
 	@ResponseBody
 	public Information getMeShop(){
 		Information in =new Information();
-		NewReturn re = new NewReturn();	
 		Type type = new Type();
 		Map<Integer, List<TypeAndGoods>> map = new HashMap<Integer, List<TypeAndGoods>>();
+		boolean def= false;
 		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
+		User user = (User)session.getAttribute("wntcluser");
+		if(user == null || user.getId() == null){
+			in.setCode("-1");
+			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+			return in;
+		}
 		
-		//type.setManagerId(user.getId());
-		
-		//test
-		type.setManagerId(1);
-		//加载标签
-		re = imTypeService.find(type);
-		List<Type> types = (List<Type>)re.getObj();
-		//加载商品
-		re = imTypeService.findTypeAndGoods(type);
+		type.setManagerId(user.getId());
+		NewReturn re = imTypeService.findTypeAndGoods(type);
 		if(("1").equals(re.getCode())){
 			map = (Map<Integer, List<TypeAndGoods>>)re.getObj();
-			StringBuilder main  = new StringBuilder();			
+			StringBuilder aside = new StringBuilder();
+			StringBuilder main  = new StringBuilder();
+			aside.append("<aside id='aside'>");
+			main.append("<div id='main'>");
+			
 			for (Entry<Integer, List<TypeAndGoods>> entry : map.entrySet()) {
 				List<TypeAndGoods> list = entry.getValue();
 				if(list != null && list.size()>0){
-					main.append("<div class=\"typebox\" id='t"+list.get(0).getTypeId()+"'><ul>");
-					main.append("<li class=\"addgood\" onclick=\"\">+</li>");
+					//设置分类标签
+					if(!def){
+						aside.append("<div class='menuType menuActive' onclick='gototype('a"+list.get(0).getTypeId()+"')'>"+list.get(0).getTyupeName()+"</div>");
+						def = true;
+					}else{
+						aside.append("<div class='menuType' onclick='gototype('a"+list.get(0).getTypeId()+"')'>"+list.get(0).getTyupeName()+"</div>");
+					}
+					
+					main.append("<div id='t"+list.get(0).getTypeId()+"'>");
 					for(int i=0;i<list.size();i++){
 						TypeAndGoods good = list.get(i);
-						main.append("<li><img src=\"/newtcl"+good.getPhoto()+"\">"
-						+"<input class=\"goodsname\" type=\"text\" readonly=\"readonly\" value=\""+good.getGoodsName()+"\""
-						+"onclick=\"goodsedit(this,'name')\" onblur=\"goodseditlast(this,'name')\">"
-						+"<div class=\"nowpice\">现价:<input type=\"number\" value='"+good.getNowprice()+"'"
-						+"onclick=\"goodsedit(this,'nowpice')\" onblur=\"goodseditlast(this,'nowpice')\"></div>");
-						
-						if(good.getOldprice() == null || good.getOldprice() < 0){
-							main.append("<div class=\"oldpice\">原价:<input type=\"text\" value=\"无\""
-								+"onclick=\"goodsedit(this,'oldpice')\" onblur=\"goodseditlast(this,'oldpice')\" style=\"color:gray;\"></div>");
-						}else{
-							main.append("<div class=\"oldpice\">原价:<input type=\"number\" value='"+good.getOldprice()+"'"
-								+"onclick=\"goodsedit(this,'oldpice')\" onblur=\"goodseditlast(this,'oldpice')\"></div>");
-						}
-						
-						if(good.getStock() == null || good.getStock() < 0){
-							main.append("<div class=\"goodstock\">库存:<input type=\"text\" value='无'"
-								+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\">"
-								+"</div></li>");
-						}else{
-							main.append("<div class=\"goodstock\">库存:<input type=\"number\" value='"+good.getStock()+"'"
-						+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\">"
-						+"</div></li>");
-						}
-						
+						main.append("<div class=\"goodsshow_good\"><div class=\"goodsshow_good_img\"> <img"
+									+" src=\"/newtcl"+good.getPhoto()+"\"></div>" +"<div class=\"goodsshow_good_name\">"
+                                    +good.getGoodsName()+"</div><div class=\"goodsshow_good_price\">¥"
+                                    +good.getNowprice()+"<div class=\"goodsshow_good_add\"onclick=\"goodsshow_good_add("
+                                    +good.getGoodsId()+")\"><img src=\"/newtcl/img/add.png\"/></div></div></div>");
 					}
-					main.append("</ul></div>");
+					main.append("<div class='goodsshow_good_add'></div>");
+					main.append("</div>");
+				}else{
+					main.append("<div>此分类暂无商品</div>");
 				}
 			}
-			if(map.size() < types.size()){
-				for(int i=(map.size()-1);i<types.size();i++){
-					main.append("<div class=\"typebox\" id='t"+types.get(i).getId()+"'><ul>");
-					main.append("<li class=\"addgood\" onclick=\"\">+</li>");
-					main.append("</ul></div>");
-				}
-			}
-			
+			aside.append("</aside>");
 			main.append("</div>");
 			in.setCode("1");
 			in.setMessage("查询到数据!");
-			in.setHtml(main.toString());
+			in.setHtml(aside.toString()+main.toString());
 		}else{
 			in.setCode("0");
 			in.setMessage("未查询到数据!");
 		}
-		
-		return in;
-	}
-	
-	
-	@RequestMapping("addtype")
-	@ResponseBody
-	public Information addtype(String name){
-		Information in =new Information();
-		NewReturn re = new NewReturn();
-		Type type = new Type();
-		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
-		
-		//type.setManagerId(user.getId());
-		
-		//test
-		type.setManagerId(1);
-		
-		type.setName(name);
-		re = imTypeService.add(type);
-		in.setCode(re.getCode());
-		in.setMessage(re.getMessage());
-		return in;
-	}
-	
-	@RequestMapping("deltype")
-	@ResponseBody
-	public Information deltype(Integer id){
-		Information in =new Information();
-		NewReturn re = new NewReturn();
-		Type type = new Type();
-		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
-		
-		//type.setManagerId(user.getId());
-		
-		//test
-		type.setManagerId(1);
-		
-		type.setId(id);
-		re = imTypeService.delete(type);
-		in.setCode(re.getCode());
-		in.setMessage(re.getMessage());
-		return in;
-	}
-	
-	@RequestMapping("findtype")
-	@ResponseBody
-	public Information findtype(){
-		Information in =new Information();
-		NewReturn re = new NewReturn();
-		Type type = new Type();
-		boolean def= false;
-		StringBuilder aside = new StringBuilder();
-		aside.append("<div id='shop_left'><aside id='shop_aside'>");
-		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
-		
-		//type.setManagerId(user.getId());
-		
-		//test
-		type.setManagerId(1);
-		re = imTypeService.find(type);
-		
-		List<Type> list = (List<Type>)re.getObj();
-		if(list != null || list.size() > 0 ){
-			for(int i=0;i<list.size();i++){
-				if(!def){
-					aside.append("<div class='type typeActive' onclick=\"ontype(this,'#t"+list.get(i).getId()+"')\" oncontextmenu=\"typesmenu(this)\">"+list.get(i).getName()+"<div class=\"deltype\" onclick=\"deltype(this,"+list.get(i).getId()+")\">删除</div></div>");
-					def = true;
-				}else{
-					aside.append("<div class='type' onclick=\"ontype(this,'#t"+list.get(i).getId()+"')\" oncontextmenu=\"typesmenu(this)\">"+list.get(i).getName()+"<div class=\"deltype\" onclick=\"deltype(this,"+list.get(i).getId()+")\">删除</div></div>");
-				}
-			}
-		}
-	
-		aside.append("<div class=\"addtypes\" style=\"border:2px dashed white;\" onclick=\"onaddtypes()\">+</div>");
-		aside.append("</aside></div>");
-		in.setHtml(aside.toString());
 		
 		return in;
 	}
