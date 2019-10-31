@@ -373,6 +373,12 @@
   	//数据
   	var oldname=null;
   	var nowname=null;
+  	//商品添加所需数据
+  	var addimg = null;
+  	var addname = null;
+  	var addnowpice = -1;
+  	var addoldpice = -1;
+  	var addstock = -1;
   
   	function uload(){
  
@@ -595,7 +601,7 @@
 				if(data.code == "1"){
 						shopload();
 				}else{
-					alert("添加失败!请重试!");
+					alert(data.message);
 					$(obj).css({
 						"display":"block"
 					});
@@ -610,7 +616,61 @@
 	}
 	
 	/**************************************菜品添加***********************************/
+	function addgoods(obj,id){
+	
+		$(obj).removeAttr("onclick");
+				
+		$(obj).css({
+			"background":"white",
+			"color":"green",
+			"border":"1px solid green"
+		});	       
+		$(obj).html("<img src=\"/newtcl/img/supporteraddgood.jpg\">"
+			+"<input class=\"goodsname addname\" type=\"text\" readonly=\"readonly\" value=\"\""
+			+"onclick=\"onaddname(this)\" onblur=\"addnameonblur(this)\">"
+			+"<div class=\"nowpice addnowpice\">现价:<input type=\"number\" value=''"
+			+"onclick=\"onaddnowpice(this)\" onblur=\"addnowpiceonblur(this)\"></div>"
+			+"<div class=\"oldpice addoldpice\">原价:<input type=\"text\" value=\"无\""
+			+"onclick=\"onaddoldpice(this)\" onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\"></div>"
+			+"<div class=\"goodstock addgoodstock\">库存:<input type=\"text\" value='无'"
+			+"onclick=\"onaddgoodstock(this)\" onblur=\"addgoodstockonblur(this)\" style=\"color:gray;\"></div>"
+		);
+	
+		windowauto();
+	}
+
+	//商品名
+	function onaddname(obj){
+		
+	}
+	function addnameonblur(obj){
+		
+	}
+	
+	//现价
+	function onaddnowpice(obj){
+	
+	}
+	function addnowpiceonblur(obj){
+		
+	}
+  
+  	//原价
+  	function onaddoldpice(obj){
   	
+  	}
+  	function addoldpiceonblur(obj){
+  		
+  	}
+  	
+  	//库存
+  	function onaddgoodstock(obj){
+  	
+  	}
+  	function addgoodstockonblur(obj){
+  		
+  	}
+  	  	
   	/*************************************Echarts绘图********************************/
 	function viewplay(){
 		//判断数据是否存在

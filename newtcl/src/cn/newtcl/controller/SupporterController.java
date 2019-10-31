@@ -103,7 +103,7 @@ public class SupporterController {
 				List<TypeAndGoods> list = entry.getValue();
 				if(list != null && list.size()>0){
 					main.append("<div class=\"typebox\" id='t"+list.get(0).getTypeId()+"'><ul>");
-					main.append("<li class=\"addgood\" onclick=\"\">+</li>");
+					main.append("<li class=\"addgood\" onclick=\"addgoods(this,"+list.get(0).getTypeId()+")\">+</li>");
 					for(int i=0;i<list.size();i++){
 						TypeAndGoods good = list.get(i);
 						main.append("<li><img src=\"/newtcl"+good.getPhoto()+"\">"
@@ -122,7 +122,7 @@ public class SupporterController {
 						
 						if(good.getStock() == null || good.getStock() < 0){
 							main.append("<div class=\"goodstock\">库存:<input type=\"text\" value='无'"
-								+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\">"
+								+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\" style=\"color:gray;\">"
 								+"</div></li>");
 						}else{
 							main.append("<div class=\"goodstock\">库存:<input type=\"number\" value='"+good.getStock()+"'"

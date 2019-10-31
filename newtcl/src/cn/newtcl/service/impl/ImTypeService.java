@@ -101,6 +101,11 @@ public class ImTypeService implements TypeService {
 			re.setMessage("未给出主键 id");
 			return re ;
 		}
+		if(type.getId() <= 4){
+			re.setCode("-1");
+			re.setMessage("受保护数据不能删除!");
+			return re ;
+		}
 		int temp = typeMapper.delete(type);
 		if(temp > 0){
 			re.setCode("1");
