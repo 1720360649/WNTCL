@@ -19,6 +19,7 @@
     <result column="cost" jdbcType="DOUBLE" property="cost" />
     <result column="stock" jdbcType="INTEGER" property="stock" />
     <result column="describable" jdbcType="VARCHAR" property="describable" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   
   
@@ -82,11 +83,10 @@
   <select id="findTypeAndGoods" parameterType="cn.newtcl.entity.Type" resultMap="TypeAndGoodsMap">
   	select * from
 	(
-	select `type`.id as `typeid`, `type`.`name`as typename,goods.id as goodsid, goods.`name`, photo , oldprice,nowprice, cost, stock, describable 
+	select `type`.id as `typeid`, `type`.`name`as typename,goods.id as goodsid, goods.`name`, photo , oldprice,nowprice, cost, stock, describable,`status` 
 	from `type`,goods
 	where goods.type_id = `type`.id
 	and `type`.manager_id = #{managerId}
-	and `status` = 1
 	) as good
 	order by goodsid desc
   </select>

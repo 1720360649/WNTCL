@@ -12,7 +12,8 @@ public class TypeAndGoods {
 	private Double cost = null;
 	private Integer stock = null;
 	private String describable = null;
-	
+	private Integer status = null;
+
 	public Integer getTypeId() {
 		return typeId;
 	}
@@ -72,6 +73,12 @@ public class TypeAndGoods {
 	}
 	public void setDescribable(String describable) {
 		this.describable = describable;
+	}
+	public Integer getStatus() {
+		return status;
+	}
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 	 
 }

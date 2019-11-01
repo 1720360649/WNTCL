@@ -123,13 +123,19 @@ public class SupporterController {
 						if(good.getStock() == null || good.getStock() < 0){
 							main.append("<div class=\"goodstock\">库存:<input type=\"text\" value='无'"
 								+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\" style=\"color:gray;\">"
-								+"</div></li>");
+								+"</div>");
 						}else{
 							main.append("<div class=\"goodstock\">库存:<input type=\"number\" value='"+good.getStock()+"'"
 						+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\">"
-						+"</div></li>");
+						+"</div>");
 						}
 						
+						if(good.getStatus() == 1){
+							main.append("<div class=\"goodseditbut\" onclick=\"\">下架</div>");
+						}else{
+							main.append("<div class=\"goodseditbut\" onclick=\"\">上架</div>");
+						}
+						main.append("</li>");
 					}
 					main.append("</ul></div>");
 				}
@@ -137,11 +143,11 @@ public class SupporterController {
 			if(map.size() < types.size()){
 				for(int i=(map.size()-1);i<types.size();i++){
 					main.append("<div class=\"typebox\" id='t"+types.get(i).getId()+"'><ul>");
-					main.append("<li class=\"addgood\" onclick=\"\">+</li>");
+					main.append("<li class=\"addgood\" onclick=\"addgoods(this,"+types.get(i).getId()+")\">+</li>");
 					main.append("</ul></div>");
 				}
 			}
-			
+	
 			main.append("</div>");
 			in.setCode("1");
 			in.setMessage("查询到数据!");

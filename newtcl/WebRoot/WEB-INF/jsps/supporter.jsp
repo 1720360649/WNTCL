@@ -374,6 +374,7 @@
   	var oldname=null;
   	var nowname=null;
   	//商品添加所需数据
+  	var  edittypeid = 0;
   	var addimg = null;
   	var addname = null;
   	var addnowpice = -1;
@@ -617,9 +618,13 @@
 	
 	/**************************************菜品添加***********************************/
 	function addgoods(obj,id){
-	
+		edittypeid = id;
+		
 		$(obj).removeAttr("onclick");
-				
+		$(obj).unbind("click");
+		
+		$(obj).addClass("openaddgoodsbox");
+
 		$(obj).css({
 			"background":"white",
 			"color":"green",
@@ -627,32 +632,71 @@
 		});	       
 		$(obj).html("<img src=\"/newtcl/img/supporteraddgood.jpg\">"
 			+"<input class=\"goodsname addname\" type=\"text\" readonly=\"readonly\" value=\"\""
-			+"onclick=\"onaddname(this)\" onblur=\"addnameonblur(this)\">"
-			+"<div class=\"nowpice addnowpice\">现价:<input type=\"number\" value=''"
+			+"onclick=\"onaddname()\" onblur=\"addnameonblur(this)\">"
+			+"<div class=\"nowpice\">现价:<input class=\"addnowpice\" type=\"number\" value=''"
 			+"onclick=\"onaddnowpice(this)\" onblur=\"addnowpiceonblur(this)\"></div>"
-			+"<div class=\"oldpice addoldpice\">原价:<input type=\"text\" value=\"无\""
+			+"<div class=\"oldpice \">原价:<input class=\"addoldpice\" type=\"text\" value=\"无\""
 			+"onclick=\"onaddoldpice(this)\" onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\"></div>"
-			+"<div class=\"goodstock addgoodstock\">库存:<input type=\"text\" value='无'"
+			+"<div class=\"goodstock \">库存:<input class=\"addgoodstock\" type=\"text\" value='无'"
 			+"onclick=\"onaddgoodstock(this)\" onblur=\"addgoodstockonblur(this)\" style=\"color:gray;\"></div>"
 		);
 	
 		windowauto();
+		onaddname();
 	}
 
 	//商品名
-	function onaddname(obj){
-		
+	function onaddname(){
+			
+		$(".addname").focus();
+        $(".addname").select();
+        
+		$(".addname").css({
+			"border":"1px solid black"
+		});
+		$(".addname").removeAttr("readonly");
 	}
 	function addnameonblur(obj){
-		
+		var val = obj.value;
+		if(val == null || val == ""){
+			if(confirm("您未输入商品名称,是否取消商品添加!")){
+				$(".openaddgoodsbox").html("+");
+				$(".addgood").removeClass("openaddgoodsbox"); 
+				$(".addgood").click(function(){
+					addgoods($(".addgood"),edittypeid);
+				});
+				return ;
+	  		}else{
+	  			$(".addname").val("填写您的商品名称");
+	  			$(".addname").focus();
+        		$(".addname").select();
+	  		}
+		}else{
+			if(val == "填写您的商品名称"){
+				$(".addname").css({
+					"border":"block"
+				});
+			}else{
+				$(".addname").css({
+					"border":"none"
+				});
+			}
+			addname = val;
+		}
 	}
-	
+
 	//现价
 	function onaddnowpice(obj){
-	
+		var val = obj.value;
+		
+		$(".addnowpice").focus();
+        $(".addnowpice").select();
 	}
 	function addnowpiceonblur(obj){
-		
+		var val = obj.value;
+		if(val <= 0 || val == null){
+			$(obj).val(0);
+		}
 	}
   
   	//原价
@@ -773,7 +817,7 @@
   		});
   	
   		$("#shop_right div li").css({
-  			"height":windowHeight*0.38+"px",
+  			"height":windowHeight*0.42+"px",
   			"width":(windowHeight*0.35)*0.8+"px",
   			"margin-left":windowHeight*0.05+"px",
   			"margin-top":windowHeight*0.03+"px"
@@ -811,7 +855,15 @@
   			"width":(windowHeight*0.35)*0.62+"px"
   		});
   	
-}
+	}
+	
+	/**********************************sleep函数*********************************/
+	function sleep(delay) {
+	  var start = (new Date()).getTime();
+	  while ((new Date()).getTime() - start < delay) {
+	    continue;
+	  }
+	}
 
 </script>
   
