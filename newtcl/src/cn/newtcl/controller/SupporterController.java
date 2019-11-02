@@ -255,4 +255,30 @@ public class SupporterController {
 		return in;
 	}
 	
+	@RequestMapping("addgood")
+	@ResponseBody
+	public Information addGood(String name){
+		Information in =new Information();
+		NewReturn re = new NewReturn();
+		Type type = new Type();
+		
+//		User user = (User)session.getAttribute("wntcluser");
+//		if(user == null || user.getId() == null){
+//			in.setCode("-1");
+//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+//			return in;
+//		}
+		
+		//type.setManagerId(user.getId());
+		
+		//test
+		type.setManagerId(1);
+		
+		type.setName(name);
+		re = imTypeService.add(type);
+		in.setCode(re.getCode());
+		in.setMessage(re.getMessage());
+		return in;
+	}
+	
 }

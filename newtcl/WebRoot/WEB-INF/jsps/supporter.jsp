@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@include file="../../header/util.jsp" %>
+<%@include file="../../header/util.jsp" %>	
 <%
  path = request.getContextPath();
  basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -384,7 +384,8 @@
   	var oldname=null;
   	var nowname=null;
   	//商品添加所需数据
-  	var  edittypeid = 0;
+  	var addstaus = true;
+  	var edittypeid = 0;
   	var addavatar = null;
   	var addname = null;
   	var addnowpice = -1;
@@ -628,13 +629,24 @@
 	
 	/**************************************菜品添加***********************************/
 	function addgoods(obj,id){
+		if(!addstaus)
+			return ;
+		
+		c = false;
 		edittypeid = id;
-		
 		$(obj).removeAttr("onclick");
-		$(obj).unbind("click");
-		
+		$(".addgood").off('mouseenter').unbind('mouseleave');
+
 		$(obj).addClass("openaddgoodsbox");
 
+		$(".addgood").css({
+			"display":"none"
+		});
+	
+		$(".openaddgoodsbox").css({
+			"display":"block"
+		});
+		
 		$(obj).css({
 			"background":"white",
 			"color":"green",
@@ -643,14 +655,14 @@
 		$(obj).html("<img id=\"imghend\" src=\"/newtcl/img/supporteraddgood.jpg\" onclick=\"onaddimg()\"><input class=\"addimginput\" type=\"file\" "
 			+"id=\"image\" onchange=\"readFile(this)\" name=\"image\">"
 			+"<input class=\"goodsname addname\" type=\"text\" readonly=\"readonly\" value=\"\""
-			+"onclick=\"onaddname()\" onblur=\"addnameonblur(this)\">"
+			+"onclick=\"onaddname()\" onblur=\"addnameonblur(this,"+id+")\">"
 			+"<div class=\"nowpice\">现价:<input class=\"addnowpice\" type=\"number\" value=''"
 			+"onclick=\"onaddnowpice(this)\" onblur=\"addnowpiceonblur(this)\"></div>"
 			+"<div class=\"oldpice addoldpice\">原价:<input type=\"text\" value=\"无\""
 			+"onclick=\"onaddoldpice()\" onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\"></div>"
 			+"<div class=\"goodstock addgoodstock\">库存:<input type=\"text\" value='无'"
 			+"onclick=\"onaddgoodstock(this)\" onblur=\"addgoodstockonblur(this)\" style=\"color:gray;\"></div>"
-			+"<div class=\"goodseditbut\" onclick=\"\">上架</div>"
+			+"<div class=\"goodseditbut\" onclick=\"addsubmit()\">上架</div>"
 		);
 
 		windowauto();
@@ -668,15 +680,37 @@
 		});
 		$(".addname").removeAttr("readonly");
 	}
-	function addnameonblur(obj){
+	function addnameonblur(obj,id){
 		var val = obj.value;
 		if(val == null || val == ""){
 			if(confirm("您未输入商品名称,是否取消商品添加!")){
-				$(".openaddgoodsbox").html("+");
-				$(".addgood").removeClass("openaddgoodsbox"); 
-				$(".addgood").click(function(){
-					addgoods($(".addgood"),edittypeid);
+				addstaus = true;
+				$(".addgood").css({
+						"display":"block",
+						"color":"white",
+						"border":"1px solid white",
+						"background":"gray"
 				});
+				$(".addgood").hover(function(){
+					$(".addgood").css({
+						"display":"block",
+						"color":"green",
+						"border":"1px solid black",
+						"background":"white"
+					});
+				},function(){
+					$(".addgood").css({
+						"display":"block",
+						"color":"white",
+						"border":"1px solid white",
+						"background":"gray"
+					});
+				});
+				
+				$(".openaddgoodsbox").remove();
+				$("#t"+id).prepend("<li class=\"addgood\" onclick=\"addgoods(this,"+id+")\">+</li>");
+
+				windowauto();
 				return ;
 	  		}else{
 	  			$(".addname").val("填写您的商品名称");
@@ -735,9 +769,10 @@
 			$(".addoldpice input").css({
 				"color":"gray"  			
   			});
+  			addoldpice = -1;
   		}else{
   			$(".addoldpice input").css({
-				"color":"black"  			
+				"color":"black" 			
   			});
   	
   			addoldpice = val;
@@ -767,6 +802,7 @@
 			$(".addgoodstock input").css({
 				"color":"gray"  			
   			});
+  			addstock = -1;
   		}else{
   			$(".addgoodstock input").css({
 				"color":"black"  			
@@ -826,6 +862,28 @@
 		//图片改变后设置大小
 		windowauto();
 	}
+
+	//添加提交
+	function addsubmit(){
+		if(addname == null || addname == "填写您的商品名称"){
+			jquerytoast("body","上架失败","请填写商品名称",windowWidth*0.5);
+		}else if(addnowpice == null || addnowpice < 0){
+			jquerytoast("body","上架失败","请填写商品现价",windowWidth*0.5);
+		}else if(addavatar == null || addavatar == ""){
+			jquerytoast("body","上架失败","请上传商品照片",windowWidth*0.5);
+		}else{
+			$.post("<%=path%>/supporter/",{"id":id},function(data){
+				if(data.code == "1"){
+						shopload();
+				}else{	
+					alert(data.message);
+					$(obj).css({
+						"display":"block"
+					});
+				}
+	  		});
+		}
+	}
   	  	
   	/*************************************Echarts绘图********************************/
 	function viewplay(){
@@ -861,8 +919,6 @@
        // 使用刚指定的配置项和数据显示图表。
         myChart.setOption(option);
 	}
-	
-	
 	
 
   	//*************************************自适应***********************************/
