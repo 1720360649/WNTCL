@@ -276,6 +276,16 @@
 		border: 1px solid gray;
 	}
 	
+	.addimginput{
+		display: none;
+	}
+	
+	#shop_right .goodseditbut{
+		text-align: center;
+		border-radius:40px 40px 0px 0px;
+		color:white;
+		background: green;
+	}
 
 	#shop_right div li div input{
 		border: none;
@@ -375,7 +385,7 @@
   	var nowname=null;
   	//商品添加所需数据
   	var  edittypeid = 0;
-  	var addimg = null;
+  	var addavatar = null;
   	var addname = null;
   	var addnowpice = -1;
   	var addoldpice = -1;
@@ -630,17 +640,19 @@
 			"color":"green",
 			"border":"1px solid green"
 		});	       
-		$(obj).html("<img src=\"/newtcl/img/supporteraddgood.jpg\">"
+		$(obj).html("<img id=\"imghend\" src=\"/newtcl/img/supporteraddgood.jpg\" onclick=\"onaddimg()\"><input class=\"addimginput\" type=\"file\" "
+			+"id=\"image\" onchange=\"readFile(this)\" name=\"image\">"
 			+"<input class=\"goodsname addname\" type=\"text\" readonly=\"readonly\" value=\"\""
 			+"onclick=\"onaddname()\" onblur=\"addnameonblur(this)\">"
 			+"<div class=\"nowpice\">现价:<input class=\"addnowpice\" type=\"number\" value=''"
 			+"onclick=\"onaddnowpice(this)\" onblur=\"addnowpiceonblur(this)\"></div>"
-			+"<div class=\"oldpice \">原价:<input class=\"addoldpice\" type=\"text\" value=\"无\""
-			+"onclick=\"onaddoldpice(this)\" onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\"></div>"
-			+"<div class=\"goodstock \">库存:<input class=\"addgoodstock\" type=\"text\" value='无'"
+			+"<div class=\"oldpice addoldpice\">原价:<input type=\"text\" value=\"无\""
+			+"onclick=\"onaddoldpice()\" onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\"></div>"
+			+"<div class=\"goodstock addgoodstock\">库存:<input type=\"text\" value='无'"
 			+"onclick=\"onaddgoodstock(this)\" onblur=\"addgoodstockonblur(this)\" style=\"color:gray;\"></div>"
+			+"<div class=\"goodseditbut\" onclick=\"\">上架</div>"
 		);
-	
+
 		windowauto();
 		onaddname();
 	}
@@ -676,6 +688,8 @@
 				$(".addname").css({
 					"border":"block"
 				});
+				$(".addname").focus();
+        		$(".addname").select();
 			}else{
 				$(".addname").css({
 					"border":"none"
@@ -696,24 +710,122 @@
 		var val = obj.value;
 		if(val <= 0 || val == null){
 			$(obj).val(0);
+			addnowpice = 0;
 		}
+		addnowpice = val;
 	}
   
   	//原价
   	function onaddoldpice(obj){
-  	
+  		$(".addoldpice").html("原价:<input type=\"number\" value=\"无\""
+		+"onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\">");
+		
+		$(".addoldpice input").focus();
+        $(".addoldpice input").select();
+        
+        //自适应改变的布局
+        windowauto();
   	}
   	function addoldpiceonblur(obj){
+  		var val = obj.value;
+  		if(val == null || val == 0){
+  			$(".addoldpice").html("原价:<input type=\"text\" value=\"无\""
+			+"onclick=\"onaddoldpice()\" onblur=\"addoldpiceonblur(this)\" style=\"color:gray;\">");
+			
+			$(".addoldpice input").css({
+				"color":"gray"  			
+  			});
+  		}else{
+  			$(".addoldpice input").css({
+				"color":"black"  			
+  			});
+  	
+  			addoldpice = val;
+  		}
   		
+  		//自适应改变的布局
+  		windowauto();
   	}
   	
   	//库存
-  	function onaddgoodstock(obj){
-  	
+  	function onaddgoodstock(){
+  		$(".addgoodstock").html("库存:<input type=\"number\" value=\"无\""
+		+"onblur=\"addgoodstockonblur(this)\" style=\"color:gray;\">");
+		
+		$(".addgoodstock input").focus();
+        $(".addgoodstock input").select();
+        
+        //自适应改变的布局
+        windowauto();
   	}
   	function addgoodstockonblur(obj){
+  		var val = obj.value;
+  		if(val == null || val == 0){
+  			$(".addgoodstock").html("库存:<input type=\"text\" value=\"无\""
+			+"onclick=\"onaddgoodstock()\" onblur=\"addgoodstockonblur(this)\" style=\"color:gray;\">");
+			
+			$(".addgoodstock input").css({
+				"color":"gray"  			
+  			});
+  		}else{
+  			$(".addgoodstock input").css({
+				"color":"black"  			
+  			});
+  	
+  			addstock = val;
+  		}
   		
+  		//自适应改变的布局
+  		windowauto();
   	}
+  	
+  	//图片
+  	function onaddimg(){
+  		$("#image").click();
+  	}
+  	
+  	//图片转码为base64
+	function readFile(file) {
+		var filen = file.files[0];
+		if (!/image\/\w+/.test(filen.type)) {
+			alert("请确保文件为图像类型");
+			return false;
+		}
+		var reader = new FileReader();
+		reader.readAsDataURL(filen);
+		reader.onload = function(e) {
+			var ImgFileSize = this.result;
+			var index = ImgFileSize.lastIndexOf("\,");
+			ImgFileSize = ImgFileSize.substring(index + 1, ImgFileSize.length);
+			previewImage(file);
+		}
+	}
+
+	//	将图片显示在网页中
+	function previewImage(file) {
+	
+		if (file.files && file.files[0]) {
+			var img = document.getElementById('imghend');
+			img.onload = function() {
+			}
+			var reader = new FileReader();
+			reader.onload = function(evt) {
+				img.src = evt.target.result;
+				addavatar = evt.target.result;
+			}
+			reader.readAsDataURL(file.files[0]);
+		} else { //兼容IE
+			var sFilter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale,src="';
+			file.select();
+			var src = document.selection.createRange().text;
+			var img = document.getElementById('imghend');
+			img.filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = src;
+			addavatar = evt.target.result;
+		}
+
+		//图片改变后设置大小
+		windowauto();
+	}
   	  	
   	/*************************************Echarts绘图********************************/
 	function viewplay(){
@@ -836,7 +948,7 @@
   		});
   		
   		$("#shop_right .addgood").css({
-  			"height":windowHeight*0.38+"px",
+  			"height":windowHeight*0.42+"px",
   			"width":(windowHeight*0.35)*0.8+"px",
   			"line-height":windowHeight*0.38+"px",
   			"font-size":windowHeight*0.3+"px"
@@ -852,9 +964,18 @@
   		$("#shop_right div li div input").css({
   			"height":windowHeight*0.04+"px",
   			"line-height":windowHeight*0.04+"px",
-  			"width":(windowHeight*0.35)*0.62+"px"
+  			"width":(windowHeight*0.35)*0.5+"px"
   		});
-  	
+  		
+  		$("#shop_right .goodseditbut").css({
+  			"height":windowHeight*0.035+"px",
+  			"line-height":windowHeight*0.035+"px",
+  			"width":(windowHeight*0.35)*0.45+"px",
+  			"margin-top":windowHeight*0.01+"px",
+  			"margin-left":(windowHeight*0.35)*0.175+"px",
+  			"font-size":windowHeight*0.024+"px"
+  		});
+  
 	}
 	
 	/**********************************sleep函数*********************************/
