@@ -308,10 +308,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		if(phone == "" || phone == undefined || phone == null){
 			jquerytoast("错误提示","请填写用户名",windowWidth*0.5);
+			return ;
 		}else if(pwd == "" || pwd == undefined || pwd == null){
 			jquerytoast("错误提示","请填写密码",windowWidth*0.44);
+			return ;
 		}else if(code == "" || code == undefined || code == null){
 			jquerytoast("错误提示","请填写验证码",windowWidth*0.5);
+			return ;
 		}
 
 	  	$.post("<%=path %>/newtcl/user/login.do",{
