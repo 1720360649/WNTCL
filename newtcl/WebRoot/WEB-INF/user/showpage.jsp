@@ -8,7 +8,7 @@
     a{ 
 	    text-decoration:none !important;
 	}
-    
+	
     #goodsbox{
     	height: 100%;
     	overflow-x: hidden;
@@ -16,7 +16,6 @@
         /*overflow: auto;*/
     	
     }
-    
     	#aside{
             background: #DFDEE3;
             position: fixed;

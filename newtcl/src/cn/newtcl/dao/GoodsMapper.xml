@@ -45,10 +45,10 @@
     </select>
     
     <insert id="add" parameterType="cn.newtcl.entity.Goods" useGeneratedKeys="true" keyProperty="id">
-            INSERT INTO goods (name,photo,oldprice,nowprice,cost,stock,describable,type_id,manager_id,status)
+            INSERT INTO goods (`name`,`photo`,`oldprice`,`nowprice`,`cost`,`stock`,`describable`,`type_id`,`manager_id`,`status`)
          VALUES (#{name},#{photo},#{oldprice},#{nowprice},#{cost},#{stock},#{describable},#{typeId},#{managerId},1)
     </insert>
-    
+   
     <update id="update" parameterType="cn.newtcl.entity.Goods">
         UPDATE goods
         <set>

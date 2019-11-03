@@ -2,19 +2,30 @@ package cn.newtcl.service.impl;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import cn.newtcl.dao.GoodsMapper;
 import cn.newtcl.entity.Goods;
 import cn.newtcl.entity.NewReturn;
 import cn.newtcl.service.GoodsService;
+import cn.newtcl.utils.shopPhotoUp;
 
 @Service
 public class ImGoodsService implements GoodsService {
 	
 	@Autowired
 	GoodsMapper goodsMapper;
+	
+	@Resource(name="transactionManager")
+	private DataSourceTransactionManager transactionManager;
 
 	@Override
 	public NewReturn find(Goods goods) {
@@ -66,24 +77,50 @@ public class ImGoodsService implements GoodsService {
 	@Override
 	public NewReturn add(Goods goods) {
 		NewReturn re = new NewReturn();
-		if(goods.getName() == null || goods.getPhoto() == null 
-				|| goods.getOldprice() == null || goods.getNowprice() == null 
-				|| goods.getTypeId() == null || goods.getManagerId() == null){
-								re.setCode("-1");
-								re.setMessage("有未填必填项!");
-								return re ;
-							}
-		int temp = goodsMapper.add(goods);
-		if(temp>0){
-			re.setCode("1");
-			re.setMessage("添加成功!");
-		}else{
+		shopPhotoUp up = new shopPhotoUp();
+		//事务
+		DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+		def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW); // 事物隔离级别，开启新事务，这样会比较安全些。
+		TransactionStatus status = transactionManager.getTransaction(def); // 获得事务状态
+		
+		if(goods.getName() == "" ||goods.getName() == null || goods.getPhoto() == "" || goods.getPhoto() == null || goods.getNowprice() == null || goods.getTypeId() == null || goods.getManagerId() == null){
+				re.setCode("-1");
+				re.setMessage("有未填必填项!");
+				return re ;
+		}	
+		
+		System.out.println(goods.getPhoto());
+
+		try {
+			String tempphoto = goods.getPhoto();
+			goods.setPhoto("temp");
+			int temp = goodsMapper.add(goods);
+			Goods tempgood = new Goods();
+			tempgood.setId(goods.getId());
+			tempgood.setPhoto("/upload/image/"+goods.getId()+".jpg");
+			re = update(tempgood);
+			
+			if(temp>0 && up.out(tempphoto,goods.getId()) && "1".equals(re.getCode())){	
+				transactionManager.commit(status);
+				re.setCode("1");
+				re.setMessage("添加成功!");
+			}else{
+				transactionManager.rollback(status);
+				re.setCode("0");
+				re.setMessage("添加失败!请重试!");
+			}
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+        	// 回滚
+			transactionManager.rollback(status);
 			re.setCode("0");
-			re.setMessage("添加失败!");
-		}
+			re.setMessage("未知异常添加失败!请重试!");
+        }
+		
 		return re;
 	}
-
+	
 	@Override
 	public NewReturn update(Goods goods) {
 		NewReturn re = new NewReturn();

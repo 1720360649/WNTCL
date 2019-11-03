@@ -6,13 +6,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.newtcl.entity.Goods;
 import cn.newtcl.entity.Information;
 import cn.newtcl.entity.NewReturn;
 import cn.newtcl.entity.Orders;
@@ -24,24 +27,27 @@ import cn.newtcl.service.impl.ImOrderService;
 import cn.newtcl.service.impl.ImOrderlineService;
 import cn.newtcl.service.impl.ImTypeService;
 import cn.newtcl.service.impl.ImUserService;
+import cn.newtcl.utils.shopPhotoUp;
 
 @Controller
 @RequestMapping("supporter")
 public class SupporterController {
 	
 	@Autowired
-	ImUserService imUserService;
+	private ImUserService imUserService;
 	@Autowired
-	ImOrderService imOrderService;
+	private ImOrderService imOrderService;
 	@Autowired
-	ImOrderlineService imOrderlineService;
+	private ImOrderlineService imOrderlineService;
 	@Autowired 
-	ImGoodsService imGoodsService;
+	private ImGoodsService imGoodsService;
 	@Autowired
-	ImTypeService imTypeService;
-	
+	private ImTypeService imTypeService;
+
 	@Autowired
-	HttpSession session;
+	private HttpSession session;
+	@Autowired
+	private HttpServletRequest request;
 	
 	@RequestMapping("/getme")
 	@ResponseBody
@@ -72,7 +78,7 @@ public class SupporterController {
 		return list;
 	}
 	
-	@RequestMapping("getmeshop")
+	@RequestMapping("/getmeshop")
 	@ResponseBody
 	public Information getMeShop(){
 		Information in =new Information();
@@ -112,7 +118,7 @@ public class SupporterController {
 						+"<div class=\"nowpice\">现价:<input type=\"number\" value='"+good.getNowprice()+"'"
 						+"onclick=\"goodsedit(this,'nowpice')\" onblur=\"goodseditlast(this,'nowpice')\"></div>");
 						
-						if(good.getOldprice() == null || good.getOldprice() < 0){
+						if(good.getOldprice() == null || good.getOldprice() <= 0){
 							main.append("<div class=\"oldpice\">原价:<input type=\"text\" value=\"无\""
 								+"onclick=\"goodsedit(this,'oldpice')\" onblur=\"goodseditlast(this,'oldpice')\" style=\"color:gray;\"></div>");
 						}else{
@@ -120,7 +126,7 @@ public class SupporterController {
 								+"onclick=\"goodsedit(this,'oldpice')\" onblur=\"goodseditlast(this,'oldpice')\"></div>");
 						}
 						
-						if(good.getStock() == null || good.getStock() < 0){
+						if(good.getStock() == null || good.getStock() <= 0){
 							main.append("<div class=\"goodstock\">库存:<input type=\"text\" value='无'"
 								+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\" style=\"color:gray;\">"
 								+"</div>");
@@ -161,7 +167,7 @@ public class SupporterController {
 	}
 	
 	
-	@RequestMapping("addtype")
+	@RequestMapping("/addtype")
 	@ResponseBody
 	public Information addtype(String name){
 		Information in =new Information();
@@ -187,7 +193,7 @@ public class SupporterController {
 		return in;
 	}
 	
-	@RequestMapping("deltype")
+	@RequestMapping("/deltype")
 	@ResponseBody
 	public Information deltype(Integer id){
 		Information in =new Information();
@@ -213,7 +219,7 @@ public class SupporterController {
 		return in;
 	}
 	
-	@RequestMapping("findtype")
+	@RequestMapping("/findtype")
 	@ResponseBody
 	public Information findtype(){
 		Information in =new Information();
@@ -255,12 +261,12 @@ public class SupporterController {
 		return in;
 	}
 	
-	@RequestMapping("addgood")
+	@RequestMapping("/addgood")
 	@ResponseBody
-	public Information addGood(String name){
+	public Information addGood(String name,Integer nowprice,Integer oldprice,Integer stock,String photo,Integer typeId){
 		Information in =new Information();
 		NewReturn re = new NewReturn();
-		Type type = new Type();
+		Goods good = new Goods();
 		
 //		User user = (User)session.getAttribute("wntcluser");
 //		if(user == null || user.getId() == null){
@@ -268,16 +274,28 @@ public class SupporterController {
 //			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
 //			return in;
 //		}
-		
-		//type.setManagerId(user.getId());
-		
+	
+		//good.setManagerId(user.getId());
 		//test
-		type.setManagerId(1);
-		
-		type.setName(name);
-		re = imTypeService.add(type);
-		in.setCode(re.getCode());
-		in.setMessage(re.getMessage());
+		if(name != null){
+
+			good.setManagerId(1);
+			good.setName(name);
+			good.setNowprice((double)nowprice);
+			good.setOldprice((double)oldprice);
+			good.setStock(stock);
+			good.setPhoto(photo);
+			good.setTypeId(typeId);
+			
+			re = imGoodsService.add(good);
+	
+			in.setCode(re.getCode());
+			in.setMessage(re.getMessage());
+			
+		}else{
+			in.setCode("0");
+			in.setMessage("无数据");
+		}
 		return in;
 	}
 	
