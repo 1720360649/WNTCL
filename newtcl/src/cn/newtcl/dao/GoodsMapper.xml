@@ -81,11 +81,7 @@
     </update>
     
     <update id="delete" parameterType="cn.newtcl.entity.Goods">
-        update goods
-        <set>
-            status = 0
-        </set>
-        WHERE id = #{id}
+        delete goods where id = #{id}
     </update>
     
     <update id="deleteGoodsByMenuId" parameterType="Integer">

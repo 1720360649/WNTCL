@@ -46,8 +46,6 @@ public class SupporterController {
 
 	@Autowired
 	private HttpSession session;
-	@Autowired
-	private HttpServletRequest request;
 	
 	@RequestMapping("/getme")
 	@ResponseBody
@@ -57,12 +55,13 @@ public class SupporterController {
 			return null;
 		}
 	
+		//清除重要资料
 		user.setPassword("0");
 		user.setPayPassword(0);
 		
 		return user;
 	}
-	
+
 	@RequestMapping("/businessanalysis")
 	@ResponseBody
 	public List<Orders> BusinessAnalysis(){
@@ -86,17 +85,14 @@ public class SupporterController {
 		Type type = new Type();
 		Map<Integer, List<TypeAndGoods>> map = new HashMap<Integer, List<TypeAndGoods>>();
 		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
-		
-		//type.setManagerId(user.getId());
-		
-		//test
-		type.setManagerId(1);
+		if(GetmanageId() !=null){
+			type.setManagerId(GetmanageId());
+		}else{
+			in.setCode("-1");
+			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+			return in;
+		}
+
 		//加载标签
 		re = imTypeService.find(type);
 		List<Type> types = (List<Type>)re.getObj();
@@ -131,15 +127,15 @@ public class SupporterController {
 								+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\" style=\"color:gray;\">"
 								+"</div>");
 						}else{
-							main.append("<div class=\"goodstock\">库存:<input type=\"number\" value='"+good.getStock()+"'"
+							main.append("<div class=\"goodstock\">库存:<input type=\"number\" value='"+(good.getStock()-1)+"'"
 						+"onclick=\"goodsedit(this,'goodstock')\" onblur=\"goodseditlast(this,'goodstock')\">"
 						+"</div>");
 						}
-						
+					
 						if(good.getStatus() == 1){
-							main.append("<div class=\"goodseditbut\" onclick=\"\">下架</div>");
+							main.append("<div class=\"goodseditbut goodseditbutdown\" onclick=\"goodedit("+good.getGoodsId()+",0)\">下架</div><div class=\"goodsaddover\" onclick=\"gooddelete("+good.getGoodsId()+")\">删除</div>");
 						}else{
-							main.append("<div class=\"goodseditbut\" onclick=\"\">上架</div>");
+							main.append("<div class=\"goodseditbut goodseditbutup\" onclick=\"goodedit("+good.getGoodsId()+",1)\">上架</div><div class=\"goodsaddover\" onclick=\"gooddelete("+good.getGoodsId()+")\">删除</div>");
 						}
 						main.append("</li>");
 					}
@@ -174,22 +170,24 @@ public class SupporterController {
 		NewReturn re = new NewReturn();
 		Type type = new Type();
 		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
+		if(name != null){
+			if(GetmanageId() !=null){
+				type.setManagerId(GetmanageId());
+			}else{
+				in.setCode("-1");
+				in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+				return in;
+			}
 		
-		//type.setManagerId(user.getId());
+			type.setName(name);
+			re = imTypeService.add(type);
+			in.setCode(re.getCode());
+			in.setMessage(re.getMessage());
+		}else{
+			in.setCode("0");
+			in.setMessage("提交数据不完整,请勿非法操作!");
+		}
 		
-		//test
-		type.setManagerId(1);
-		
-		type.setName(name);
-		re = imTypeService.add(type);
-		in.setCode(re.getCode());
-		in.setMessage(re.getMessage());
 		return in;
 	}
 	
@@ -200,22 +198,24 @@ public class SupporterController {
 		NewReturn re = new NewReturn();
 		Type type = new Type();
 		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
+		if(id != null){
+			if(GetmanageId() !=null){
+				type.setManagerId(GetmanageId());
+			}else{
+				in.setCode("-1");
+				in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+				return in;
+			}
 		
-		//type.setManagerId(user.getId());
+			type.setId(id);
+			re = imTypeService.delete(type);
+			in.setCode(re.getCode());
+			in.setMessage(re.getMessage());
+		}else{
+			in.setCode("0");
+			in.setMessage("提交数据不完整,请勿非法操作!");
+		}
 		
-		//test
-		type.setManagerId(1);
-		
-		type.setId(id);
-		re = imTypeService.delete(type);
-		in.setCode(re.getCode());
-		in.setMessage(re.getMessage());
 		return in;
 	}
 	
@@ -229,17 +229,15 @@ public class SupporterController {
 		StringBuilder aside = new StringBuilder();
 		aside.append("<div id='shop_left'><aside id='shop_aside'>");
 		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
+		if(GetmanageId() !=null){
+			type.setManagerId(GetmanageId());
+		}else{
+			in.setCode("-1");
+			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+			return in;
+		}
 		
-		//type.setManagerId(user.getId());
-		
-		//test
-		type.setManagerId(1);
+
 		re = imTypeService.find(type);
 		
 		List<Type> list = (List<Type>)re.getObj();
@@ -268,18 +266,16 @@ public class SupporterController {
 		NewReturn re = new NewReturn();
 		Goods good = new Goods();
 		
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null){
-//			in.setCode("-1");
-//			in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
-//			return in;
-//		}
-	
-		//good.setManagerId(user.getId());
-		//test
-		if(name != null){
-
-			good.setManagerId(1);
+		if(name != null && nowprice != null && photo != null && oldprice != null && stock != null && typeId !=null){
+			
+			if(GetmanageId() !=null){
+				good.setManagerId(GetmanageId());
+			}else{
+				in.setCode("-1");
+				in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+				return in;
+			}
+			
 			good.setName(name);
 			good.setNowprice((double)nowprice);
 			good.setOldprice((double)oldprice);
@@ -294,9 +290,100 @@ public class SupporterController {
 			
 		}else{
 			in.setCode("0");
-			in.setMessage("无数据");
+			in.setMessage("提交数据不完整,请勿非法操作!");
 		}
 		return in;
 	}
+	
+	@RequestMapping("/editgood")
+	@ResponseBody
+	public Information editGood(Integer id,Integer status){
+		Information in =new Information();
+		NewReturn re = new NewReturn();
+		Goods goods = new Goods();
+		
+		if(id != null && status !=null && (status == 1 || status == 0)){
+			
+			if(GetmanageId() !=null){
+				goods.setManagerId(GetmanageId());
+			}else{
+				in.setCode("-1");
+				in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+				return in;
+			}
+			
+			goods.setId(id);
+			goods.setStatus(status);
+			
+			re = imGoodsService.update(goods);
+			if("1".equals(re.getCode())){
+				in.setCode("1");
+				if(status == 1){
+					in.setMessage("商品上架成功");
+				}else{
+					in.setMessage("商品下架成功");
+				}
+			}else{
+				in.setCode("0");
+				in.setMessage(re.getMessage());
+			}
+		}else{
+			in.setCode("0");
+			in.setMessage("提交数据不完整,请勿非法操作!");
+		}
+	
+		return in;
+	}
+	
+	@RequestMapping("/deletegood")
+	@ResponseBody
+	public Information deleteGood(Integer id){
+		Information in =new Information();
+		NewReturn re = new NewReturn();
+		Goods goods = new Goods();
+		
+		if(id != null && id>0){
+		
+			if(GetmanageId() !=null){
+				goods.setManagerId(GetmanageId());
+			}else{
+				in.setCode("-1");
+				in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+				return in;
+			}
+			
+			goods.setId(id);
+			
+			re = imGoodsService.delete(goods);
+			if("1".equals(re.getCode())){
+				in.setCode("1");
+				in.setMessage("商品删除成功");
+			}else{
+				in.setCode("0");
+				in.setMessage(re.getMessage());
+			}
+		}else{
+			in.setCode("0");
+			in.setMessage("提交数据不完整,请勿非法操作!");
+		}
+
+		return in;
+	}
+	
+	
+	
+	/***********************************通用商家id获取***************************************/
+	private Integer GetmanageId(){
+//		User user = (User)session.getAttribute("wntcluser");
+//		if(user == null || user.getId() == null)
+//			return null;
+//		else
+//			return user.getId();
+	
+	//test
+	return 1;
+		
+	}
+	
 	
 }

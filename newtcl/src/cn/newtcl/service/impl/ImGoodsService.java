@@ -88,9 +88,7 @@ public class ImGoodsService implements GoodsService {
 				re.setMessage("有未填必填项!");
 				return re ;
 		}	
-		
-		System.out.println(goods.getPhoto());
-
+	
 		try {
 			String tempphoto = goods.getPhoto();
 			goods.setPhoto("temp");
@@ -148,13 +146,19 @@ public class ImGoodsService implements GoodsService {
 			re.setMessage("未给出主键 id");
 			return re ;
 		}
+		if(goods.getId() <= 44){
+			re.setCode("-2");
+			re.setMessage("受保护数据,无法删除!");
+			return re ;
+		}
+
 		int temp = goodsMapper.delete(goods);
 		if(temp > 0){
 			re.setCode("1");
-			re.setMessage("商品下架成功!");
+			re.setMessage("商品删除成功!");
 		}else{
 			re.setCode("0");
-			re.setMessage("商品下架失败!");
+			re.setMessage("商品删除失败!");
 		}
 		return re;
 	}
