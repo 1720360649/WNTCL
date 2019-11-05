@@ -55,10 +55,10 @@ public class SupporterController {
 			return null;
 		}
 	
-		//清除重要资料
+		//出于安全考虑,虽然已加密但仍对账号密码和支付密码进行清除
 		user.setPassword("0");
-		user.setPayPassword(0);
-		
+		user.setPayPassword("0");
+	
 		return user;
 	}
 
@@ -69,14 +69,14 @@ public class SupporterController {
 		User user = (User)session.getAttribute("wntcluser");
 		if(user == null || user.getId() == null){
 			return null;
-		}
+		}	
 		list = imOrderService.BusinessAnalysis(user.getId());
 		if(list == null || list.size() < 1){
 			return null;
 		}
 		return list;
 	}
-	
+
 	@RequestMapping("/getmeshop")
 	@ResponseBody
 	public Information getMeShop(){
@@ -369,6 +369,38 @@ public class SupporterController {
 
 		return in;
 	}
+	
+	@RequestMapping("/getstaff")
+	@ResponseBody
+	public List<User> getStaff(){
+		Information in =new Information();
+		NewReturn re = new NewReturn();
+		User user = new User();
+		
+			if(GetmanageId() !=null){
+				user.setManagerId(GetmanageId());
+			}else{
+				in.setCode("-1");
+				in.setMessage("获取登陆信息失败!请重新登陆或联系管理员!");
+				return null;
+			}
+			
+			re = imUserService.find(user);
+			if("1".equals(re.getCode())){
+				List<User> list = (List<User>)re.getObj();
+				//出于安全考虑,虽然已加密但仍对账号密码和支付密码进行清除
+				for(int i = 0;i<list.size();i++){
+					User temp= list.get(i);
+					temp.setPassword("0");
+					temp.setPayPassword("0");
+				}
+				return list;
+			}else{
+				return null;
+			}
+	}
+
+
 	
 	
 	
