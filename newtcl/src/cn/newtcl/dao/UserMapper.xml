@@ -12,7 +12,7 @@
    <result column="email" jdbcType="VARCHAR" property="email" />
    <result column="balance" jdbcType="DOUBLE" property="balance" />
    <result column="manager_id" jdbcType="INTEGER" property="managerId" />
-   <result column="paypassword" jdbcType="INTEGER" property="payPassword" />
+   <result column="paypassword" jdbcType="VARCHAR" property="payPassword" />
    <result column="qqopenid" jdbcType="VARCHAR" property="qqOpenId" />
    <result column="avatar" jdbcType="VARCHAR" property="avatar" />
    <result column="alipayopenid" jdbcType="VARCHAR" property="alipayOpenid" />

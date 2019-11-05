@@ -208,12 +208,13 @@ public class ImUserService implements UserService {
 								if(user.getQqOpenId() == null)
 									if(user.getAlipayOpenid() == null)
 										if(user.getWechatOpenid() == null)
-											if(user.getJurisdiction() == null){
-												re.setCode("-2");
-												re.setMessage("未给出查询条件!");
-												return re;
-											}
-		
+											if(user.getManagerId() == null)
+												if(user.getJurisdiction() == null){
+													re.setCode("-2");
+													re.setMessage("未给出查询条件!");
+													return re;
+												}
+
 		List<User> temp = userDao.find(user);
 		if(temp.size() <= 0){
 			re.setCode("0");
@@ -225,7 +226,7 @@ public class ImUserService implements UserService {
 		}
 		return re;
 	}
-
+	
 	@Override
 	public NewReturn checkPhone(String phone) {
 		NewReturn re = new NewReturn();

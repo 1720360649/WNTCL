@@ -9,7 +9,7 @@ public class User {
 	private String email = null;
 	private Double balance = null;
 	private Integer managerId = null;
-	private Integer payPassword = null;
+	private String payPassword = null;
 	private String qqOpenId = null;
 	private String avatar = null;
 	private String alipayOpenid = null;
@@ -71,14 +71,6 @@ public class User {
 		this.managerId = managerId;
 	}
 
-	public Integer getPayPassword() {
-		return payPassword;
-	}
-
-	public void setPayPassword(Integer payPassword) {
-		this.payPassword = payPassword;
-	}
-
 	public String getAvatar() {
 		return avatar;
 	}
@@ -117,5 +109,13 @@ public class User {
 
 	public void setJurisdiction(String jurisdiction) {
 		this.jurisdiction = jurisdiction;
+	}
+
+	public String getPayPassword() {
+		return payPassword;
+	}
+
+	public void setPayPassword(String payPassword) {
+		this.payPassword = payPassword;
 	}
 }

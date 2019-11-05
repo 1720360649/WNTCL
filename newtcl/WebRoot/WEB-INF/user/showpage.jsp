@@ -214,7 +214,7 @@
     		暂无商品
     	</div>
 	</div>
-   
+  
     <div id="shopping_cart" onclick="on_shopping_cart()"> 
   		<div class="shopping_icon">
   			<div class="shopping_icon_after"></div>
@@ -225,7 +225,7 @@
   			<div class="shopping_order_txt">&nbsp;&nbsp;已选商品</div>
   			<div class="shopping_order_list">
   				<ul>
-  					
+  				
   				</ul>
   			</div>
   		</div>
