@@ -17,7 +17,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/jquery_toast/css/toast.style.css">
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/layui/css/layui.css">
 
-    <script type="text/javascript" src="<%=path %>/utils/jquery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="<%=path %>/utils/jquery/jquery-3.4.1.min.js"></script>
     <script type="text/javascript" src="<%=path %>/utils/jquery_toast/js/toast.script.js"></script>
  	<!-- <script type="text/javascript" src="<%=path %>/utils/layui/layui.js"></script>  -->
  	<script type="text/javascript" src="<%=path %>/utils/Echarts/echarts.min.js"></script>
