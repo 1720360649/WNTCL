@@ -409,7 +409,7 @@
     		</div>
     	</div>
     </div>
-   
+    
     <div id='staff'>
     	<div id="staff_top">
     		
@@ -502,7 +502,7 @@
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
   			//数据存储数组
   			var arr = new Array();
-  	
+  			
 			if(data == null || data.length < 1){
 				//初始化数组
 				for(var i=0;i<32;i++){
@@ -711,6 +711,7 @@
 					datearr = [nowmonth+"/24",nowmonth+"/25",nowmonth+"/26",
 									nowmonth+"/27",nowmonth+"/28",nowmonth+"/29",nowmonth+"/1"];
 				}
+			
 			
 			//启动报表
 			viewplay();
@@ -1209,13 +1210,13 @@
 				"background":"gray"
 			});
 		});
-		
+			
 		$(".openaddgoodsbox").remove();
 		$("#t"+id).prepend("<li class=\"addgood\" onclick=\"addgoods(this,"+id+")\">+</li>");
 		
 		windowauto();
 	}
-
+	
 /****************************************以存储菜品管理********************************************************/
 	//商品上下架
 	function goodedit(id,status){
@@ -1253,7 +1254,10 @@
 
 		//初始化Echarts
 		var myChart = echarts.init(document.getElementById('viewbox'));
-
+		
+		var month = nowmonth+"/";
+		
+		if(minday)
 		// 指定图表的配置项和数据
         var option = {
             title: {
