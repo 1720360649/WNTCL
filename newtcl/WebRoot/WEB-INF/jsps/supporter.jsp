@@ -332,13 +332,69 @@
 	#staff_top{
 		width: 100%;
 		height: 40%;
-		background: green;
+		border: none;
+	}
+	
+	#staff_top div{
+		width:auto;
+		height:10%;
+	}
+	
+	#seletestaff{
+		float:left;
+		width: 60%;
+		height:100%;
+		margin-left: 7%;
+		margin-top: 1%;
+	}
+	
+	#seletestaffbut{
+		display:block;
+		float:left;
+		cursor:pointer;
+		color:white;
+		margin-left: 2%;
+		margin-top: 1%;
+		text-align: center;
+		border:none;
+		background: #0091FF;
+	}
+	
+	#staffbox{
+		overflow-x:hidden;
+		margin-left: 7%;
+		margin-top: 3%;
+		color:gray;
+		text-align:center;
+		background:rgba(0,0,0,0.1);
+		
+		/*		文字不可选中*/
+		-webkit-touch-callout: none; /* iOS Safari */
+
+		-webkit-user-select: none; /* Chrome/Safari/Opera */
+
+		-khtml-user-select: none; /* Konqueror */
+
+		-moz-user-select: none; /* Firefox */
+
+		-ms-user-select: none; /* Internet Explorer/Edge */
+
+		user-select: none; 
+		
+		unselectable="on"
+	}
+	
+	#staffbox li{
+		width: 99%;
+		margin-left:1%;
+		margin-bottom:8px;
+		border-bottom:1px solid white;
+		background: rgba(255,255,255,0.4);
 	}
 
 	#staff_bottom{
 		width: 100%;
 		height: 60%;
-		background: gray;
 	}
 	
 	#orders{
@@ -412,10 +468,14 @@
     
     <div id='staff'>
     	<div id="staff_top">
-    		
+    		<div>
+	    		<input type="text" value="" id="seletestaff">
+	    		<div id="seletestaffbut" onclick="goseletestaff()">搜索</div>
+	    	</div>
+	    	<div id="staffbox">暂无员工信息!</div>
     	</div>
     	<div id="staff_bottom">
-    		
+    
     	</div>
     </div>
     <div id='orders'>
@@ -499,6 +559,17 @@
 	  		}
 	  	});	
 		//经营信息加载
+  		echartsload();
+
+  		//商品页加载
+  		shopload();
+  		
+  		//员工信息加载
+		staffload();
+  	}
+  	
+  	/*****************************************经营信息加载*************************************/
+  	function echartsload(){
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
   			//数据存储数组
   			var arr = new Array();
@@ -716,12 +787,49 @@
 			//启动报表
 			viewplay();
   		});
-
-  		//商品页加载
-  		shopload();
-		
   	}
   	
+  		/*************************************Echarts绘图********************************/
+	function viewplay(){
+		//判断数据是否存在
+		if(chartdata == null)
+			return 0;
+		
+		//初始化Echarts
+		var myChart = echarts.init(document.getElementById('viewbox'));
+		
+		// 指定图表的配置项和数据
+        var option = {
+            title: {
+                text: '七日营业额'
+            },
+             tooltip : {
+		        trigger: 'axis',
+		        axisPointer: {
+		            type: 'cross',
+		            label: {
+	              	  backgroundColor: '#6a7985'
+	           		}
+      		  	}
+    		},
+            legend: {
+                data:['营业额']
+            },
+            xAxis: {
+                data:datearr
+            },
+            yAxis: {},
+            series: [{
+                name: '营业额',
+                type: 'line',
+                data: chartdata
+            }]
+        };
+       // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+	}
+	
+  
   	/*************************************商品信息页加载************************************/
   	function shopload(){
   		goodasideload();
@@ -754,6 +862,22 @@
 		  		}
 	  		});
   	}
+  	
+  	/**************************************员工信息加载****************************************/	
+	function staffload(){
+		$.post("<%=path%>/supporter/getstaff.do",{},function(data){
+		  		if("0" == data.code){
+		  			$("#staffbox").html("暂无员工信息!");
+		  		}else {
+		  			var str = "<ul>";
+					
+					
+					str+="</ul>";
+					
+					windowauto();
+		  		}
+	  		});
+	}
 	
   	/*************************************主标签切换**************************************/
  	 function gottype(obj,str){
@@ -1134,7 +1258,7 @@
 			previewImage(file);
 		}
 	}
-	
+
 	//	将图片显示在网页中
 	function previewImage(file) {
 	
@@ -1246,41 +1370,12 @@
 	  		});
 	}
   	  	
-  	/*************************************Echarts绘图********************************/
-	function viewplay(){
-		//判断数据是否存在
-		if(chartdata == null)
-			return 0;
-
-		//初始化Echarts
-		var myChart = echarts.init(document.getElementById('viewbox'));
-		
-		var month = nowmonth+"/";
-		
-		if(minday)
-		// 指定图表的配置项和数据
-        var option = {
-            title: {
-                text: '七日营业额'
-            },
-            tooltip: {},
-            legend: {
-                data:['营业额']
-            },
-            xAxis: {
-                data:datearr
-            },
-            yAxis: {},
-            series: [{
-                name: '营业额',
-                type: 'line',
-                data: chartdata
-            }]
-        };
-       // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+  
+	/****************************************员工查询*************************************/
+	function goseletestaff(){
+		alert("1")
+		return false;
 	}
-	
 
   	//*************************************自适应***********************************/
   	function windowauto(){
@@ -1401,6 +1496,29 @@
   			"margin-left":"0px",
   			"font-size":windowHeight*0.024+"px"
   		});
+  		
+  		$("#seletestaff").css({
+  			"font-size":windowHeight*0.02+"px"
+  		});
+  		
+  		$("#seletestaffbut").css({
+  			"width":windowWidth*0.2+"px",
+  			"height":windowHeight*0.04+"px",
+  			"line-height":windowHeight*0.04+"px",
+  			"font-size":windowHeight*0.02+"px"
+  		});
+  		
+  		$("#staffbox").css({
+  			"width":windowWidth*0.725+"px",
+  			"height":windowHeight*0.32+"px",
+  			"line-height":windowHeight*0.32+"px",
+  			"font-size":windowHeight*0.04+"px"
+  		});
+  
+  		$("#staffbox li").css({
+  			"height":windowHeight*0.04+"px"
+  		});
+  	
 	}
 
 
