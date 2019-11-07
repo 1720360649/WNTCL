@@ -55,9 +55,9 @@ public class otherLogin {
 		user.setQqOpenId(qid);
 		user.setAvatar(qavatar);
 		user.setName(qname);
-		user.setManagerId(1);
-		user.setJurisdiction("u1");
-		
+		user.setManagerId(0);
+		user.setJurisdiction("u");
+	
 		re = imUserService.otherLogin(user);
 		
 		if(re.getCode().equals("1")){
@@ -126,8 +126,8 @@ public class otherLogin {
 		user.setAlipayOpenid(alipayOpenid);
 		user.setAvatar(avatar);
 		user.setName(name);
-		user.setManagerId(1);
-		user.setJurisdiction("u1");
+		user.setManagerId(0);	
+		user.setJurisdiction("u");
 		
 		re = imUserService.otherLogin(user);
 		
