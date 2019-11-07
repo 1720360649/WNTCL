@@ -342,22 +342,10 @@
 	
 	#seletestaff{
 		float:left;
-		width: 60%;
+		width: 85.4%;
 		height:100%;
 		margin-left: 7%;
 		margin-top: 1%;
-	}
-	
-	#seletestaffbut{
-		display:block;
-		float:left;
-		cursor:pointer;
-		color:white;
-		margin-left: 2%;
-		margin-top: 1%;
-		text-align: center;
-		border:none;
-		background: #0091FF;
 	}
 	
 	#staffbox{
@@ -366,7 +354,7 @@
 		margin-top: 3%;
 		color:gray;
 		text-align:center;
-		background:rgba(0,0,0,0.1);
+		background:rgba(0,0,0,0.2);
 		
 		/*		文字不可选中*/
 		-webkit-touch-callout: none; /* iOS Safari */
@@ -389,9 +377,23 @@
 		margin-left:1%;
 		margin-bottom:8px;
 		border-bottom:1px solid white;
-		background: rgba(255,255,255,0.4);
+		font-weight:800;
+		color:black;
+		background: rgba(255,255,255,0.5);
+		cursor: pointer;
+	}
+	
+	#staffbox li:HOVER{
+		background: white;
 	}
 
+	#staffbox li div{
+		float: left;
+	}
+	
+	#staffbox .staffavatar{
+	}
+	
 	#staff_bottom{
 		width: 100%;
 		height: 60%;
@@ -469,13 +471,12 @@
     <div id='staff'>
     	<div id="staff_top">
     		<div>
-	    		<input type="text" value="" id="seletestaff">
-	    		<div id="seletestaffbut" onclick="goseletestaff()">搜索</div>
+	    		<input type="text" value="" id="seletestaff" onkeyup="goseletestaff()">
 	    	</div>
 	    	<div id="staffbox">暂无员工信息!</div>
     	</div>
     	<div id="staff_bottom">
-    
+   
     	</div>
     </div>
     <div id='orders'>
@@ -505,6 +506,10 @@
   	var addnowpice = 0;
   	var addoldpice = 0;
   	var addstock = 0;
+  	//员工返回信息
+  	var staffarr = new Array();
+  	var staffstr = new Array();
+  	var staffarrstr = "";
 
   	function uload(){
  
@@ -869,16 +874,30 @@
 		  		if("0" == data.code){
 		  			$("#staffbox").html("暂无员工信息!");
 		  		}else {
+		  			staffarr = data;
 		  			var str = "<ul>";
-					
-					
+		  			for(var i=0;i<data.length;i++){
+		  				str+="<li>";
+		  				str+="<div class='staffavatar'><img class='staffavatar' src='"+data[i].avatar+"'></div>";
+		  				str+="<div class='staffid'>"+data[i].id+"</div>";
+		  				str+="<div class='staffname'>"+data[i].name+"</div>";
+		  				if(data[i].phone == null){
+		  					str+="<div class='staffphone'>暂无电话</div>";
+		  					staffstr[i] = ""+data[i].id+data[i].name+"暂无电话";
+		  				}else{	
+		  					str+="<div class='staffphone'>"+data[i].phone+"</div>";
+		  					staffstr[i] = ""+data[i].id+data[i].name+data[i].phone;
+		  				}
+		  				str+="</li>";
+		  			}
 					str+="</ul>";
-					
+					staffarrstr = str;
+					$("#staffbox").html(str);
 					windowauto();
 		  		}
 	  		});
 	}
-	
+
   	/*************************************主标签切换**************************************/
  	 function gottype(obj,str){
       	$(".menuType").removeClass("menuActive");	
@@ -1367,16 +1386,44 @@
 				}else{	
 					jquerytoast("body","提示",data.message,windowWidth*0.5);
 				}
-	  		});
+	  	});
 	}
   	  	
   
 	/****************************************员工查询*************************************/
+	//键盘检测
+	//查询处理
 	function goseletestaff(){
-		alert("1")
-		return false;
-	}
+		var val = $("#seletestaff").val();
 
+		if(val == null || val == ""){
+			$("#staffbox").html(staffarrstr);
+			windowauto();
+			return;
+		}
+		
+		var str = "<ul>";
+		
+		for(var i=0;i<staffstr.length;i++){
+			if(staffstr[i].indexOf(val) != -1){
+				str+="<li>";
+		  				str+="<div class='staffavatar'><img class='staffavatar' src='"+staffarr[i].avatar+"'></div>";
+		  				str+="<div class='staffid'>"+staffarr[i].id+"</div>";
+		  				str+="<div class='staffname'>"+staffarr[i].name+"</div>";
+		  				if(staffarr[i].phone == null){
+		  					str+="<div class='staffphone'>暂无电话</div>";
+		  				}else{	
+		  					str+="<div class='staffphone'>"+staffarr[i].phone+"</div>";
+		  				}
+		  				str+="</li>";
+			}
+		}
+		str += "</ul>";
+		$("#staffbox").html(str);
+		
+		windowauto();
+	}
+	
   	//*************************************自适应***********************************/
   	function windowauto(){
   		$(".menuType").css({
@@ -1514,13 +1561,34 @@
   			"line-height":windowHeight*0.32+"px",
   			"font-size":windowHeight*0.04+"px"
   		});
-  
+  		
   		$("#staffbox li").css({
-  			"height":windowHeight*0.04+"px"
+  			"height":windowHeight*0.05+"px",
+  			"font-size":windowHeight*0.015+"px",
+  			"line-height":windowHeight*0.05+"px"
+  		});
+  		
+  		$("#staffbox .staffavatar").css({
+  			"width":windowHeight*0.05+"px",
+  			"height":windowHeight*0.05+"px"
+  		});
+  		
+  		$("#staffbox .staffid").css({
+  			"width":windowWidth*0.2+"px",
+  			"height":windowHeight*0.05+"px"
+  		});
+  		
+  		$("#staffbox .staffname").css({
+  			"width":windowWidth*0.26+"px",
+  			"height":windowHeight*0.05+"px"
+  		});
+  		
+  		$("#staffbox .staffphone").css({
+  			"width":windowWidth*0.2+"px",
+  			"height":windowHeight*0.05+"px"
   		});
   	
 	}
-
 
 	/**********************************sleep函数*********************************/
 	function sleep(delay) {
