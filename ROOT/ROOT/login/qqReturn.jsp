@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		if(data.code == "1"){
 			window.location.href = "<%=path%>/index.jsp";
 		}else{
-			$("#tips").html('登陆成功,页面将自动跳转,如页面长时间未跳转请点击按钮以刷新 <button onclick="tipsgo()">刷新</button>');
+			$("#tips").html('登陆中,页面将自动跳转,如页面长时间未跳转请点击按钮以刷新 <button onclick="tipsgo()">刷新</button>');
 		}
 	});
   
@@ -51,7 +51,7 @@ function tipsgo(){
 					"openid" : openId
 				}, function(data) {
 					qname = data.nickname;
-					qavatar = data.figureurl_qq_1;
+					qavatar = data.figureurl_qq_2;
 				})	
 	 		
 	 			var other = {"qid":openId,"qtoken":accessToken,"qname":qname,"qavatar":qavatar};
