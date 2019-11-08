@@ -1,10 +1,12 @@
 package cn.newtcl.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.newtcl.entity.NewReturn;
 import cn.newtcl.entity.Orderline;
 import cn.newtcl.entity.Orders;
+import cn.newtcl.entity.subDish;
 
 public interface OrderlineServie {
 
@@ -37,5 +39,8 @@ public interface OrderlineServie {
 	
 	//订单完成度查询
 	public int completionDegree(Orderline line);
+	
+	//员工工作情况分析 
+	public List<subDish> getStaffAnalysis(Integer id);
 	
 }

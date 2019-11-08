@@ -22,6 +22,7 @@ import cn.newtcl.entity.Orders;
 import cn.newtcl.entity.Type;
 import cn.newtcl.entity.TypeAndGoods;
 import cn.newtcl.entity.User;
+import cn.newtcl.entity.subDish;
 import cn.newtcl.service.impl.ImGoodsService;
 import cn.newtcl.service.impl.ImOrderService;
 import cn.newtcl.service.impl.ImOrderlineService;
@@ -399,8 +400,12 @@ public class SupporterController {
 				return null;
 			}
 	}
-
-
+	
+	@RequestMapping("/getstaffanalysis")
+	@ResponseBody
+	public List<subDish> getStaffAnalysis(Integer id){
+		return imOrderlineService.getStaffAnalysis(id);
+	}
 	
 	
 	

@@ -30,7 +30,7 @@
        	border-right: #cccccc 1px solid;
        	background: rgba(0,0,0,0.8);
     }
-  
+
     .menuType{
     	height: 10%;
     	text-align: center;
@@ -331,10 +331,11 @@
 	
 	#staff_top{
 		width: 100%;
-		height: 40%;
+		height: 35%;
 		border: none;
+		border-bottom: 1px solid rgba(0,0,0,0.3);
 	}
-	
+
 	#staff_top div{
 		width:auto;
 		height:10%;
@@ -346,15 +347,20 @@
 		height:100%;
 		margin-left: 7%;
 		margin-top: 1%;
+		border-color: #33ccff;
 	}
-	
-	#staffbox{
+
+	#staffbox{	
 		overflow-x:hidden;
 		margin-left: 7%;
 		margin-top: 3%;
 		color:gray;
 		text-align:center;
-		background:rgba(0,0,0,0.2);
+		border:1px solid rgba(0,0,0,0.2);
+		border-top:1px solid white;	
+		border-bottom: 1px solid white;
+		border-radius:8px;
+		background:rgba(0,0,0,0);
 		
 		/*		文字不可选中*/
 		-webkit-touch-callout: none; /* iOS Safari */
@@ -373,18 +379,18 @@
 	}
 	
 	#staffbox li{
-		width: 99%;
+		width: 98%;
 		margin-left:1%;
-		margin-bottom:8px;
+		margin-bottom:3px;
 		border-bottom:1px solid white;
 		font-weight:800;
 		color:black;
-		background: rgba(255,255,255,0.5);
+		background: rgba(0,0,0,0.1);
 		cursor: pointer;
 	}
-	
+
 	#staffbox li:HOVER{
-		background: white;
+		background: rgba(0,0,0,0.2);
 	}
 
 	#staffbox li div{
@@ -396,7 +402,9 @@
 	
 	#staff_bottom{
 		width: 100%;
-		height: 60%;
+		height: 65%;
+		background:white;
+		z-index: 10;
 	}
 	
 	#orders{
@@ -471,7 +479,7 @@
     <div id='staff'>
     	<div id="staff_top">
     		<div>
-	    		<input type="text" value="" id="seletestaff" onkeyup="goseletestaff()">
+	    		<input type="text" value="" id="seletestaff" onkeyup="goseletestaff()" placeholder="   搜索">
 	    	</div>
 	    	<div id="staffbox">暂无员工信息!</div>
     	</div>
@@ -1417,7 +1425,7 @@
 		  				}
 		  				str+="</li>";
 			}
-		}
+		} 
 		str += "</ul>";
 		$("#staffbox").html(str);
 		
@@ -1557,8 +1565,8 @@
   		
   		$("#staffbox").css({
   			"width":windowWidth*0.725+"px",
-  			"height":windowHeight*0.32+"px",
-  			"line-height":windowHeight*0.32+"px",
+  			"height":windowHeight*0.28+"px",
+  			"line-height":windowHeight*0.28+"px",
   			"font-size":windowHeight*0.04+"px"
   		});
   		

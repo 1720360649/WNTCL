@@ -22,5 +22,7 @@ public interface OrderlineMapper {
 	public int edit(Orderline line);
 	
 	public int completionDegree(Orderline line);
+	
+	public List<subDish> getStaffAnalysis(Integer id);
 		
 }

@@ -165,5 +165,14 @@ public class ImOrderlineService implements OrderlineServie{
 		return orderlineMapper.completionDegree(line);
 	}
 
+	@Override
+	public List<subDish> getStaffAnalysis(Integer id) {
+		if(id == null || id == 0){
+			return null;
+		}
+	
+		return orderlineMapper.getStaffAnalysis(id);
+	}
+
 	
 }

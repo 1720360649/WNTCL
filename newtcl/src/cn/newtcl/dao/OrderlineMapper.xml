@@ -121,4 +121,16 @@
 	and orderline.deliverystatus = 0
  </select>
  
+ <select id="getStaffAnalysis" parameterType="java.lang.Integer" resultType="subDishMap">
+ 	SELECT * FROM (
+		select sum(count*price) as price,staff_id,`name` from `orderline`,orders,`user`
+		where orderline.order_id = orders.id
+		and orderline.staff_id = `user`.id
+		and (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[<=]]> date(time))
+		and orders.manager_id = #{id} 
+		GROUP BY staff_id
+	) as `onetable`
+	ORDER BY price DESC
+ </select>
+ 
 </mapper>
