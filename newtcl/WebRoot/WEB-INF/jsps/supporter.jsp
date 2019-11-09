@@ -407,6 +407,14 @@
 		z-index: 10;
 	}
 	
+	#staff_all{
+		color:gray;
+	}
+	
+	#staff_one{
+		display: none;
+	}
+	
 	#orders{
 		height: 100%;
     	width: 85%;
@@ -484,7 +492,8 @@
 	    	<div id="staffbox">暂无员工信息!</div>
     	</div>
     	<div id="staff_bottom">
-   
+   			<div id="staff_all"><div id="staff_all_view"></div></div>
+   			<div id="staff_one"><div id="staff_one_view"></div></div>
     	</div>
     </div>
     <div id='orders'>
@@ -1402,14 +1411,56 @@
   	
   	/**************************************员工数据总分析*****************************************/
 	function staffanalysis(){
+			
 		$.post("<%=path%>/supporter/getstaffanalysis.do",{},function(data){
 		  		if(data == null ){
-		  			alert("无");
+		  			$("#staff_all").html("暂无数据!");
 		  		}else {
-					alert(data[0].price);
-		  		}
+		  		
+		  		var staffallChart = echarts.init(document.getElementById('staff_all_view'));
+		  
+		  			staffallChart.setOption({
+				        title: {
+				           text: '七日员工订单完成数',
+					       x:'center'
+				        },
+				       tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+				        legend: {
+					        orient: 'vertical',
+					        left: 'left',
+					        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
+					    },
+				       series : [
+					        {
+					            name: '',
+					            type: 'pie',
+					            radius : '55%',
+					            center: ['50%', '60%'],
+					            data:[
+					                {value:335, name:'直接访问'},
+					                {value:310, name:'邮件营销'},
+					                {value:234, name:'联盟广告'},
+					                {value:135, name:'视频广告'},
+					                {value:1548, name:'搜索引擎'}
+					            ],
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+				   });
+		  	}
 	  	});
 	}
+	
+	
 
 	/****************************************员工查询*************************************/
 	//键盘检测
@@ -1608,6 +1659,23 @@
   		$("#staffbox .staffphone").css({
   			"width":windowWidth*0.2+"px",
   			"height":windowHeight*0.05+"px"
+  		});
+  		
+  		$("#staff_all").css({
+  			"height":windowHeight*0.65+"px",
+  			"width":windowHeight*0.85+"px",
+  			"line-height":windowHeight*0.65+"px",
+  			"font-size":windowHeight*0.02+"px",
+  		});
+  		
+  		$("#staff_all_view").css({
+  			"height":windowHeight*0.65+"px",
+  			"width":windowHeight*0.85+"px",
+  		});
+  		
+  		$("#staff_one").css({
+  			"height":windowHeight*0.65+"px",
+  			"width":windowHeight*0.85+"px",
   		});
   	
 	}

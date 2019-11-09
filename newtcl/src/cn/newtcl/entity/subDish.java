@@ -23,7 +23,7 @@ public class subDish extends Goods{
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-
+	
 	public Integer getTable() {
 		return table;
 	}

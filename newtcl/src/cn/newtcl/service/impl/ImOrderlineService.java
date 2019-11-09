@@ -1,5 +1,6 @@
 package cn.newtcl.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -170,16 +171,9 @@ public class ImOrderlineService implements OrderlineServie{
 		if(id == null || id == 0){
 			return null;
 		}
-	
-		List<subDish> list = orderlineMapper.getStaffAnalysis(id);
+		List<subDish> list = new ArrayList<subDish>();
+		list = orderlineMapper.getStaffAnalysis(id);
 		
-		System.out.println(list.size());
-		
-		for(int i = 0 ;i<list.size();i++){
-			subDish temp = list.get(i);
-			temp.setNumber(list.size());
-			list.add(i, temp);
-		}	
 		return list;
 	}
 

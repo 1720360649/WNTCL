@@ -123,7 +123,7 @@
 
  <select id="getStaffAnalysis" parameterType="java.lang.Integer" resultMap="subDishMap">
  	SELECT * FROM (
-		select sum(count*price) as price,staff_id,`name` from `orderline`,orders,`user`
+		select sum(count) as price,staff_id,`name` from `orderline`,orders,`user`
 		where orderline.order_id = orders.id
 		and orderline.staff_id = `user`.id
 		and (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[<=]]> date(time))
