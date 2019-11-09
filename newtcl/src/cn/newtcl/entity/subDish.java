@@ -2,19 +2,11 @@ package cn.newtcl.entity;
 
 public class subDish extends Goods{
 	
-	private Integer number = null ;
+	private Integer number = null;
 	private String flavor = null;
 	private Double price = null;
 	private Integer table = null;
 	private Integer orderid = null;
-
-	public int getNumber() {
-		return number;
-	}
-
-	public void setNumber(int number) {
-		this.number = number;
-	}
 	
 	public String getFlavor() {
 		return flavor;
@@ -46,6 +38,14 @@ public class subDish extends Goods{
 
 	public void setOrderid(Integer orderid) {
 		this.orderid = orderid;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+	
+	public void setNumber(Integer number) {
+		this.number = number;
 	}
 	
 	

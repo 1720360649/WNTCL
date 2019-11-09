@@ -171,7 +171,16 @@ public class ImOrderlineService implements OrderlineServie{
 			return null;
 		}
 	
-		return orderlineMapper.getStaffAnalysis(id);
+		List<subDish> list = orderlineMapper.getStaffAnalysis(id);
+		
+		System.out.println(list.size());
+		
+		for(int i = 0 ;i<list.size();i++){
+			subDish temp = list.get(i);
+			temp.setNumber(list.size());
+			list.add(i, temp);
+		}	
+		return list;
 	}
 
 	
