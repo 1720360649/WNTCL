@@ -403,12 +403,11 @@ public class SupporterController {
 	
 	@RequestMapping("/getstaffanalysis")
 	@ResponseBody
-	public List<subDish> getStaffAnalysis(){
-	
-		return imOrderlineService.getStaffAnalysis(1);
-		
+	public List<subDish> getStaffAnalysis(Integer id){
+		return imOrderlineService.getStaffAnalysis(id);
 	}
-
+	
+	
 	
 	/***********************************通用商家id获取***************************************/
 	private Integer GetmanageId(){

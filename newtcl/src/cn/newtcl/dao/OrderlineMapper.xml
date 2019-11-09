@@ -30,7 +30,7 @@
   	<result column="user_id" property="userid" />
   </resultMap>
   
-
+ 
  <insert id="add"  useGeneratedKeys="true" keyProperty="id">
  	insert into `orderline` (`goods_id`,`order_id`,`count`,`makestatus`,`deliverystatus`,`price`)
  	<foreach close=")" collection="list" item="item" index="index" open="(" separator="union">   
@@ -120,8 +120,8 @@
 	and orderline.makestatus = 0
 	and orderline.deliverystatus = 0
  </select>
-
- <select id="getStaffAnalysis" parameterType="java.lang.Integer" resultMap="subDishMap">
+ 
+ <select id="getStaffAnalysis" parameterType="java.lang.Integer" resultType="subDishMap">
  	SELECT * FROM (
 		select sum(count*price) as price,staff_id,`name` from `orderline`,orders,`user`
 		where orderline.order_id = orders.id

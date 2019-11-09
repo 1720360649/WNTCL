@@ -579,9 +579,6 @@
   		
   		//员工信息加载
 		staffload();
-
-		//员工总分析加载
-		staffanalysis();
   	}
   	
   	/*****************************************经营信息加载*************************************/
@@ -879,6 +876,36 @@
 	  		});
   	}
   	
+  	/**************************************员工信息加载****************************************/	
+	function staffload(){
+		$.post("<%=path%>/supporter/getstaff.do",{},function(data){
+		  		if("0" == data.code){
+		  			$("#staffbox").html("暂无员工信息!");
+		  		}else {
+		  			staffarr = data;
+		  			var str = "<ul>";
+		  			for(var i=0;i<data.length;i++){
+		  				str+="<li>";
+		  				str+="<div class='staffavatar'><img class='staffavatar' src='"+data[i].avatar+"'></div>";
+		  				str+="<div class='staffid'>"+data[i].id+"</div>";
+		  				str+="<div class='staffname'>"+data[i].name+"</div>";
+		  				if(data[i].phone == null){
+		  					str+="<div class='staffphone'>暂无电话</div>";
+		  					staffstr[i] = ""+data[i].id+data[i].name+"暂无电话";
+		  				}else{	
+		  					str+="<div class='staffphone'>"+data[i].phone+"</div>";
+		  					staffstr[i] = ""+data[i].id+data[i].name+data[i].phone;
+		  				}
+		  				str+="</li>";
+		  			}
+					str+="</ul>";
+					staffarrstr = str;
+					$("#staffbox").html(str);
+					windowauto();
+		  		}
+	  		});
+	}
+
   	/*************************************主标签切换**************************************/
  	 function gottype(obj,str){
       	$(".menuType").removeClass("menuActive");	
@@ -1369,48 +1396,8 @@
 				}
 	  	});
 	}
-  	
-  /**************************************员工信息加载****************************************/	
-	function staffload(){
-		$.post("<%=path%>/supporter/getstaff.do",{},function(data){
-		  		if("0" == data.code){
-		  			$("#staffbox").html("暂无员工信息!");
-		  		}else {
-		  			staffarr = data;
-		  			var str = "<ul>";
-		  			for(var i=0;i<data.length;i++){
-		  				str+="<li>";
-		  				str+="<div class='staffavatar'><img class='staffavatar' src='"+data[i].avatar+"'></div>";
-		  				str+="<div class='staffid'>"+data[i].id+"</div>";
-		  				str+="<div class='staffname'>"+data[i].name+"</div>";
-		  				if(data[i].phone == null){
-		  					str+="<div class='staffphone'>暂无电话</div>";
-		  					staffstr[i] = ""+data[i].id+data[i].name+"暂无电话";
-		  				}else{	
-		  					str+="<div class='staffphone'>"+data[i].phone+"</div>";
-		  					staffstr[i] = ""+data[i].id+data[i].name+data[i].phone;
-		  				}
-		  				str+="</li>";
-		  			}
-					str+="</ul>";
-					staffarrstr = str;
-					$("#staffbox").html(str);
-					windowauto();
-		  		}
-	  	});
-	}
-  	
-  	/**************************************员工数据总分析*****************************************/
-	function staffanalysis(){
-		$.post("<%=path%>/supporter/getstaffanalysis.do",{},function(data){
-		  		if(data == null ){
-		  			alert("无");
-		  		}else {
-					alert(data[0].price);
-		  		}
-	  	});
-	}
-
+  	  	
+  
 	/****************************************员工查询*************************************/
 	//键盘检测
 	//查询处理
@@ -1444,7 +1431,6 @@
 		
 		windowauto();
 	}
-	
 	
   	//*************************************自适应***********************************/
   	function windowauto(){
