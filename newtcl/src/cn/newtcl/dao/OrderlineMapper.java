@@ -24,5 +24,6 @@ public interface OrderlineMapper {
 	public int completionDegree(Orderline line);
 	
 	public List<subDish> getStaffAnalysis(Integer id);
-		
+
+	public List<subDish> getStaffAnalysisOne(@Param("id") Integer id,@Param("staffid") Integer staffid);
 }

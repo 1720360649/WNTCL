@@ -75,7 +75,7 @@ public class OrderController {
 			order.setDescribable("未完善");
 			order.setUserId(((User)session.getAttribute("wntcluser")).getId());
 			
-			// 商户模块未完善暂时固定
+			// 商户id
 			order.setManagerId((Integer)session.getAttribute("managerid"));
 			
 			

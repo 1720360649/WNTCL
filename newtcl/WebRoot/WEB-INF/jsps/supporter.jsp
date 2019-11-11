@@ -1,508 +1,529 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@include file="../../header/util.jsp" %>	
+<%@include file="../../header/util.jsp"%>
 <%
  path = request.getContextPath();
  basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
 <html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>餐厅后台</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!--
+<head>
+<base href="<%=basePath%>">
+
+<title>餐厅后台</title>
+
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="This is my page">
+<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
+
+<style type="text/css">
+#aside {
+	position: fixed;
+	left: 0;
+	height: 100%;
+	width: 15%;
+	color: white;
+	border-right: #cccccc 1px solid;
+	background: rgba(0, 0, 0, 0.8);
+}
+
+.menuType {
+	height: 10%;
+	text-align: center;
+	cursor: pointer;
+	/*		文字不可选中*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	unselectable
+	="on"
+}
+
+.menuActive {
+	color: #5bc0de;
+	background: white;
+}
+
+#essential {
+	height: 100%;
+	width: 85%;
+	margin-left: 15%;
+}
+
+#essential_top {
+	overflow: hidden;
+	height: 25%;
+	width: 100%;
+	border: none;
+	border-bottom: 1px solid gray;
+}
+
+#essential_top_on {
+	height: 65%;
+	width: 100%;
+	border: none;
+	margin-top: 0px;
+}
+
+#essential_top_on_img {
+	float: left;
+	margin-left: 20px;
+	display: block;
+}
+
+#essential_top_on_txt {
+	float: left;
+	margin-left: 20px;
+}
+
+#essential_top_on_meassage {
+	float: left;
+	margin-left: 20px;
+}
+
+#essential_top_on_meassage li {
+	float: left;
+	width: 50%;
+}
+
+#essential_bottom {
+	overflow: hidden;
+	height: 72%;
+	width: 100%;
+}
+
+#viewbox {
+	text-align: center;
+	color: rgba(0, 0, 0, 0.5);
+	/*		文字不可选中*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	unselectable
+	="on"
+}
+
+#shop {
+	height: 100%;
+	width: 85%;
+	margin-left: 15%;
+	display: none;
+}
+
+#shop_left {
+	position: fixed;
+	overflow-x: hidden;
+	left: 15%;
+	height: 100%;
+	width: 13%;
+	background: gray;
+}
+
+#shop_aside {
+	float: left;
+}
+
+#shop_aside div {
+	height: 6%;
+	text-align: center;
+	cursor: pointer;
+	color: white;
+	border: none;
+	margin-top: 5px;
+	border-top: 0.5px solid white;
+	border-bottom: 0.5px solid white;
+	/*		文字不可选中*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	unselectable
+	="on"
+}
+
+#shop_aside .typeActive {
+	background: white;
+	color: black;
+}
+
+#shop_aside div:HOVER {
+	background: white;
+	color: black;
+}
+
+#shop_aside input {
+	height: 6%;
+	text-align: center;
+}
+
+#shop_aside .deltype {
+	position: absolute;
+	right: 1px;
+	margin-top: -20px;
+	background: #56A4EB;
+	color: red;
+	border: none;
+	display: none;
+	/*		文字不可选中*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	unselectable
+	="on"
+}
+
+#shop_aside .deltype:HOVER {
+	background: red;
+	color: white;
+}
+
+#shop_right {
+	position: fixed;
+	overflow-x: hidden;
+	right: 0;
+	height: 100%;
+	width: 72%;
+}
+
+.typebox {
+	display: none;
+}
+
+#shop_right div li {
+	float: left;
+	border: 1px solid green;
+}
+
+#shop_right div li img {
+	display: block;
+}
+
+#shop_right div li div {
+	display: block;
+	margin-left: 2%;
+	margin-bottom: 5px;
+}
+
+.goodsname {
+	border: none;
+	margin-left: 2%;
+}
+
+#shop_right .addgood {
+	text-align: center;
+	cursor: pointer;
+	color: white;
+	background: gray;
+	border: 1px solid white;
+	/*		文字不可选中*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	unselectable
+	="on"
+}
+
+#shop_right .addgood:HOVER {
+	color: green;
+	background: white;
+	border: 1px solid gray;
+}
+
+.addimginput {
+	display: none;
+}
+
+#shop_right .goodseditbut {
+	float: left;
+	text-align: center;
+	border-radius: 40px 40px 0px 0px;
+	color: white;
+	background: green;
+	cursor: pointer;
+}
+
+#shop_right .goodseditbutup {
+	float: left;
+	text-align: center;
+	border-radius: 40px 40px 0px 0px;
+	color: white;
+	background: green;
+}
+
+#shop_right .goodseditbutdown {
+	color: white;
+	background: #EE7621;
+}
+
+#shop_right .goodsaddover {
+	float: left;
+	text-align: center;
+	border-radius: 40px 40px 0px 0px;
+	color: black;
+	background: gray;
+	cursor: pointer;
+}
+
+#shop_right .goodsaddover:HOVER {
+	color: white;
+	background: red;
+}
+
+#shop_right div li div input {
+	border: none;
+	text-align: center;
+	background: rgba(0, 0, 0, 0.05);
+}
+
+#staff {
+	height: 100%;
+	width: 85%;
+	margin-left: 15%;
+	display: none;
+}
+
+#staff_top {
+	width: 100%;
+	height: 35%;
+	border: none;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#staff_top div {
+	width: auto;
+	height: 10%;
+}
+
+#seletestaff {
+	float: left;
+	width: 85.4%;
+	height: 100%;
+	margin-left: 7%;
+	margin-top: 1%;
+	border-color: #33ccff;
+}
+
+#staffbox {
+	overflow-x: hidden;
+	margin-left: 7%;
+	margin-top: 3%;
+	color: gray;
+	text-align: center;
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-top: 1px solid white;
+	border-bottom: 1px solid white;
+	border-radius: 8px;
+	background: rgba(0, 0, 0, 0);
+	/*		文字不可选中*/
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none;
+	unselectable
+	="on"
+}
+
+#staffbox li {
+	width: 98%;
+	margin-left: 1%;
+	margin-bottom: 3px;
+	border-bottom: 1px solid white;
+	font-weight: 800;
+	color: black;
+	background: rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+
+#staffbox li div {
+	float: left;
+}
+
+#staffbox .staffavatar {
 	
-	<style type="text/css">
-	#aside{
-       	position: fixed;
-       	left:0;
-       	height: 100%;
-       	width: 15%;
-       	color:white;
-       	border-right: #cccccc 1px solid;
-       	background: rgba(0,0,0,0.8);
-    }
+}
 
-    .menuType{
-    	height: 10%;
-    	text-align: center;
-    	cursor:pointer;
-    	
-    	/*		文字不可选中*/
-		-webkit-touch-callout: none; /* iOS Safari */
+#staff_bottom {
+	width: 100%;
+	height: 65%;
+	background: white;
+	z-index: 10;
+}
 
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
+#staff_all {
+	color: gray;
+}
 
-		-khtml-user-select: none; /* Konqueror */
+#staff_one {
+	display: none;
+}
 
-		-moz-user-select: none; /* Firefox */
+#orders {
+	height: 100%;
+	width: 85%;
+	margin-left: 15%;
+	display: none;
+}
+-webkit-user-select
 
-		-ms-user-select: none; /* Internet Explorer/Edge */
 
-		user-select: none; 
-		
-		unselectable="on"
-    }
-    
-    .menuActive{
-       	color: #5bc0de;
-       	background: white;
-    }
-    
-    #essential{
-    	height: 100%;
-    	width: 85%;
-    	margin-left: 15%;
-    }
-  
-    #essential_top{
-    	overflow:hidden;
-    	height: 25%;
-    	width: 100%;
-    	border:none;
-    	border-bottom:1px solid gray;
-    }
-    
-    #essential_top_on{
-    	height: 65%;
-    	width: 100%;
-    	border:none;
-    	margin-top:0px;
-    }
-   
-    #essential_top_on_img{
-    	float:left;
-    	margin-left:20px;
-    	display: block;
-    }
-   
-    #essential_top_on_txt{
-    	float:left;
-    	margin-left: 20px;
-    }
-    
-    #essential_top_on_meassage{
-    	float:left;
-    	margin-left: 20px;
-    }
-    
-    #essential_top_on_meassage li{
-    	float: left;
-    	width:50%;
-    }
+:
 
-	#essential_bottom{
-		overflow:hidden;
-		height: 72%;
-    	width: 100%;
-	}
-	
-	#viewbox{
-		text-align:center;
-		color:rgba(0,0,0,0.5);
-	
-		/*		文字不可选中*/
-		-webkit-touch-callout: none; /* iOS Safari */
-
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
-
-		-khtml-user-select: none; /* Konqueror */
-
-		-moz-user-select: none; /* Firefox */
-
-		-ms-user-select: none; /* Internet Explorer/Edge */
-
-		user-select: none; 
-		
-		unselectable="on"
-	}  
-	
-	#shop{
-		height: 100%;
-    	width: 85%;
-    	margin-left: 15%;
-    	display: none;
-	}  
-	
-	#shop_left{
-		position:fixed;
-		overflow-x:hidden;
-       	left:15%;
-       	height: 100%;
-       	width: 13%;
-       	background:gray;
-	}
-
-	#shop_aside{
-		float: left;
-	}
-	
-	#shop_aside div{
-		height: 6%;
-    	text-align: center;
-    	cursor:pointer;
-    	color:white;
-    	border:none;
-    	margin-top:5px;
-    	border-top:0.5px solid white;
-    	border-bottom:0.5px solid white;
-    	
-    	/*		文字不可选中*/
-		-webkit-touch-callout: none; /* iOS Safari */
-
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
-
-		-khtml-user-select: none; /* Konqueror */
-
-		-moz-user-select: none; /* Firefox */
-
-		-ms-user-select: none; /* Internet Explorer/Edge */
-
-		user-select: none; 
-		
-		unselectable="on"
-	}
-	
-	#shop_aside .typeActive{
-		background: white;
-		color: black;
-	}
-	
-	#shop_aside div:HOVER{
-		background: white;
-		color: black;
-	}
-	
-	#shop_aside input{
-		height: 6%;
-		text-align: center;
-	}
-	
-	#shop_aside .deltype{
-		position: absolute;
-		right:1px;
-		margin-top:-20px;
-		background: #56A4EB;
-		color: red;
-		border:none;
-		display: none;
-		
-		/*		文字不可选中*/
-		-webkit-touch-callout: none; /* iOS Safari */
-
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
-
-		-khtml-user-select: none; /* Konqueror */
-
-		-moz-user-select: none; /* Firefox */
-
-		-ms-user-select: none; /* Internet Explorer/Edge */
-
-		user-select: none; 
-		
-		unselectable="on"
-	}
-	#shop_aside .deltype:HOVER{
-		background: red;
-		color: white;
-	}
-		
-	#shop_right{
-		position:fixed;
-		overflow-x:hidden;
-		right:0;
-		height: 100%;
-		width:72%;
-	}
-	
-	.typebox{
-		display: none;
-	}
-	
-	#shop_right div li{
-		float:left;
-		border:1px solid green;
-	}
-	
-	#shop_right div li img{
-		display: block;
-	}
-	
-	#shop_right div li div{
-		display: block;
-		margin-left: 2%;
-		margin-bottom:5px;
-	}
-
-	.goodsname{
-		border: none;
-		margin-left: 2%;
-	}
-	
-	#shop_right .addgood{
-		text-align: center;
-		cursor: pointer;
-		color: white;
-		background: gray;
-		border: 1px solid white;
-		
-		/*		文字不可选中*/
-		-webkit-touch-callout: none; /* iOS Safari */
-
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
-
-		-khtml-user-select: none; /* Konqueror */
-
-		-moz-user-select: none; /* Firefox */
-
-		-ms-user-select: none; /* Internet Explorer/Edge */
-
-		user-select: none; 
-		
-		unselectable="on"
-	}
-	
-	#shop_right .addgood:HOVER{
-		color: green;
-		background: white;
-		border: 1px solid gray;
-	}
-	
-	.addimginput{
-		display: none;
-	}
-	
-	#shop_right .goodseditbut{
-		float:left;
-		text-align: center;
-		border-radius:40px 40px 0px 0px;
-		color:white;
-		background: green;
-		cursor: pointer;
-	}
-
-	#shop_right .goodseditbutup{
-		float:left;
-		text-align: center;
-		border-radius:40px 40px 0px 0px;
-		color:white;
-		background: green;
-	}
-	
-	#shop_right .goodseditbutdown{
-		color:white;
-		background: #EE7621;
-	}
-
-	#shop_right .goodsaddover{
-		float:left;
-		text-align: center;
-		border-radius:40px 40px 0px 0px;
-		color:black;
-		background: gray;
-		cursor: pointer;
-	}
-	
-	#shop_right .goodsaddover:HOVER{
-		color:white;
-		background: red;
-	}
-
-	#shop_right div li div input{
-		border: none;
-		text-align: center;
-		background: rgba(0,0,0,0.05);
-	}
-
-	#staff{
-		height: 100%;
-    	width: 85%;
-    	margin-left: 15%;
-		display: none;
-	}
-	
-	#staff_top{
-		width: 100%;
-		height: 35%;
-		border: none;
-		border-bottom: 1px solid rgba(0,0,0,0.3);
-	}
-
-	#staff_top div{
-		width:auto;
-		height:10%;
-	}
-	
-	#seletestaff{
-		float:left;
-		width: 85.4%;
-		height:100%;
-		margin-left: 7%;
-		margin-top: 1%;
-		border-color: #33ccff;
-	}
-
-	#staffbox{	
-		overflow-x:hidden;
-		margin-left: 7%;
-		margin-top: 3%;
-		color:gray;
-		text-align:center;
-		border:1px solid rgba(0,0,0,0.2);
-		border-top:1px solid white;	
-		border-bottom: 1px solid white;
-		border-radius:8px;
-		background:rgba(0,0,0,0);
-		
-		/*		文字不可选中*/
-		-webkit-touch-callout: none; /* iOS Safari */
-
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
-
-		-khtml-user-select: none; /* Konqueror */
-
-		-moz-user-select: none; /* Firefox */
-
-		-ms-user-select: none; /* Internet Explorer/Edge */
-
-		user-select: none; 
-		
-		unselectable="on"
-	}
-	
-	#staffbox li{
-		width: 98%;
-		margin-left:1%;
-		margin-bottom:3px;
-		border-bottom:1px solid white;
-		font-weight:800;
-		color:black;
-		background: rgba(0,0,0,0.1);
-		cursor: pointer;
-	}
-
-	#staffbox li:HOVER{
-		background: rgba(0,0,0,0.2);
-	}
-
-	#staffbox li div{
-		float: left;
-	}
-	
-	#staffbox .staffavatar{
-	}
-	
-	#staff_bottom{
-		width: 100%;
-		height: 65%;
-		background:white;
-		z-index: 10;
-	}
-	
-	#staff_all{
-		color:gray;
-	}
-	
-	#staff_one{
-		display: none;
-	}
-	
-	#orders{
-		height: 100%;
-    	width: 85%;
-    	margin-left: 15%;
-		display: none;
-	}
-
-		-webkit-user-select: none; /* Chrome/Safari/Opera */
-
-		-khtml-user-select: none; /* Konqueror */
-
-		-moz-user-select: none; /* Firefox */
-
-		-ms-user-select: none; /* Internet Explorer/Edge */
-
-		user-select: none; 
-		
-		unselectable="on"
-	
-	}
-	
-	</style>
-
-  </head>
-  
-  <body>
  
-  	<aside id="aside">
-	        <div class="menuType menuActive" onclick="gottype(this,'essential')">基本信息</div>
-	        <div class="menuType" onclick="gottype(this,'shop')">我的店铺</div>
-	        <div class="menuType" onclick="gottype(this,'staff')">我的员工</div>
-	        <div class="menuType" onclick="gottype(this,'orders')">用户订单</div>
-    </aside>
-   
-    <div id='essential'>
-    	<div id="essential_top">
-    		<div id="essential_top_on">
-    			<img id="essential_top_on_img" alt="" src="<%=path %>/img/avtar.jpg">
-    			<div id="essential_top_on_txt">店铺名</div>
-    			<div id="essential_top_on_meassage">
-    				<ul>
-    					<li>&nbsp;电话:</li>
-    					<li>邮箱:</li>
-    					<li>QQ:</li>
-    					<li>支付宝:</li>
-    				</ul>
-    			</div>
-    		</div>
-    	</div>
-    	<div id="essential_bottom"><div id="viewbox"></div></div>
-    </div>
-    <div id="shop">
-    	<div id="shop_left">
-    		<aside id="shop_aside">
-		        <div class="type typeActive" onclick="ontype(this,'#t1')" oncontextmenu="typesmenu(this)">加载中</div>
-		        <div class="addtypes" style="border:2px dashed white;" onclick="onaddtypes()">+</div>
-	   		</aside>
-    	</div>	
-    	<div id="shop_right">
-    		<div id="t1">
-    			<ul>
-	    			<li>
+
+none
+
+
+; /* Chrome/Safari/Opera */
+-khtml-user-select
+
+
+:
+
+ 
+
+none
+
+
+; /* Konqueror */
+-moz-user-select
+
+
+:
+
+ 
+
+none
+
+
+; /* Firefox */
+-ms-user-select
+
+
+:
+
+ 
+
+none
+
+
+; /* Internet Explorer/Edge */
+user-select
+
+
+:
+
+ 
+
+none
+
+
+;
+unselectable
+
+
+="
+on
+"
+
+
+	
+	
+
+}
+</style>
+
+</head>
+
+<body>
+
+	<aside id="aside">
+		<div class="menuType menuActive" onclick="gottype(this,'essential')">基本信息</div>
+		<div class="menuType" onclick="gottype(this,'shop')">我的店铺</div>
+		<div class="menuType" onclick="gottype(this,'staff')">我的员工</div>
+		<div class="menuType" onclick="gottype(this,'orders')">用户订单</div>
+	</aside>
+
+	<div id='essential'>
+		<div id="essential_top">
+			<div id="essential_top_on">
+				<img id="essential_top_on_img" alt="" src="<%=path %>/img/avtar.jpg">
+				<div id="essential_top_on_txt">店铺名</div>
+				<div id="essential_top_on_meassage">
+					<ul>
+						<li>&nbsp;电话:</li>
+						<li>邮箱:</li>
+						<li>QQ:</li>
+						<li>支付宝:</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div id="essential_bottom">
+			<div id="viewbox"></div>
+		</div>
+	</div>
+	<div id="shop">
+		<div id="shop_left">
+			<aside id="shop_aside">
+				<div class="type typeActive" onclick="ontype(this,'#t1')"
+					oncontextmenu="typesmenu(this)">加载中</div>
+				<div class="addtypes" style="border:2px dashed white;"
+					onclick="onaddtypes()">+</div>
+			</aside>
+		</div>
+		<div id="shop_right">
+			<div id="t1">
+				<ul>
+					<li>
 						<div style="text-align: center;line-height: 25%;">加载中</div>
-					</li>	
-    			</ul>
-    		</div>
-    	</div>
-    </div>
-    
-    <div id='staff'>
-    	<div id="staff_top">
-    		<div>
-	    		<input type="text" value="" id="seletestaff" onkeyup="goseletestaff()" placeholder="   搜索">
-	    	</div>
-	    	<div id="staffbox">暂无员工信息!</div>
-    	</div>
-    	<div id="staff_bottom">
-   			<div id="staff_all"><div id="staff_all_view"></div></div>
-   			<div id="staff_one"><div id="staff_one_view"></div></div>
-    	</div>
-    </div>
-    <div id='orders'>
-    	
-    </div>
-  
-  </body>
-  
-  <script type="text/javascript">
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div id='staff'>
+		<div id="staff_top">
+			<div>
+				<input type="text" value="" id="seletestaff"
+					onkeyup="goseletestaff()" placeholder="   搜索">
+			</div>
+			<div id="staffbox">暂无员工信息!</div>
+		</div>
+		<div id="staff_bottom">
+			<div id="staff_all">
+				<div id="staff_all_view"></div>
+			</div>
+			<div id="staff_one">
+				<div id="staff_one_view"></div>
+			</div>
+		</div>
+	</div>
+	<div id='orders'></div>
+
+</body>
+
+<script type="text/javascript">
   
 	//数据
 	var chartdata = null;
@@ -596,7 +617,8 @@
   	/*****************************************经营信息加载*************************************/
   	function echartsload(){
   		$.post("<%=path%>/supporter/businessanalysis.do",{},function(data){
-  			//数据存储数组
+  		
+  			//Y轴数据获取
   			var arr = new Array();
   			
 			if(data == null || data.length < 1){
@@ -1388,7 +1410,7 @@
 		  			staffarr = data;
 		  			var str = "<ul>";
 		  			for(var i=0;i<data.length;i++){
-		  				str+="<li>";
+		  				str+="<li onclick = \"staffanalysisone(this,"+data[i].id+",'"+data[i].name+"')\">";
 		  				str+="<div class='staffavatar'><img class='staffavatar' src='"+data[i].avatar+"'></div>";
 		  				str+="<div class='staffid'>"+data[i].id+"</div>";
 		  				str+="<div class='staffname'>"+data[i].name+"</div>";
@@ -1408,7 +1430,7 @@
 		  		}
 	  	});
 	}
-  	
+
   	/**************************************员工数据总分析*****************************************/
 	function staffanalysis(){
 			
@@ -1416,6 +1438,23 @@
 		  		if(data == null ){
 		  			$("#staff_all").html("暂无数据!");
 		  		}else {
+		  		
+		  		var namearr = new Array();
+		  		var datearr = new Array();
+		  		
+		  		for(var i=0;i<data.length;i++){
+		  			if(data[i].staffId == null){
+		  				if(data[i].number == null)
+		  					$("#staff_all").html("暂无数据!");
+		  				else{
+		  					namearr[i] = "未完成";
+		  					datearr[i] = {value:data[i].number,name:data[i].name};
+		  				}	
+		  			}else{
+		  				namearr[i] = data[i].name;
+		  				datearr[i] = {value:data[i].number,name:data[i].name};
+		  			}
+		  		}
 		  		
 		  		var staffallChart = echarts.init(document.getElementById('staff_all_view'));
 		  
@@ -1431,21 +1470,15 @@
 				        legend: {
 					        orient: 'vertical',
 					        left: 'left',
-					        data: ['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']
-					    },
+					        data: namearr
+					    },			
 				       series : [
 					        {
 					            name: '',
 					            type: 'pie',
 					            radius : '55%',
 					            center: ['50%', '60%'],
-					            data:[
-					                {value:335, name:'直接访问'},
-					                {value:310, name:'邮件营销'},
-					                {value:234, name:'联盟广告'},
-					                {value:135, name:'视频广告'},
-					                {value:1548, name:'搜索引擎'}
-					            ],
+					            data:datearr,
 					            itemStyle: {
 					                emphasis: {
 					                    shadowBlur: 10,
@@ -1459,11 +1492,303 @@
 		  	}
 	  	});
 	}
-	
-	
 
-	/****************************************员工查询*************************************/
-	//键盘检测
+	/****************************************单个员工数据分析**********************************/
+	function staffanalysisone(obj,id,onename){
+		//显示
+		$("#staff_all").css({
+			"display":"none"
+		});
+		$("#staff_one").css({
+			"display":"block"
+		});
+		
+		$("#staffbox li").css({
+			"background":"rgba(0,0,0,0.1)"
+		});
+		
+		$(obj).css({
+			"background":"rgba(0,0,0,0.2)"
+		});
+		
+		addEventHandler(document, "mouseup", document_MouseDown);
+			
+		$.post("<%=path%>/supporter/getstaffanalysisone.do",{staffid:id},function(data){
+			var namearr = new Array();
+			var dataarr = new Array();
+		
+		  	//Y轴数据获取
+  			var arr = new Array();
+  			
+			if(data == null || data.length < 1){
+				//初始化数组
+				for(var i=0;i<32;i++){
+					arr[i] = 0;
+				}
+			}else{
+				//初始化数组
+				for(var i=0;i<32;i++){
+					arr[i] = 0;
+				}
+				//数据覆盖
+				for(var i=0;i<data.length;i++){
+					var str = data[i].time;
+					var day = parseInt(str.substring(str.length-9,str.length-11));
+					arr[day] = data[i].number;
+				}
+			}
+		
+			//数据处理
+			if(nowday<7){
+					if(nowday == 6){
+						if((nowmonth-1)==2){
+							if(nowyear%4 == 0 && (nowyear%100 != 0 || nowyear%400 == 0)){
+								dataarr = [arr[29],arr[1],arr[2],
+									arr[3],arr[4],arr[5],arr[6]];
+									
+								namearr = [(nowmonth-1)+"/29",nowmonth+"/1",nowmonth+"/2",
+									nowmonth+"/3",nowmonth+"/4",nowmonth+"/5",nowmonth+"/6"];
+							}else{
+								dataarr = [arr[28],arr[1],arr[2],
+									arr[3],arr[4],arr[5],arr[6]];
+									
+								namearr = [(nowmonth-1)+"/28",nowmonth+"/1",nowmonth+"/2",
+									nowmonth+"/3",nowmonth+"/4",nowmonth+"/5",nowmonth+"/6"];
+							}
+						}else if((nowmonth-1) == 1 || (nowmonth-1) == 3 || (nowmonth-1) == 5
+						|| (nowmonth-1) == 7 || (nowmonth-1) == 8 || (nowmonth-1) == 10 
+						|| (nowmonth-1) == 12){
+							dataarr = [arr[31],arr[1],arr[2],
+								arr[3],arr[4],arr[5],arr[6]];
+								
+							namearr = [(nowmonth-1)+"/31",nowmonth+"/1",nowmonth+"/2",
+									nowmonth+"/3",nowmonth+"/4",nowmonth+"/5",nowmonth+"/6"];
+						}else{
+							dataarr = [arr[30],arr[1],arr[2],
+								arr[3],arr[4],arr[5],arr[6]];
+								
+							namearr = [(nowmonth-1)+"/30",nowmonth+"/1",nowmonth+"/2",
+									nowmonth+"/3",nowmonth+"/4",nowmonth+"/5",nowmonth+"/6"];
+						}
+					}else if(nowday == 5){
+						if((nowmonth-1)==2){
+							if(nowyear%4 == 0 && (nowyear%100 != 0 || nowyear%400 == 0)){
+								dataarr = [arr[28],arr[29],arr[1],
+									arr[2],arr[3],arr[4],arr[5]];
+									
+								namearr = [(nowmonth-1)+"/28",(nowmonth-1)+"/29",nowmonth+"/1",
+									nowmonth+"/2",nowmonth+"/3",nowmonth+"/4",nowmonth+"/5"];
+							}else{
+								dataarr = [arr[27],arr[28],arr[1],
+									arr[2],arr[3],arr[4],arr[5]];
+									
+								namearr = [(nowmonth-1)+"/27",(nowmonth-1)+"/28",nowmonth+"/1",
+									nowmonth+"/2",nowmonth+"/3",nowmonth+"/4",nowmonth+"/5"];
+							}
+						}else if((nowmonth-1) == 1 || (nowmonth-1) == 3 || (nowmonth-1) == 5
+						|| (nowmonth-1) == 7 || (nowmonth-1) == 8 || (nowmonth-1) == 10 
+						|| (nowmonth-1) == 12){
+							dataarr = [arr[30],arr[31],arr[1],
+									arr[2],arr[3],arr[4],arr[5]];
+									
+							namearr = [(nowmonth-1)+"/30",(nowmonth-1)+"/31",nowmonth+"/1",
+									nowmonth+"/2",nowmonth+"/3",nowmonth+"/4",nowmonth+"/5"];
+						}else{
+							dataarr = [arr[29],arr[30],arr[1],
+									arr[2],arr[3],arr[4],arr[5]];
+									
+							namearr = [(nowmonth-1)+"/29",(nowmonth-1)+"/30",nowmonth+"/1",
+									nowmonth+"/2",nowmonth+"/3",nowmonth+"/4",nowmonth+"/5"];
+						}
+					}else if(nowday == 4){
+						if((nowmonth-1)==2){
+							if(nowyear%4 == 0 && (nowyear%100 != 0 || nowyear%400 == 0)){
+								dataarr = [arr[27],arr[28],arr[29],
+									arr[1],arr[2],arr[3],arr[4]];
+									
+								namearr = [(nowmonth-1)+"/27",(nowmonth-1)+"/28",(nowmonth-1)+"/29",
+									nowmonth+"/1",nowmonth+"/2",nowmonth+"/3",nowmonth+"/4"];
+							}else{
+								dataarr = [arr[26],arr[27],arr[28],
+									arr[1],arr[2],arr[3],arr[4]];
+									
+								namearr = [(nowmonth-1)+"/26",(nowmonth-1)+"/27",(nowmonth-1)+"/28",
+									nowmonth+"/1",nowmonth+"/2",nowmonth+"/3",nowmonth+"/4"];
+							}
+						}else if((nowmonth-1) == 1 || (nowmonth-1) == 3 || (nowmonth-1) == 5
+						|| (nowmonth-1) == 7 || (nowmonth-1) == 8 || (nowmonth-1) == 10 
+						|| (nowmonth-1) == 12){
+							dataarr = [arr[29],arr[30],arr[31],
+									arr[1],arr[2],arr[3],arr[4]];
+									
+							namearr = [(nowmonth-1)+"/29",(nowmonth-1)+"/30",(nowmonth-1)+"/31",
+									nowmonth+"/1",nowmonth+"/2",nowmonth+"/3",nowmonth+"/4"];
+						}else{
+							dataarr = [arr[28],arr[29],arr[30],
+									arr[1],arr[2],arr[3],arr[4]];
+									
+							namearr = [(nowmonth-1)+"/28",(nowmonth-1)+"/29",(nowmonth-1)+"/30",
+									nowmonth+"/1",nowmonth+"/2",nowmonth+"/3",nowmonth+"/4"];
+						}
+					}else if(nowday == 3){
+						if((nowmonth-1)==2){
+							if(nowyear%4 == 0 && (nowyear%100 != 0 || nowyear%400 == 0)){
+								dataarr = [arr[26],arr[27],arr[28],
+									arr[29],arr[1],arr[2],arr[3]];
+									
+								namearr = [(nowmonth-1)+"/26",(nowmonth-1)+"/27",(nowmonth-1)+"/28",
+									(nowmonth-1)+"/29",nowmonth+"/1",nowmonth+"/2",nowmonth+"/3"];
+							}else{
+								dataarr = [arr[25],arr[26],arr[27],
+									arr[28],arr[1],arr[2],arr[3]];
+									
+								namearr = [(nowmonth-1)+"/25",(nowmonth-1)+"/26",(nowmonth-1)+"/27",
+									(nowmonth-1)+"/28",nowmonth+"/1",nowmonth+"/2",nowmonth+"/3"];
+							}
+						}else if((nowmonth-1) == 1 || (nowmonth-1) == 3 || (nowmonth-1) == 5
+						|| (nowmonth-1) == 7 || (nowmonth-1) == 8 || (nowmonth-1) == 10 
+						|| (nowmonth-1) == 12){
+							dataarr = [arr[28],arr[29],arr[30],
+									arr[31],arr[1],arr[2],arr[3]];
+									
+							namearr = [(nowmonth-1)+"/28",(nowmonth-1)+"/29",(nowmonth-1)+"/30",
+									(nowmonth-1)+"/31",nowmonth+"/1",nowmonth+"/2",nowmonth+"/3"];
+						}else{
+							dataarr = [arr[27],arr[28],arr[29],
+									arr[30],arr[1],arr[2],arr[3]];
+									
+							namearr = [(nowmonth-1)+"/27",(nowmonth-1)+"/28",(nowmonth-1)+"/29",
+									(nowmonth-1)+"/30",nowmonth+"/1",nowmonth+"/2",nowmonth+"/3"];
+						}
+					}else if(nowday == 2){
+						if((nowmonth-1)==2){
+							if(nowyear%4 == 0 && (nowyear%100 != 0 || nowyear%400 == 0)){
+								dataarr = [arr[25],arr[26],arr[27],
+									arr[28],arr[29],arr[1],arr[2]];
+									
+								namearr = [(nowmonth-1)+"/25",(nowmonth-1)+"/26",(nowmonth-1)+"/27",
+									(nowmonth-1)+"/28",(nowmonth-1)+"/29",nowmonth+"/1",nowmonth+"/2"];
+							}else{
+								dataarr = [arr[24],arr[25],arr[26],
+									arr[27],arr[28],arr[1],arr[2]];
+									
+								namearr = [(nowmonth-1)+"/24",(nowmonth-1)+"/25",(nowmonth-1)+"/26",
+									(nowmonth-1)+"/27",(nowmonth-1)+"/28",nowmonth+"/1",nowmonth+"/2"];
+							}
+						}else if((nowmonth-1) == 1 || (nowmonth-1) == 3 || (nowmonth-1) == 5
+						|| (nowmonth-1) == 7 || (nowmonth-1) == 8 || (nowmonth-1) == 10 
+						|| (nowmonth-1) == 12){
+							dataarr = [arr[27],arr[28],arr[29],
+									arr[30],arr[31],arr[1],arr[2]];
+									
+							namearr = [(nowmonth-1)+"/27",(nowmonth-1)+"/28",(nowmonth-1)+"/29",
+									(nowmonth-1)+"/30",(nowmonth-1)+"/31",nowmonth+"/1",nowmonth+"/2"];
+						}else{
+							dataarr = [arr[26],arr[27],arr[28],
+									arr[29],arr[30],arr[1],arr[2]];
+									
+							namearr = [(nowmonth-1)+"/26",(nowmonth-1)+"/27",(nowmonth-1)+"/28",
+									(nowmonth-1)+"/29",(nowmonth-1)+"/30",nowmonth+"/1",nowmonth+"/2"];
+						}
+					}else{
+						if((nowmonth-1)==2){
+							if(nowyear%4 == 0 && (nowyear%100 != 0 || nowyear%400 == 0)){
+								dataarr = [arr[24],arr[25],arr[26],
+									arr[27],arr[28],arr[29],arr[1]];
+									
+								namearr = [(nowmonth-1)+"/24",(nowmonth-1)+"/25",(nowmonth-1)+"/26",
+									(nowmonth-1)+"/27",(nowmonth-1)+"/28",(nowmonth-1)+"/29",nowmonth+"/1"];
+							}else{
+								dataarr = [arr[23],arr[24],arr[25],
+									arr[26],arr[27],arr[28],arr[1]];
+									
+								namearr = [(nowmonth-1)+"/23",(nowmonth-1)+"/24",(nowmonth-1)+"/25",
+									(nowmonth-1)+"/26",(nowmonth-1)+"/27",(nowmonth-1)+"/28",nowmonth+"/1"];
+							}
+						}else if((nowmonth-1) == 1 || (nowmonth-1) == 3 || (nowmonth-1) == 5
+						|| (nowmonth-1) == 7 || (nowmonth-1) == 8 || (nowmonth-1) == 10 
+						|| (nowmonth-1) == 12){
+							dataarr = [arr[26],arr[27],arr[28],
+									arr[29],arr[30],arr[31],arr[1]];
+									
+							namearr = [(nowmonth-1)+"/26",(nowmonth-1)+"/27",(nowmonth-1)+"/28",
+									(nowmonth-1)+"/29",(nowmonth-1)+"/30",(nowmonth-1)+"/31",nowmonth+"/1"];
+						}else{
+							dataarr = [arr[25],arr[26],arr[27],
+									arr[28],arr[29],arr[30],arr[1]];
+									
+							namearr = [(nowmonth-1)+"/25",(nowmonth-1)+"/26",(nowmonth-1)+"/27",
+									(nowmonth-1)+"/28",(nowmonth-1)+"/29",(nowmonth-1)+"/30",nowmonth+"/1"];
+						}
+					}	
+				}else{
+					dataarr = [arr[minday],arr[minday+1],arr[minday+2],
+					arr[minday+3],arr[minday+4],arr[minday+5],arr[minday+6]];
+					
+					namearr = [nowmonth+"/24",nowmonth+"/25",nowmonth+"/26",
+									nowmonth+"/27",nowmonth+"/28",nowmonth+"/29",nowmonth+"/1"];
+				}
+			
+		  	
+		  	var staffoneChart = echarts.init(document.getElementById('staff_one_view'));
+	
+		  		staffoneChart.setOption({
+				       title: {
+                			text: onename+'七日订单完成量',
+                			 x:'center'
+			            },
+			             tooltip : {
+					        trigger: 'axis',
+					        axisPointer: {
+					            type: 'cross',
+					            label: {
+				              	  backgroundColor: '#6a7985'
+				           		}
+			      		  	}
+			    		},
+			            legend: {
+			                data:['数量']
+			            },
+			            xAxis: {
+			                data:namearr
+			            },
+			            yAxis: {},
+			            series: [{
+			                name: '订单数',
+			                type: 'line',
+			                data: dataarr
+			            }]
+			});
+
+	  	});
+	}
+	
+	//点击检测
+		function document_MouseDown(e) {
+			var element = typeof event != "undefined" ? event.srcElement : e.target;
+			var downPanel = false;
+			while (element) {
+			        downPanel = element == $("#staffbox li");
+					if (downPanel) 
+						break;
+			        element = element.parentNode;
+			}
+			if (!downPanel) {
+		       removeEventHandler(document, "mouseup", document_MouseDown);
+		      	$("#staff_all").css({
+					"display":"block"
+				});
+				$("#staff_one").css({
+					"display":"none"
+				});
+				$("#staffbox li").css({
+					"background":"rgba(0,0,0,0.1)"
+				});
+			}
+		}
+		
+	/********************************************员工查询*************************************/
+	//按键检测
 	//查询处理
 	function goseletestaff(){
 		var val = $("#seletestaff").val();
@@ -1677,6 +2002,11 @@
   			"height":windowHeight*0.65+"px",
   			"width":windowHeight*0.85+"px",
   		});
+  		
+  		$("#staff_one_view").css({
+  			"height":windowHeight*0.65+"px",
+  			"width":windowHeight*0.85+"px",
+  		});
   	
 	}
 
@@ -1687,7 +2017,25 @@
 	    continue;
 	  }
 	}
+	
+	//鼠标点击位置检测
+	
+	function addEventHandler(target, type, func) {
+	if (target.addEventListener)
+	        target.addEventListener(type, func, false);
+	else if (target.attachEvent)
+	        target.attachEvent("on" + type, func);
+	else target["on" + type] = func;
+	}
+	
+	function removeEventHandler(target, type, func) {
+	if (target.removeEventListener)
+	        target.removeEventListener(type, func, false);
+	else if (target.detachEvent)
+	        target.detachEvent("on" + type, func);
+	else delete target["on" + type];
+	}
 
 </script>
-  
+
 </html>

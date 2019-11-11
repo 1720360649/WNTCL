@@ -171,11 +171,25 @@ public class ImOrderlineService implements OrderlineServie{
 		if(id == null || id == 0){
 			return null;
 		}
+		
 		List<subDish> list = new ArrayList<subDish>();
 		list = orderlineMapper.getStaffAnalysis(id);
-		
+
 		return list;
 	}
 
+	@Override
+	public List<subDish> getStaffAnalysisOne(Integer id, Integer staffid) {
+		if(id == null || id == 0){
+			return null;
+		}
+		
+		List<subDish> sub = new ArrayList<subDish>();
+		sub = orderlineMapper.getStaffAnalysisOne(id,staffid);
+		
+		return sub;
+	}
+
+	
 	
 }

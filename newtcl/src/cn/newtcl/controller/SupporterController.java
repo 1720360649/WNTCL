@@ -404,12 +404,22 @@ public class SupporterController {
 	@RequestMapping("/getstaffanalysis")
 	@ResponseBody
 	public List<subDish> getStaffAnalysis(){
-	
-		return imOrderlineService.getStaffAnalysis(1);
-		
+		if(GetmanageId() == null){
+			return null;
+		}
+		return imOrderlineService.getStaffAnalysis(GetmanageId());
 	}
-
-
+	
+	@RequestMapping("/getstaffanalysisone")
+	@ResponseBody
+	public List<subDish> getstaffAnalysisOne(Integer staffid){
+		if(GetmanageId() == null || staffid == null){
+			return null;
+		}
+		return imOrderlineService.getStaffAnalysisOne(GetmanageId(),staffid);
+	}
+	
+	
 	/***********************************通用商家id获取***************************************/
 	private Integer GetmanageId(){
 //		User user = (User)session.getAttribute("wntcluser");
