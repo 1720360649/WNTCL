@@ -44,5 +44,12 @@ public interface OrderlineServie {
 	public List<subDish> getStaffAnalysis(Integer id);
 	
 	//员工工作情况分析 
-		public List<subDish> getStaffAnalysisOne(Integer id,Integer staffid);
+	public List<subDish> getStaffAnalysisOne(Integer id,Integer staffid);
+	
+	//7日商品销量分析
+	public List<subDish> getorderlineAnalysisForGoods(Integer id);
+	
+	//7日类型销量分析
+	public List<subDish> getorderlineAnalysisForType(Integer id);
+		
 }

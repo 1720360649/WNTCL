@@ -148,4 +148,23 @@
 	ORDER BY `time` DESC
  </select>
  
+ <select id="getorderlineAnalysisForGoods" parameterType="java.lang.Integer" resultMap="subDishMap">
+ 	select goods_id,sum(count) as count,goods.`name` as `name`,time from orderline,goods,orders
+	where orderline.goods_id = goods.id
+	and orderline.order_id = orders.id
+	and (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[<=]]> date(time))
+	and orders.manager_id = #{id}
+	GROUP BY goods_id
+ </select>
+ 
+ <select id="getorderlineAnalysisForType" parameterType="java.lang.Integer" resultMap="subDishMap">
+ 	select type_id,sum(count) as count,type.`name` as `name`,time from orderline,type,goods,orders
+	where orderline.goods_id = goods.id
+	and goods.type_id = type.id
+	and orderline.order_id = orders.id
+	and (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[<=]]> date(time))
+	and orders.manager_id = #{id}
+	GROUP BY type_id
+ </select>
+ 
 </mapper>

@@ -190,6 +190,30 @@ public class ImOrderlineService implements OrderlineServie{
 		return sub;
 	}
 
+	@Override
+	public List<subDish> getorderlineAnalysisForGoods(Integer id) {
+		if(id == null || id == 0){
+			return null;
+		}
+		
+		List<subDish> sub = new ArrayList<subDish>();
+		sub = orderlineMapper.getorderlineAnalysisForGoods(id);
+		
+		return sub;
+	}
+
+	@Override
+	public List<subDish> getorderlineAnalysisForType(Integer id) {
+		if(id == null || id == 0){
+			return null;
+		}
+		
+		List<subDish> sub = new ArrayList<subDish>();
+		sub = orderlineMapper.getorderlineAnalysisForType(id);
+	
+		return sub;
+	}
+
 	
 	
 }

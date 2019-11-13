@@ -26,4 +26,9 @@ public interface OrderlineMapper {
 	public List<subDish> getStaffAnalysis(Integer id);
 
 	public List<subDish> getStaffAnalysisOne(@Param("id") Integer id,@Param("staffid") Integer staffid);
+
+	public List<subDish> getorderlineAnalysisForGoods(Integer id);
+	
+	public List<subDish> getorderlineAnalysisForType(Integer id);
+	
 }

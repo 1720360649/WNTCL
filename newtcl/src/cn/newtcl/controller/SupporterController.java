@@ -419,6 +419,24 @@ public class SupporterController {
 		return imOrderlineService.getStaffAnalysisOne(GetmanageId(),staffid);
 	}
 	
+	@RequestMapping("/getorderlineanalysisforgoods")
+	@ResponseBody
+	public List<subDish> getorderlineAnalysisForGoods(){
+		if(GetmanageId() == null){
+			return null;
+		}
+		return imOrderlineService.getorderlineAnalysisForGoods(GetmanageId());
+	}
+	
+	@RequestMapping("/getorderlineanalysisfortype")
+	@ResponseBody
+	public List<subDish> getorderlineAnalysisForType(){
+		if(GetmanageId() == null){
+			return null;
+		}
+		return imOrderlineService.getorderlineAnalysisForType(GetmanageId());
+	}
+
 	
 	/***********************************通用商家id获取***************************************/
 	private Integer GetmanageId(){

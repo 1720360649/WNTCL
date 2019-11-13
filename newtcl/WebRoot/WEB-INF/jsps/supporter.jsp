@@ -383,72 +383,30 @@
 	margin-left: 15%;
 	display: none;
 }
--webkit-user-select
 
+#orders_type{
+	height: 50%;
+	width: 100%;
+	color: gray;
+	border-bottom: 1px solid rgba(0,0,0,0.2);
+}
 
-:
+#orders_goods{
+	height: 50%;
+	width: 100%;
+	color: gray;
+}
 
- 
-
-none
-
-
-; /* Chrome/Safari/Opera */
--khtml-user-select
-
-
-:
-
- 
-
-none
-
-
-; /* Konqueror */
--moz-user-select
-
-
-:
-
- 
-
-none
-
-
-; /* Firefox */
--ms-user-select
-
-
-:
-
- 
-
-none
-
-
-; /* Internet Explorer/Edge */
-user-select
-
-
-:
-
- 
-
-none
-
-
-;
-unselectable
-
-
-="
-on
-"
-
-
-	
-	
-
+-webkit-user-select:none; 
+/* Chrome/Safari/Opera */
+-khtml-user-select:none; 
+/* Konqueror */
+-moz-user-select:none; 
+/* Firefox */
+-ms-user-select:none;
+ /* Internet Explorer/Edge */
+user-select:none;
+unselectable="on"
 }
 </style>
 
@@ -519,7 +477,10 @@ on
 			</div>
 		</div>
 	</div>
-	<div id='orders'></div>
+	<div id='orders'>
+		<div id="orders_type"><div id="orders_type_view"></div></div>
+		<div id="orders_goods"><div id="orders_goods_view"></div></div>
+	</div>
 
 </body>
 
@@ -612,6 +573,12 @@ on
 
 		//员工总分析加载
 		staffanalysis();
+		
+		//订单类型分析加载
+		getorderAnalysisForType();
+		
+		//订单商品分心加载
+		getorderAnalysisForGoods();
   	}
   	
   	/*****************************************经营信息加载*************************************/
@@ -1447,7 +1414,7 @@ on
 		  				if(data[i].number == null)
 		  					$("#staff_all").html("暂无数据!");
 		  				else{
-		  					namearr[i] = "未完成";
+		  					namearr[i] = '未完成';
 		  					datearr[i] = {value:data[i].number,name:data[i].name};
 		  				}	
 		  			}else{
@@ -1455,7 +1422,7 @@ on
 		  				datearr[i] = {value:data[i].number,name:data[i].name};
 		  			}
 		  		}
-		  		
+		  
 		  		var staffallChart = echarts.init(document.getElementById('staff_all_view'));
 		  
 		  			staffallChart.setOption({
@@ -1820,8 +1787,125 @@ on
 		
 		windowauto();
 	}
+
+/*****************************************订单七日类型分析*************************************/
+function getorderAnalysisForType(){
+			
+		$.post("<%=path%>/supporter/getorderlineanalysisfortype.do",{},function(data){
+		  		if(data == null ){
+		  			$("#orders_type").html("暂无数据!");
+		  		}else {
+		
+		  		var namearr = new Array();
+		  		var datearr = new Array();
+		  		
+		  		for(var i=0;i<data.length;i++){
+		  			
+		  			if(data[i].number == null){
+		  				$("#orders_type").html("暂无数据!");
+		  				return ;
+		  			}else{
+		  				namearr[i] = data[i].name;
+		  				datearr[i] = {value:data[i].number,name:data[i].name};
+		  			}
+		  		}
+		 
+		  		var staffallChart = echarts.init(document.getElementById('orders_type_view'));
+		  
+		  			staffallChart.setOption({
+				        title: {
+				           text: '七日员工订单完成数',
+					       x:'center'
+				        },
+				       tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+				        legend: {
+					        orient: 'vertical',
+					        left: 'left',
+					        data: namearr
+					    },			
+				       series : [
+					        {
+					            name: '',
+					            type: 'pie',
+					            radius : '55%',
+					            center: ['50%', '60%'],
+					            data:datearr,
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+				   });
+		  	}
+	  	});
+	}
 	
-	
+/**********************************************订单七日商品分析***********************************************/
+function getorderAnalysisForGoods(){
+			
+		$.post("<%=path%>/supporter/getorderlineanalysisforgoods.do",{},function(data){
+		  		if(data == null ){
+		  			$("#orders_goods").html("暂无数据!");
+		  		}else {
+		
+		  		var namearr = new Array();
+		  		var datearr = new Array();
+		  		
+		  		for(var i=0;i<data.length;i++){
+		  			
+		  			if(data[i].number == null){
+		  				$("#orders_goods").html("暂无数据!");	
+		  				return ;
+		  			}else{
+		  				namearr[i] = data[i].name;
+		  				datearr[i] = {value:data[i].number,name:data[i].name};
+		  			}
+		  		}
+		  	
+		  		var staffallChart = echarts.init(document.getElementById('orders_goods_view'));
+		  
+		  			staffallChart.setOption({
+				        title: {
+				           text: '七日员工订单完成数',
+					       x:'center'
+				        },
+				       tooltip : {
+					        trigger: 'item',
+					        formatter: "{a} <br/>{b} : {c} ({d}%)"
+					    },
+				        legend: {
+					        orient: 'vertical',
+					        left: 'left',
+					        data: namearr
+					    },			
+				       series : [
+					        {
+					            name: '',
+					            type: 'pie',
+					            radius : '55%',
+					            center: ['50%', '60%'],
+					            data:datearr,
+					            itemStyle: {
+					                emphasis: {
+					                    shadowBlur: 10,
+					                    shadowOffsetX: 0,
+					                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+					                }
+					            }
+					        }
+					    ]
+				   });
+		  	}
+	  	});
+	}
+
   	//*************************************自适应***********************************/
   	function windowauto(){
   		$(".menuType").css({
@@ -1965,7 +2049,7 @@ on
   			"font-size":windowHeight*0.015+"px",
   			"line-height":windowHeight*0.05+"px"
   		});
-  		
+  
   		$("#staffbox .staffavatar").css({
   			"width":windowHeight*0.05+"px",
   			"height":windowHeight*0.05+"px"
@@ -1988,28 +2072,48 @@ on
   		
   		$("#staff_all").css({
   			"height":windowHeight*0.65+"px",
-  			"width":windowHeight*0.85+"px",
+  			"width":windowWidth*0.85+"px",
   			"line-height":windowHeight*0.65+"px",
-  			"font-size":windowHeight*0.02+"px",
+  			"font-size":windowHeight*0.02+"px"
   		});
   		
   		$("#staff_all_view").css({
   			"height":windowHeight*0.65+"px",
-  			"width":windowHeight*0.85+"px",
+  			"width":windowWidth*0.85+"px"
   		});
   		
   		$("#staff_one").css({
   			"height":windowHeight*0.65+"px",
-  			"width":windowHeight*0.85+"px",
+  			"width":windowWidth*0.85+"px"
   		});
-  		
+  	
   		$("#staff_one_view").css({
   			"height":windowHeight*0.65+"px",
-  			"width":windowHeight*0.85+"px",
+  			"width":windowWidth*0.85+"px"
+  		});
+  		
+  		$("#orders_type").css({
+  			"line-height":windowHeight*0.65+"px",
+  			"font-size":windowHeight*0.02+"px"
+  		});
+  		
+  		$("#orders_goods").css({
+  			"line-height":windowHeight*0.65+"px",
+  			"font-size":windowHeight*0.02+"px"
+  		});
+  	
+  		$("#orders_type_view").css({
+  			"height":windowHeight*0.5+"px",
+  			"width":windowWidth*0.85+"px"
+  		});
+  
+  		$("#orders_goods_view").css({
+  			"height":windowHeight*0.5+"px",
+  			"width":windowWidth*0.85+"px"
   		});
   	
 	}
-
+	
 	/**********************************sleep函数*********************************/
 	function sleep(delay) {
 	  var start = (new Date()).getTime();
