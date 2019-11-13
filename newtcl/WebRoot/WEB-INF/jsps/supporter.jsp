@@ -526,9 +526,8 @@ unselectable="on"
 
 	  	//加载店铺基本信息!
 	  	$.post("<%=path%>/supporter/getme.do",{},function(data){
-	  		//if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
-	  		if(false){
-	  			alert("获取登陆信息失败!请重新登陆!");
+	  		if(data == null || data.id =="undefined" || data.id == "" || data.id == null){
+	  		//if(false){
 	  			window.location.href="http://wntcl.top/login/login.jsp";
 	  		}else{
 	  			document.getElementById("essential_top_on_img").src = data.avatar+"";

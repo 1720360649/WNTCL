@@ -440,14 +440,14 @@ public class SupporterController {
 	
 	/***********************************通用商家id获取***************************************/
 	private Integer GetmanageId(){
-//		User user = (User)session.getAttribute("wntcluser");
-//		if(user == null || user.getId() == null)
-//			return null;
-//		else
-//			return user.getId();
-	
+		User user = (User)session.getAttribute("wntcluser");
+		if(user == null || user.getId() == null)
+			return null;
+		else
+			return user.getId();
+
 	//test
-	return 1;
+//	return 1;
 		
 	}
 	
