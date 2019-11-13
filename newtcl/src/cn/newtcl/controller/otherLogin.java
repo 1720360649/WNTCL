@@ -26,9 +26,6 @@ import cn.newtcl.service.impl.ImUserService;
 @RequestMapping("otherlogin")
 public class otherLogin {
 
-	//获取支付宝接口
-	private AlipayClient alipayClient = Getstatic.getSubDishList().getAlipayClient();
-	
 	@Resource
 	private ImUserService imUserService;
 	
@@ -37,7 +34,7 @@ public class otherLogin {
 	
 	@Autowired
 	private HttpSession session;
-
+	
 	//日志	
 	//private Logger logger = Logger.getLogger(this.getClass());
 	
@@ -59,7 +56,7 @@ public class otherLogin {
 		user.setJurisdiction("u");
 	
 		re = imUserService.otherLogin(user);
-		
+	
 		if(re.getCode().equals("1")){
 			User u = (User)re.getObj();
 			session.setAttribute("wntcluser",u);
@@ -82,6 +79,11 @@ public class otherLogin {
 		String alipayToken = null;
 		String name = null;
 		String avatar = null;
+		
+		//获取支付宝接口
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
+		AlipayClient alipayClient = subDishList.getAlipayClient();
 
 		if(authcode == null || authcode.equals("")){
 			in.setCode("0");

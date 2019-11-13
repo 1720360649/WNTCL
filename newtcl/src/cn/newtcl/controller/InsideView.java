@@ -26,10 +26,12 @@ public class InsideView {
 					return "jsps/noPermission";
 		
 		session.setAttribute("staff",((User)session.getAttribute("wntcluser")).getId());
+		session.setAttribute("managerid", ((User)session.getAttribute("wntcluser")).getManagerId());
+		
 		return "jsps/kitchen";
 	}
 	
-	
+
 	@RequestMapping("/waiterlogin")
 	public String waiterlogin(){
 		
@@ -40,6 +42,8 @@ public class InsideView {
 			if(!("m").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
 				if(!("s").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
 					return "jsps/noPermission";
+		
+		session.setAttribute("managerid", ((User)session.getAttribute("wntcluser")).getManagerId());
 		
 		return "jsps/waiter";
 	}

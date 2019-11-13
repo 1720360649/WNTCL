@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,12 +31,15 @@ public class WaiterController {
 	
 	@Resource
 	private ImOrderService imOrderService;
-
-	private SubDishList subDishList = Getstatic.getSubDishList();
 	
+	@Autowired
+	private HttpSession session;
 	
 	@RequestMapping("/getlist")
 	public @ResponseBody Map<Integer,List<subDish>> getlist(){
+		
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 		
 		Map<Integer,List<subDish>> list = subDishList.getOverlist();
 		
@@ -47,9 +52,12 @@ public class WaiterController {
 	
 	@RequestMapping("/remove")
 	public @ResponseBody Information remove(Orders order){
-		
 		Integer li = order.getTable();
 		Information in = new Information();
+		
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
+		
 		Map<Integer,List<subDish>> list = subDishList.getOverlist();
 		if(list == null || list.size() <= 0){
 			list =new HashMap<Integer,List<subDish>>();
@@ -81,8 +89,9 @@ public class WaiterController {
 				return in;
 			}
 		}
-		
+
 		subDishList.getOverlist().remove(li);
+		Getstatic.setSubDishList(manageId, subDishList);
 		in.setCode("1");
 		in.setMessage("完成成功!");
 		

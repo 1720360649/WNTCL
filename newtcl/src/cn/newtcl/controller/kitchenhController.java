@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.newtcl.entity.Information;
 import cn.newtcl.entity.NewReturn;
+import cn.newtcl.entity.User;
 import cn.newtcl.entity.subDish;
 import cn.newtcl.service.impl.ImOrderlineService;
 
@@ -23,8 +24,6 @@ import cn.newtcl.service.impl.ImOrderlineService;
 @RequestMapping("kitchenhall")
 public class kitchenhController{
 
-	private SubDishList subDishList = Getstatic.getSubDishList();
-	
 	@Resource
 	private ImOrderlineService imOrderlineService;
 	
@@ -34,7 +33,10 @@ public class kitchenhController{
 	@RequestMapping("/getkitchenhallnumber")
 	public @ResponseBody Integer getkitchenhallnumber(){
 		
-		String id = session.getId();
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
+	
+		String id = GetmanageId();
 		Map<String, Date> time = subDishList.getLasttime();
 		//添加当前用户操作时间
 		time.put(id, new Date());
@@ -45,8 +47,10 @@ public class kitchenhController{
 	
 	@RequestMapping("/getlist")
 	public @ResponseBody List<subDish> getlist(){
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 		
-		String id = session.getId();
+		String id = GetmanageId();
 		Map<String, ArrayList<subDish>> map= subDishList.getMap();
 		Map<String, Date> time = subDishList.getLasttime();
 		int num = subDishList.getNum();
@@ -82,13 +86,17 @@ public class kitchenhController{
 		//添加当前用户操作时间
 		time.put(id, new Date());
 		subDishList.setLasttime(time);
+		Getstatic.setSubDishList(manageId, subDishList);
 		return ulist;
 	}
 	
 	@RequestMapping("/remove")
 	public @ResponseBody Information remove(){
 		Information in = new Information();
-		String id = session.getId();
+		String id = GetmanageId();
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
+		
 		Map<String, ArrayList<subDish>> map= subDishList.getMap();
 		Map<String, Date> time = subDishList.getLasttime();
 		ArrayList<subDish> list = map.get(id);
@@ -122,11 +130,11 @@ public class kitchenhController{
 					}
 					
 					subDishList.setOverlist(temp);
-					
-					
 					list.remove(0);
 					map.put(id, list);
 					subDishList.setMap(map);
+					
+					
 					in.setCode("1");
 					in.setMessage("已完成");
 				}else{
@@ -138,8 +146,21 @@ public class kitchenhController{
 		
 		time.put(id, new Date());
 		subDishList.setLasttime(time);
+		Getstatic.setSubDishList(manageId, subDishList);
 		return in;
 	}
 	
+	/***********************************通用商家id获取***************************************/
+	private String GetmanageId(){
+		User user = (User)session.getAttribute("wntcluser");
+		if(user == null || user.getId() == null)
+			return null;
+		else
+			return String.valueOf(user.getId());
+
+		//test
+		//	return 1;
+
+	}
 	
 }

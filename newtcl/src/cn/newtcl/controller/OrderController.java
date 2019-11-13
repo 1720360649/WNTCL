@@ -37,16 +37,15 @@ public class OrderController {
 	
 	@Autowired
 	private HttpSession session;
-	/**
-	 * 注入菜单列表
-	 */
-	private SubDishList subDishList = Getstatic.getSubDishList();
 
 	@RequestMapping("add")
 	public @ResponseBody Information add() {
-
 		Orders order;
 		Information in = new Information();
+		
+		Integer manageId = (Integer)session.getAttribute("managerid");
+		Getstatic subDishList = Getstatic.getSubDishList(manageId);
+		
 		if (session.getAttribute("orders") == null) {
 			order = new Orders();
 		} else {
@@ -112,11 +111,11 @@ public class OrderController {
 			order.setTotal(0.00);
 			session.setAttribute("orders",order);
 			session.setAttribute("orderlist",null);
-
+			Getstatic.setSubDishList(manageId, subDishList);
 			in.setCode(re.getCode());
 			in.setMessage(re.getMessage());
 		}
-
+		
 		return in;
 	}
 
