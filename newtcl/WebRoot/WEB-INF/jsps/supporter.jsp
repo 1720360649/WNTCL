@@ -1803,7 +1803,7 @@ on
 		
 		for(var i=0;i<staffstr.length;i++){
 			if(staffstr[i].indexOf(val) != -1){
-				str+="<li>";
+				str+="<li onclick = \"staffanalysisone(this,"+staffarr[i].id+",'"+staffarr[i].name+"')\">";
 		  				str+="<div class='staffavatar'><img class='staffavatar' src='"+staffarr[i].avatar+"'></div>";
 		  				str+="<div class='staffid'>"+staffarr[i].id+"</div>";
 		  				str+="<div class='staffname'>"+staffarr[i].name+"</div>";
