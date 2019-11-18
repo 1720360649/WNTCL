@@ -604,7 +604,6 @@ unselectable="on"
 					arr[day] = data[i].total;
 				}
 			}
-
 			//数据处理
 			if(nowday<7){
 					if(nowday == 6){
@@ -792,8 +791,8 @@ unselectable="on"
 					chartdata = [arr[minday],arr[minday+1],arr[minday+2],
 					arr[minday+3],arr[minday+4],arr[minday+5],arr[minday+6]];
 					
-					datearr = [nowmonth+"/24",nowmonth+"/25",nowmonth+"/26",
-									nowmonth+"/27",nowmonth+"/28",nowmonth+"/29",nowmonth+"/1"];
+					datearr = [nowmonth+"/"+(nowday-6),nowmonth+"/"+(nowday-5),nowmonth+"/"+(nowday-4),
+									nowmonth+"/"+(nowday-3),nowmonth+"/"+(nowday-2),nowmonth+"/"+(nowday-1),nowmonth+"/"+nowday];
 				}
 			
 			
@@ -1691,10 +1690,10 @@ unselectable="on"
 					dataarr = [arr[minday],arr[minday+1],arr[minday+2],
 					arr[minday+3],arr[minday+4],arr[minday+5],arr[minday+6]];
 					
-					namearr = [nowmonth+"/24",nowmonth+"/25",nowmonth+"/26",
-									nowmonth+"/27",nowmonth+"/28",nowmonth+"/29",nowmonth+"/1"];
+					namearr = [nowmonth+"/"+(nowday-6),nowmonth+"/"+(nowday-5),nowmonth+"/"+(nowday-4),
+									nowmonth+"/"+(nowday-3),nowmonth+"/"+(nowday-2),nowmonth+"/"+(nowday-1),nowmonth+"/"+nowday];
 				}
-			
+	
 		  	
 		  	var staffoneChart = echarts.init(document.getElementById('staff_one_view'));
 	
@@ -1813,7 +1812,7 @@ function getorderAnalysisForType(){
 		  
 		  			staffallChart.setOption({
 				        title: {
-				           text: '七日员工订单完成数',
+				           text: '七日已售商品类型',
 					       x:'center'
 				        },
 				       tooltip : {
@@ -1872,7 +1871,7 @@ function getorderAnalysisForGoods(){
 		  
 		  			staffallChart.setOption({
 				        title: {
-				           text: '七日员工订单完成数',
+				           text: '七日已售商品',
 					       x:'center'
 				        },
 				       tooltip : {

@@ -143,7 +143,7 @@
 		and (DATE_SUB(CURRENT_DATE, INTERVAL 7 DAY) <![CDATA[<=]]> date(time))
 		and orders.manager_id = #{id}
 		and `staff_id` = #{staffid}
-		GROUP BY `time`
+		GROUP BY date_format(time,'%Y-%m-%d')
 	) as `onetable`
 	ORDER BY `time` DESC
  </select>
