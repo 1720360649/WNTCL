@@ -13,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
     
-	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font_awesome/css/font-awesome.css"> 
+	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font_awesome/css/font-awesome.min.css"> 
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/jquery_toast/css/toast.style.css">
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/layui/css/layui.css">
 
