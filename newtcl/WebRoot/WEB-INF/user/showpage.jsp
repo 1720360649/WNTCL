@@ -218,13 +218,14 @@
     <div id="shopping_cart" onclick="on_shopping_cart()"> 
   		<div class="shopping_icon">
   			<div class="shopping_icon_after"></div>
-  			<span id="shopping_icon_span" style="font-size: 40px;"><i class="fas fa-shopping-cart"></i></span>
+  			<i class="fa fa-shopping-cart fa-3x"></i>
   		</div>
-  		<div class="shopping_txt">您还没有选择商品</div>
+  		<div class="shopping_txt">您还没有选择商品</div>	
   		<div class="shopping_orders">
   			<div class="shopping_order_txt">&nbsp;&nbsp;已选商品</div>
   			<div class="shopping_order_list">
   				<ul>
+  				
   				</ul>
   			</div>
   		</div>

@@ -13,7 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
     
-	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font_awesome/css/font-awesome.min.css"> 
+	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font-awesome/css/font-awesome.min.css"> 
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/jquery_toast/css/toast.style.css">
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/layui/css/layui.css">
 
@@ -25,8 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	
 	
  	<link rel="icon" href="<%=path %>/img/new.ico" type="image/x-icon">
- 	
-
+ 
  	<!-- <script type="text/javascript" src="<%=path %>/js/fullscreen.js"></script>  -->
  
  <style type="text/css">
