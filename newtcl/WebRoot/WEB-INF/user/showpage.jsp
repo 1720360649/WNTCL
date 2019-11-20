@@ -110,10 +110,8 @@
 		background: rgba(0,0,0,1);
 	}
 
-	.shopping_icon i{
+	#shopping_creat_icon {
 		position: absolute;
-		width:40px;
-		height: 40px;
 		top: 0px;
 		right:0px;
 		bottom:0px;
@@ -218,14 +216,14 @@
     <div id="shopping_cart" onclick="on_shopping_cart()"> 
   		<div class="shopping_icon">
   			<div class="shopping_icon_after"></div>
-  			<i class="fa fa-shopping-cart fa-3x"></i>
+  			<img id="shopping_creat_icon" alt="" src="<%=path%>/img/shopping_creat_icon.png">
   		</div>
   		<div class="shopping_txt">您还没有选择商品</div>	
   		<div class="shopping_orders">
   			<div class="shopping_order_txt">&nbsp;&nbsp;已选商品</div>
   			<div class="shopping_order_list">
   				<ul>
-  				
+  	
   				</ul>
   			</div>
   		</div>
@@ -457,6 +455,11 @@
   			$(".shopping_icon_after").css({
   				"width":windowHeight*0.08+"px",
   				"height":windowHeight*0.08+"px"
+  			});
+  			
+  			$("#shopping_creat_icon").css({
+  				"width":windowHeight*0.05+"px",
+  				"height":windowHeight*0.05+"px"
   			});
   			
   			if(shopping_txt_status){
