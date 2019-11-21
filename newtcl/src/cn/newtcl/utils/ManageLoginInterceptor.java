@@ -1,4 +1,4 @@
-package cn.newtcl.interceptor.Manage;
+package cn.newtcl.utils;
 
 import org.json.JSONObject;
 import org.springframework.web.servlet.HandlerInterceptor;
