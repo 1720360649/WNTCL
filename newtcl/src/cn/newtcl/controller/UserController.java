@@ -136,5 +136,33 @@ public class UserController {
     	}
     return in;
     }
+    
+    @RequestMapping("/goview")
+    public String goView(){
 
+    	User user = (User)session.getAttribute("wntcluser");
+		if(user == null || user.getJurisdiction() == null)
+			return "jsps/tologin";
+		else{
+			if("s".equals(user.getJurisdiction())){
+				
+				return "jsps/supporter";
+			}else if("m".equals(user.getJurisdiction())){
+				
+				return "jsps/supporter";
+			}else if("w".equals(user.getJurisdiction())){
+				
+				return "jsps/waiter";
+			}else if("c".equals(user.getJurisdiction())){
+				
+				return "jsps/kitchen";
+			}else if("u".equals(user.getJurisdiction())){
+			
+				return "user/showpage";
+			}else{
+				return "jsps/tologin";
+			}
+		}
+    }
+    
 }

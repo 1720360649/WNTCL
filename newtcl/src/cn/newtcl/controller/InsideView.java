@@ -12,7 +12,7 @@ import cn.newtcl.entity.User;
 @Controller
 @RequestMapping("inside")
 public class InsideView {
-	
+
 	@Autowired
 	private HttpSession session;
 	
@@ -53,9 +53,10 @@ public class InsideView {
 		
 		if(loginCheck())
 			return "jsps/tologin";
-		
-		if(!("s").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
-			return "jsps/noPermission";
+	
+		if(!("m").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
+			if(!("s").equals(((User)session.getAttribute("wntcluser")).getJurisdiction()))
+				return "jsps/noPermission";
 		
 		session.setAttribute("managerid", ((User)session.getAttribute("wntcluser")).getId());
 		

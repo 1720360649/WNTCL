@@ -226,7 +226,7 @@ public class ImUserService implements UserService {
 		}
 		return re;
 	}
-	
+
 	@Override
 	public NewReturn checkPhone(String phone) {
 		NewReturn re = new NewReturn();

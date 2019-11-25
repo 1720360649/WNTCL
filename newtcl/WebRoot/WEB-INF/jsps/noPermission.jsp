@@ -32,7 +32,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	}
   	
   	function goindex(){
- 		window.location.href = "<%=path%>/index.jsp";
+ 		window.location.href = "http://wntcl.top";
   	}
   	
   </script>
