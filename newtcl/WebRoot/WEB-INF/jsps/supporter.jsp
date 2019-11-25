@@ -573,10 +573,10 @@ unselectable="on"
 		//员工总分析加载
 		staffanalysis();
 		
-		//订单类型分析加载
+		//订单商品类型分析加载
 		getorderAnalysisForType();
 		
-		//订单商品分心加载
+		//订单商品分析加载
 		getorderAnalysisForGoods();
   	}
   	
@@ -977,14 +977,9 @@ unselectable="on"
 	
 	/**************************************类别删除***********************************/
 	function deltype(obj,id){
-	
 		var e=arguments.callee.caller.arguments[0] || window.event; // 兼容火狐
        e.stopPropagation(); //防止事件冒泡
 	
-		$(obj).css({
-			"display":"none"
-		});
-		
 		if(confirm("确定要删除该分类吗？删除后不可恢复!")){
 			$.post("<%=path%>/supporter/deltype.do",{"id":id},function(data){
 				if(data.code == "1"){
@@ -992,19 +987,13 @@ unselectable="on"
 						return ;
 				}else{
 					jquerytoast("body","提示",data.message,windowWidth*0.5);
-					$(obj).css({
-						"display":"block"
-					});
 					return ;
 				}
 	  		});
   		}else{
-  			$(obj).css({
-				"display":"block"
-			});
 			return ;
   		}
-  		
+  
 	}
 	
 /*************************************商品信息修改*************************************/
