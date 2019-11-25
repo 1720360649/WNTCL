@@ -37,14 +37,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  
  	$.post("<%=path%>/newtcl/views/checklogin.do",{}, function(data) {
 		if(data.code == "1"){
-			window.location.href = "<%=path%>/index.jsp";
+			window.location.href = "<%=path%>/newtcl/user/goview.do";
 		}else{
 			var code = "<%=authcode%>";
 		 	var sessionid = "<%=sessionid%>";
 		 	//接入后台
 		 	$.post("<%=path%>/newtcl/otherlogin/alipaylogin.do",{"authcode":code,"sessionid":sessionid},function(data) {
 		 		if(data.code == "1"){
-					window.location.href = "<%=path%>/index.jsp";
+					window.location.href = "<%=path%>/newtcl/user/goview.do";
 				}else{
 					alert(data.message);
 				}	

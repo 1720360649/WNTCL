@@ -258,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		/******************************** 登陆判断  *****************************************************/
 		$.post("<%=path%>/newtcl/views/checklogin.do",{}, function(data) {
 						if(data.code == "1"){
-							window.location.href = "<%=path%>/index.jsp";
+							window.location.href = "<%=path%>/newtcl/user/goview.do";
 						}else{
 							if(isMobile()){
 								$("#alipayLoginBtn").html('<a href="alipays://platformapi/startapp?appId=20000067&url=https%3a%2f%2fopenauth.alipay.com%2foauth2%2fpublicAppAuthorize.htm%3fapp_id%3d2019090666987149%26scope%3dauth_user%26state%3d'
@@ -288,7 +288,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		timer = setInterval(function() {
 			$.post("<%=path%>/newtcl/views/checklogin.do",{}, function(data) {
 				if(data.code == "1")
-					window.location.href = "<%=path%>/index.jsp";
+					window.location.href = "<%=path%>/newtcl/user/goview.do";
 			});
 		}, 800);
 		
@@ -324,7 +324,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  	},function(data){
 	  		if(data.code == "1"){
 	  			window.history.go(-1);
-	  			window.location.href = "<%=path%>/index.jsp";
+	  			window.location.href = "<%=path%>/newtcl/user/goview.do";
 	  		}else{
 	  			$("#codes").click();
 	  			jquerytoast("登陆失败",""+data.message,windowWidth*0.5);

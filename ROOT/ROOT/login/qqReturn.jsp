@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   //登陆验证,避免重复操作
   $.post("<%=path%>/newtcl/views/checklogin.do",{}, function(data) {
 		if(data.code == "1"){
-			window.location.href = "<%=path%>/index.jsp";
+			window.location.href = "<%=path%>/newtcl/user/goview.do";
 		}else{
 			$("#tips").html('登陆中,页面将自动跳转,如页面长时间未跳转请点击按钮以刷新 <button onclick="tipsgo()">刷新</button>');
 		}
