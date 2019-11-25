@@ -32,7 +32,7 @@ public class UserController {
     
     @RequestMapping("/login")
     @ResponseBody
-    public Information userlogin(String phone,String password,String code){
+    public Information userLogin(String phone,String password,String code){
     	Information in = new Information();
     	if((("").equals(phone) || phone == null) || (("").equals(password) || password == null) || (("").equals(code) ||code == null)){
     		in.setCode("0");
