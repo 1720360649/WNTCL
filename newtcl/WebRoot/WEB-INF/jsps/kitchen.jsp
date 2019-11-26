@@ -145,6 +145,7 @@
   
   <body>
 	<div class="kitchen_box">
+	
 		<div class="kitchen_overview">
 				<div class="kitchen_overview_left">大厅菜品:</div>
 				<div class="kitchen_overview_right"></div>
@@ -157,6 +158,7 @@
 			</div>
 			<button class="kitchen_operation_button" >完成</button>
 		</div>
+		
 	</div>
   </body>
   
@@ -172,10 +174,6 @@
 			timer = setInterval(function() {
 				listload();
 			}, t);
-		}
-		//窗口自适应
-		function windowauto(){
-		
 		}
 		
 		//列表加载器
@@ -232,9 +230,11 @@
 						listload();
 					}, t);
 				}
+				
+				windowauto();
   			}, "JSON");
 		}
-		
+	
 		//完成/移除当前菜
 		function remove(){
 			$.post("<%=path%>/kitchenhall/remove.do",{},function(data){
@@ -244,6 +244,8 @@
 					alert(data.message);
 					listload();
 				}			
+				
+				windowauto();
   			}, "JSON");
 		}
 		
@@ -256,8 +258,72 @@
 				}else{
 					$(".kitchen_overview_right").html(data);
 				}
-			
   			}, "JSON");
+		}
+		
+		//窗口自适应
+		function windowauto(){
+			$(".kitchen_box").css({
+				width:windowWidth+"px",
+				height:windowHeight+"px"
+			});
+			
+			$(".kitchen_overview").css({
+				width: windowWidth+"px",
+				height: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.04+"px"
+			});
+			
+			$(".kitchen_overview_left").css({
+				width: windowWidth*0.4+"px",
+				height: windowHeight*0.12+"px",
+				lineHeight: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.03+"px"
+			});
+			
+			$(".kitchen_overview_right").css({
+				width: windowWidth*0.6+"px",
+				height: windowHeight*0.12+"px" ,
+				lineHeight: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.04+"px"
+			});
+			
+			$(".kitchen_operation").css({
+				width: windowWidth+"px",
+				height: windowHeight*0.12+"px",
+				lineHeight: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.04+"px"
+			});
+			
+			$(".kitchen_operation_current").css({
+				width: windowWidth+"px",
+				height: windowHeight*0.12+"px",
+				lineHeight: windowHeight*0.12+"px"
+			});
+			
+			$(".kitchen_operation_current_left").css({
+				width: windowWidth*0.125+"px",
+				height: windowHeight*0.12+"px",
+				lineHeight: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.02+"px"
+			});
+			
+			$(".kitchen_operation_current_right").css({
+				width: windowWidth*0.75+"px",
+				height: windowHeight*0.12+"px",
+				lineHeight: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.02+"px"
+			});
+		
+			$(".kitchen_operation_button").css({
+				width: windowWidth*0.125+"px",
+				height: windowHeight*0.125+"px",
+				lineHeight: windowHeight*0.12+"px",
+				fontSize:windowHeight*0.02+"px"
+			});
+		
+			
+			
 		}
 		  
   </script>

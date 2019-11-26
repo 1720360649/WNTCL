@@ -113,10 +113,6 @@
 			}, t);
 		}
 		
-	//窗口自适应
-		function windowauto(){
-		}
-
   function listload(){
 			$.post("<%=path%>/waiter/getlist.do",{},function(data){
 				
@@ -166,6 +162,17 @@
   				
   			}, "JSON");
 	}
+	
+	
+	//窗口自适应
+		function windowauto(){
+		
+			$(".waiter_box").css({
+				width:windowWidth+"px",
+				height:windowHeight+"px"
+			});
+		}
+	
 	
   </script>
   
