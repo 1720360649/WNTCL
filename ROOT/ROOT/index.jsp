@@ -73,10 +73,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			font-weight: 700;
 			line-height:60px;
 			margin-left:7px;
-                        margin-top: 10px;
-                        padding-right:5px;
-                        border:none;
-                        border-right:1px solid white;
+            margin-top: 10px;
+            padding-right:5px;
+            border:none;
+            border-right:1px solid white;
 		}
 		
 		#nav{
@@ -110,8 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		
 		#viewbody{
 			width: 941px;
-			height: 100%;
-			margin: 0px auto;
+			height: auto;
 		}
 		
 		#showbox{
@@ -125,7 +124,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			float:left;
 			height: 100%;
 			width: 700px;
-			background: green;
 		}
 		
 		#showbox_img img{
@@ -211,8 +209,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	<div id="viewtop">
   		<a href="">
 	  		<div id="trademark">
-	  			<img id="trademark_img" alt="万念技术" src="wn.png" />
-	  			<div id="enterprise">万念技术</div><div style="font-size:18px;margin-left:201px;height:80px;line-height:39px;color:white;">个人空间</div>	
+	  			<img id="trademark_img" alt="万念技术" src="wn.png?<%=Math.random() %>" />
+	  			<div id="enterprise">万念技术</div><div id="enterprise_low" style="font-size:18px;margin-left:201px;height:80px;line-height:39px;color:white;">个人空间</div>	
 	  		</div>
 	  	</a>
   		<div id="nav">
@@ -237,11 +235,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	</div>
   	
   	<div id="viewbody">
+  	
   		<div id="showbox">
-  			<a><div id="showbox_img"><img alt="new餐厅系统" src="<%=path%>/newtcl.jpg"></div></a>
+  			<div id="showbox_img"><img alt="new餐厅系统" src="<%=path%>/newtcl.jpg?<%=Math.random() %>>"></div>
 			<div id="showbox_text">
 				<div id="showbox_text_title">
-						<img id="showbox_text_title_img" alt="newtcl" src="<%=path%>/new.jpg">
+						<img id="showbox_text_title_img" alt="newtcl" src="<%=path%>/new.jpg?<%=Math.random() %>">
 						<div id="showbox_text_title_text">new餐厅</div>
 				</div>
 				<hr>
@@ -255,12 +254,152 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</div>  			
   		</div>
+  		
+  		
   	</div>
   	
   	<div id="viewbottom"><a href="http://www.beian.gov.cn/apply/selectBeiAn?id=638464&token=f8888201-f138-4a5d-8ae7-916f8358e7b9">公网安备-36010902000229号</a> &nbsp;&nbsp;&nbsp; Copyright©2019-2019 万念技术 &nbsp;&nbsp;&nbsp; <a href="http://www.beian.miit.gov.cn/">赣ICP备19011277号-1</a></div>
   </body>
   
  <script type="text/javascript">
+ 	//加载判定
+ 	var loadinit = false;
+	//窗口宽度
+ 	var windowWidth = window.innerWidth;
+ 	//窗口高度
+ 	var windowHeight = window.innerHeight;
+	 //个人初始化函数
+ 	function uload(){}
+ 	//个人自适应函数
+ 	function windowauto(){}
+        
+  $(function () {
+  
+  		uload();
+  		windowauto();
+  		
+ /**********************************窗口变化监听(全局自适应)****************  */
+        window.onresize = function(){
+        	//获取变化后
+        	windowWidth = window.innerWidth;
+ 			windowHeight = window.innerHeight;
+ 			
+ 			windowauto();
+        }
+   
+   });
+   
+ 
+ 
+ 	/******************************* 移动设备判断 ********************************************/
+function isMobile(){ 
+	  if(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i))
+	  	return true; 
+	  else
+  		return false; 
+  }
+ 
+  function windowauto(){
+  	//移动设备样式
+  	if(isMobile() && !loadinit){
+  		//加载完成
+  		loadinit = true;
+  		
+  		$("#viewtop").css({
+  			height:windowHeight*0.12+"px"
+ 		});
+ 	
+ 		$("#nav").css({
+ 			display:"none"
+ 		});
+ 		
+ 		$("#trademark").css({
+ 			height:windowHeight*0.12+"px",
+ 			width:windowHeight*0.36+"px"
+ 		});
+ 		
+ 		$("#trademark_img").css({
+ 			height: windowHeight*0.10+"px",
+ 			width: windowHeight*0.10+"px",
+ 			marginTop: windowHeight*0.01+"px"
+ 		});
+ 		
+ 		$("#enterprise").css({
+ 			height: windowHeight*0.10+"px",
+ 			marginTop: windowHeight*0.01+"px",
+ 			lineHeight: windowHeight*0.1+"px",
+ 			fontSize: windowHeight*0.04+"px"
+ 		});
+ 		
+ 		$("#enterprise_low").css({
+ 			height: windowHeight*0.10+"px",
+ 			marginTop: windowHeight*0.01+"px",
+ 			lineHeight: windowHeight*0.05+"px",
+ 			fontSize: windowHeight*0.03+"px"
+ 		});
+ 		
+ 		$("#showbox_img").css({
+ 			display: "none"
+ 		});
+ 		
+ 		$("#showbox").css({
+ 			width: windowWidth+"px",
+ 			height: windowHeight*0.55+"px"
+ 		});
+ 		
+ 		$("#showbox_text").css({
+ 			width: windowWidth+"px",
+ 			height: windowHeight*0.55+"px"
+ 		});
+ 	
+ 		$("#showbox_text_title").css({
+ 			width: windowWidth+"px",
+ 			height: windowHeight*0.15+"px"
+ 		});
+ 		$("#showbox_text_title_img").css({
+ 			width: windowHeight*0.14+"px",
+ 			height: windowHeight*0.14+"px",
+ 			marginTop: windowHeight*0.005+"px",
+ 			marginLeft: (windowWidth-windowHeight*0.4)/2+"px"
+ 			
+ 		});
+ 		$("#showbox_text_title_text").css({
+ 			height: windowHeight*0.07+"px",
+ 			lineHeight: windowHeight*0.15+"px",
+ 			fontSize: windowHeight*0.055+"px",
+ 			fontWeight: "700"
+ 		});
+ 		
+ 		$("#showbox_text_urlbox").css({
+ 			height: windowHeight*0.4+"px",
+ 		});
+ 		
+ 		$("#showbox_text_urlbox li").css({
+ 			height: windowHeight*0.1+"px",
+ 			border: "1px solid black",
+ 			lineHeight: windowHeight*0.1+"px",
+ 			fontSize: windowHeight*0.04+"px"
+ 		});
+ 	
+ 		//移动设备注入菜单
+ 		$("#viewtop").append("<img id=\"mueimg\" src='<%=path%>/indexmue.png'>");
+ 		$("#mueimg").css({
+ 			position: "absolute",
+ 			top:windowHeight*0.03+"px",
+ 			right: windowHeight*0.03+"px",
+ 			width: windowHeight*0.07+"px",
+ 			height: windowHeight*0.07+"px"
+ 		});
+  	}else{//非移动设备样式
+  		if(isMobile() && loadinit)
+  			return ;
+  		
+  		$("#viewbody").css({
+  			height:windowHeight-80+"px",
+  			margin: "0px auto"
+ 		});
+  	}
+  }
 	
 </script>
 
