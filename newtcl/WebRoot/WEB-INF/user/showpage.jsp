@@ -232,7 +232,11 @@
 </body>
 
 <script type="text/javascript">
-    
+  //加载判断
+  var loadinit = false;
+  //移动设备宽高
+  var MW = 0;
+  var MH = 0;
     //有无商品
   var pd_shopping = false;
   //购物车开启状态
@@ -378,12 +382,27 @@
         	var e=arguments.callee.caller.arguments[0] || window.event; // 兼容火狐
         	e.stopPropagation(); //防止事件冒泡
         }
-        
+ 
+  	/******************************* 移动设备判断 ********************************************/
+function isMobile(){ 
+	  if(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i))
+	  	return true; 
+	  else
+  		return false; 
+  }
      
 /*************************************************自适应****************************************************/
         
         function windowauto(){
-  			
+        
+        	if(isMobile() && loadinit){
+        		windowWidth = MW;
+        		windowHeight = MH;
+        	}else{
+				MW = windowWidth;
+				MH = windowHeight;
+        	}
+	
   			$("body").css({
 	  			"width" : windowWidth+"px",
 	  			"height" : windowHeight+"px"
@@ -532,6 +551,9 @@
   				"height" : windowHeight*0.1+"px",
 				"width"  : windowHeight*0.1+"px"
   			});
+  			
+  			//首次加载完成标记
+  			loadinit = true;
   		}
      
         

@@ -81,6 +81,9 @@ public class GoodsController {
 					main.append("<div>此分类暂无商品</div>");
 				}
 			}
+			//末尾添加空白行
+			main.append("<div class='goodsshow_good' style='border-color:white;'></div><div class='goodsshow_good' style='border-color:white;'></div>");
+		
 			aside.append("</aside>");
 			main.append("</div>");
 			in.setCode("1");

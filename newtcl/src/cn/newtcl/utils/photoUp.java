@@ -33,7 +33,7 @@ public class photoUp {
 			log.info("错误");
 			return false;
 		} 
-	
+		
 	return true;
 	}
 }
