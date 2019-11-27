@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,9 @@ public class GoodsController {
 	@Autowired
 	ImTypeService imTypeService;
 	
+	@Autowired
+	private HttpSession session;
+	
 	@RequestMapping("showgoodstotype")
 	@ResponseBody
 	public Information showGoodstoType(Integer manager_id){
@@ -36,7 +41,9 @@ public class GoodsController {
 		if(manager_id == null){
 			in.setCode("-1");
 			in.setMessage("未给出商家id");
-		}
+		}	
+		//向session写入ID
+		session.setAttribute("managerid", manager_id);
 		type.setManagerId(manager_id);
 		NewReturn re = imTypeService.findTypeAndGoods(type);
 		if(("1").equals(re.getCode())){
