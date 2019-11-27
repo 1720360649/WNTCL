@@ -156,7 +156,7 @@
 				<div class="kitchen_operation_current_left">当前制作:</div>
 				<div class="kitchen_operation_current_right"></div>
 			</div>
-			<button class="kitchen_operation_button" >完成</button>
+			<button class="kitchen_operation_button" >已完成</button>
 		</div>
 		
 	</div>
@@ -288,6 +288,22 @@
 				fontSize:windowHeight*0.04+"px"
 			});
 			
+			$(".kitchen_current li").css({
+				height:windowHeight*0.1+"px",
+				fontSize:windowHeight*0.02+"px",
+				lineHeight:windowHeight*0.1+"px"
+			});
+			
+			$(".kitchen_current_left").css({
+				fontSize:windowHeight*0.03+"px",
+				lineHeight:windowHeight*0.1+"px"
+			});
+			
+			$(".kitchen_current_right").css({
+				fontSize:windowHeight*0.03+"px",
+				lineHeight:windowHeight*0.1+"px"
+			});
+			
 			$(".kitchen_operation").css({
 				width: windowWidth+"px",
 				height: windowHeight*0.12+"px",
@@ -309,21 +325,21 @@
 			});
 			
 			$(".kitchen_operation_current_right").css({
-				width: windowWidth*0.75+"px",
+				width: windowWidth*0.70+"px",
 				height: windowHeight*0.12+"px",
 				lineHeight: windowHeight*0.12+"px",
-				fontSize:windowHeight*0.02+"px"
+				fontSize:windowHeight*0.04+"px"
 			});
 		
 			$(".kitchen_operation_button").css({
-				width: windowWidth*0.125+"px",
+				width: windowWidth*0.175+"px",
 				height: windowHeight*0.125+"px",
 				lineHeight: windowHeight*0.12+"px",
-				fontSize:windowHeight*0.02+"px"
+				fontSize:windowHeight*0.03+"px"
 			});
-		
+
 			
-			
+	
 		}
 		  
   </script>

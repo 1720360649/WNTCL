@@ -144,8 +144,8 @@
   					
   					$(".waiter_box").html(str);
   				}
-  	
   
+  				windowauto();
   			}, "JSON");
 		}
 		
@@ -159,7 +159,7 @@
   					//提示
   					alert(data.message);
   				}
-  				
+  				windowauto();
   			}, "JSON");
 	}
 	
@@ -170,6 +170,22 @@
 			$(".waiter_box").css({
 				width:windowWidth+"px",
 				height:windowHeight+"px"
+			});
+			
+			$(".waiter_current_table").css({
+				fontSize:windowHeight*0.05+"px"
+			});
+			
+			$(".waiter_current_remove").css({
+				fontSize:windowHeight*0.04+"px"
+			});
+		
+			$(".waiter_current_left").css({
+				fontSize:windowHeight*0.04+"px"
+			});
+		
+			$(".waiter_current_middle").css({
+				fontSize:windowHeight*0.04+"px"
 			});
 		}
 	

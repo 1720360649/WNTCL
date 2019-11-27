@@ -58,11 +58,11 @@
 	.payment_order_details{
 		width: 96%;
 		height: auto;
-		top:200px;
+		top:10px;
 		left: 0px;
 		right: 0px;
 		margin:auto;
-		margin-top:200px;
+		margin-top:10px;
 		margin-bottom:280px;
 		background: white;
 	}
@@ -193,7 +193,12 @@
   </body>
   
   <script type="text/javascript">
-  
+  	//加载判定
+ 	var loadinit = false;
+ 	//移动设备宽高
+	 var MW = 0;
+	 var MH = 0;
+ 
 	function uload(){
 	
 		shoppingLoad();
@@ -247,11 +252,97 @@
 						
   				}
   
+  				windowauto();
   			}, "JSON");
   	
   		}
+  		
+  /******************************* 移动设备判断 ********************************************/
+function isMobile(){ 
+	  if(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i))
+	  	return true; 
+	  else
+  		return false; 
+  }
   	
+  	function windowauto(){
+  	
+  		if(isMobile() && loadinit){
+        		windowWidth = MW;
+        		windowHeight = MH;
+        	}else{
+				MW = windowWidth;
+				MH = windowHeight;
+        	}
+  		
+  		$(".payment_order_details li").css({
+  			height: windowHeight*0.13+"px",
+  			lineHeight: windowHeight*0.13+"px",
+  			fontSize: windowHeight*0.04+"px"
+  		});
+  		
+  		$(".payment_order_details_lowbox").css({
+  			height: windowHeight*0.0228+"px"
+  		});
+  		
+  		$(".payment_order_details_box").css({
+  			height: windowHeight*0.0845+"px"
+  		});
+  		
+  		$(".payment_order_details_box div").css({
+  			lineHeight: windowHeight*0.0845+"px"
+  		});
+  	
+  		$(".payment_order_details_img").css({
+  			width:windowHeight*0.0845+"px",
+  			height: windowHeight*0.0845+"px"
+  		});
+  		
+  		$(".payment_order_details_img img").css({
+  			width:windowHeight*0.0845+"px",
+  			height: windowHeight*0.0845+"px"
+  		});
+  		
+  		$(".payment_order_details_name").css({
+  			fontSize: windowHeight*0.03+"px"
+  		});
+  		
+  		$(".payment_order_details_number").css({
+  			fontSize: windowHeight*0.03+"px"
+  		});
+  		
+  		$(".payment_order_details_originalprice").css({
+  			fontSize: windowHeight*0.03+"px"
+  		});
+  		
+  		$(".payment_order_details_unitprice").css({
+  			fontSize: windowHeight*0.03+"px"
+  		});
+  		
+  		$(".payment_confirm").css({
+  			height: windowHeight*0.13+"px"
+  		});
+  		
+  		$(".payment_confirm_totalprice").css({
+  			lineHeight: windowHeight*0.13+"px",
+  			fontSize: windowHeight*0.05+"px"
+  		});
+  		
+  		$(".payment_confirm_discount").css({
+  			lineHeight: windowHeight*0.13+"px",
+  			fontSize: windowHeight*0.03+"px"
+  		});
+  		
+  		$(".payment_confirm_pay").css({
+  			width:windowWidth*0.2+"px",
+  			lineHeight: windowHeight*0.13+"px",
+  			fontSize: windowHeight*0.05+"px"
+  		});
+  		
+  		loadinit = true;
+  	}
  
+
   </script>
   
 </html>		
