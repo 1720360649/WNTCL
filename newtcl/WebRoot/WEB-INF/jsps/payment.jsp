@@ -240,8 +240,8 @@
   		
   						+"</li>";
   						
-  						price+=data[i].price*data[i].number;
-  						oldprice+=data[i].oldprice*data[i].number;
+  						price+=(data[i].price*data[i].number);
+  						oldprice+=(data[i].oldprice*data[i].number);
 					}
 					str+="</ul>";
 					
