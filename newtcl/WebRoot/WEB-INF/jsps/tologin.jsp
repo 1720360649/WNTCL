@@ -1,8 +1,18 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="cn.newtcl.entity.User"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
+
+<%
+	String str = "http://wntcl.top/login/login.jsp";
+	if(session.getAttribute("wntcluser") !=null){
+		User user = (User)session.getAttribute("wntcluser");
+		if("u".equals(user.getJurisdiction()))
+			str = "http://wntcl.top/newtcl/views/userlogin.do?id=1";
+	}
+ %>
 
 <html>
   <head>
@@ -22,12 +32,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <h2>未登陆,跳转至登陆页</h2>
+    <h2>页面跳转中.................. </h2>
   </body>
   
   <script type="text/javascript">
   
-  	window.location.href = "http://wntcl.top/login/login.jsp";
+  	window.location.href = "<%=str %>";
   	
   </script>
   

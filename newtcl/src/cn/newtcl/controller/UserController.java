@@ -144,25 +144,35 @@ public class UserController {
 		if(user == null || user.getJurisdiction() == null)
 			return "jsps/tologin";
 		else{
+			
+			//页面跳转
 			if("s".equals(user.getJurisdiction())){
-				
+				//写入managerID
+				if(user.getManagerId() != null)
+					session.setAttribute("managerid", user.getManagerId());
 				return "jsps/supporter";
 			}else if("m".equals(user.getJurisdiction())){
-				
+				//写入managerID
+				if(user.getManagerId() != null)
+					session.setAttribute("managerid", user.getManagerId());
 				return "jsps/supporter";
 			}else if("w".equals(user.getJurisdiction())){
-				
+				//写入managerID
+				if(user.getManagerId() != null)
+					session.setAttribute("managerid", user.getManagerId());
 				return "jsps/waiter";
 			}else if("c".equals(user.getJurisdiction())){
-				
+				//写入managerID
+				if(user.getManagerId() != null)
+					session.setAttribute("managerid", user.getManagerId());
 				return "jsps/kitchen";
 			}else if("u".equals(user.getJurisdiction())){
 			
-				return "user/showpage";
+				return "jsps/tologin";
 			}else{
 				return "jsps/tologin";
 			}
-		}
+		}	
     }
     
 }
