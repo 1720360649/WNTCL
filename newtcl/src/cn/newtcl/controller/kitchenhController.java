@@ -36,7 +36,7 @@ public class kitchenhController{
 		Integer manageId = (Integer)session.getAttribute("managerid");
 		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 	
-		String id = GetmanageId();
+		String id = GetUserId();
 		Map<String, Date> time = subDishList.getLasttime();
 		//添加当前用户操作时间
 		time.put(id, new Date());
@@ -50,7 +50,7 @@ public class kitchenhController{
 		Integer manageId = (Integer)session.getAttribute("managerid");
 		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 		
-		String id = GetmanageId();
+		String id = GetUserId();
 		Map<String, ArrayList<subDish>> map= subDishList.getMap();
 		Map<String, Date> time = subDishList.getLasttime();
 		int num = subDishList.getNum();
@@ -93,7 +93,7 @@ public class kitchenhController{
 	@RequestMapping("/remove")
 	public @ResponseBody Information remove(){
 		Information in = new Information();
-		String id = GetmanageId();
+		String id = GetUserId();
 		Integer manageId = (Integer)session.getAttribute("managerid");
 		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 		
@@ -150,8 +150,8 @@ public class kitchenhController{
 		return in;
 	}
 	
-	/***********************************通用商家id获取***************************************/
-	private String GetmanageId(){
+	/***********************************通用用户id获取***************************************/
+	private String GetUserId(){
 		User user = (User)session.getAttribute("wntcluser");
 		if(user == null || user.getId() == null)
 			return null;
