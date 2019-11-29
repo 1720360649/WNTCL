@@ -70,7 +70,7 @@ public class WaiterController {
 		}
 		
 	//更改订单状态
-		//查询该桌号是否有未完成订单
+		//查询该桌号是否有未完成制作订单
 		int orderid = SubDishList.getOverlist().get(li).get(0).getOrderid();
 		Orderline line = new Orderline();
 		line.setOrderId(orderid);
