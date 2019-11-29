@@ -101,11 +101,11 @@ public class kitchenhController{
 		Map<String, Date> time = subDishList.getLasttime();
 		ArrayList<subDish> list = map.get(id);
 		
-		Integer staff = (Integer)session.getAttribute("staff");
-		
+		Integer staff = Integer.valueOf(GetUserId());
+
 		if(staff == null || staff < 1){
 			in.setCode("0");
-			in.setMessage("状态异常,请重新扫码!");
+			in.setMessage("状态异常,请重新进入页面或重新登陆!");
 		}else{
 			if(list.size() < 1){
 				in.setCode("0");
