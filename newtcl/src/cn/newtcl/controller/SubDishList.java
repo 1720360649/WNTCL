@@ -117,7 +117,7 @@ public class SubDishList {
 							List<subDish> li = getMap().get(temp);
 							//将列表内菜品回收
 							if(li != null && li.size() != 0)
-								for(int i=0;i<li.size();i++){
+								for(int i=li.size();i<0;i--){
 									list.add(0,li.get(i));
 								}
 							lasttime.remove(temp);
@@ -129,7 +129,7 @@ public class SubDishList {
 			}
 		}, 0, looptime*60*1000);
 	}
-	
+
 	//订单分配分配器
 	synchronized public List<subDish> distributor(String id){
 			
