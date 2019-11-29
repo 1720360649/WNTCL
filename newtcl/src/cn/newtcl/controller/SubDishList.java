@@ -15,11 +15,15 @@ import com.alipay.api.DefaultAlipayClient;
 import cn.newtcl.entity.subDish;
 
 public class SubDishList {
-
+	//未分配订单列表
 	private static List<subDish> list = null;
+	//已分配订单集合
 	private static Map<String, ArrayList<subDish>> map = null;
+	//已制作订单集合
 	private static Map<Integer, List<subDish>> overlist = null;
+	//员工上次操作时间
 	private static Map<String, Date> lasttime = null;
+	//在线员工数
 	private static int num = 0;
 	// 回收定时器
 	private static Timer maintimer = null;
