@@ -1,17 +1,13 @@
 package cn.newtcl.dao;
 
 import java.util.List;
-
+/**
+ * 2019/12/01 Over 
+ * 王泽林
+ */
 import org.springframework.stereotype.Repository;
 
 import cn.newtcl.entity.User;
-
-/*
-  User: 晨梦意志
-  Date: 2019/6/13
-  Time: 12:42
-  Notes:
-*/
 @Repository
 public interface UserMapper {
 	
