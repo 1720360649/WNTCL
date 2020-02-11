@@ -53,6 +53,13 @@ public class UserView {
     	return "jsps/payment";
     }
     
+	@RequestMapping("/userorder")
+	public String findtouser(){
+		
+		return "user/userorder";
+	}
+	
+    
 	@RequestMapping("/checklogin")
 	public @ResponseBody Information checklogin(){
 		Information in = new Information();

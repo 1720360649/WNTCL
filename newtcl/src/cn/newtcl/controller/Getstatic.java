@@ -5,11 +5,21 @@ import java.util.Map;
 
 public class Getstatic extends SubDishList{
 	
+//	static Getstatic sub = null;
 	private static Map<Integer, Getstatic> map = null;
 	
 	public Getstatic() {
 		
 	}
+	
+//	public static Getstatic getSubDishList(Integer id){
+//		
+//		if(sub == null){
+//			sub = new Getstatic();
+//		}
+//		
+//		return sub;
+//	}
 	
 	public static Getstatic getSubDishList(Integer id){
 		Getstatic sub = null;

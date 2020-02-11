@@ -89,21 +89,13 @@ public class OrderController {
 				re.setCode(r.getCode());
 				re.setMessage(re.getMessage()+r.getMessage());
 				
-				List<subDish> list = subDishList.getList();
-				if(list == null){
-					list = new ArrayList<subDish>();
-				}
 				List<subDish> temp = ((Orders)session.getAttribute("orders")).getSubdishs();
 				if(temp != null && temp.size() != 0){
-					for (int i = 0;i<temp.size();i++){
-						subDish dish = temp.get(i);
-						dish.setOrderid(id);
-						list.add(dish);
+					for (subDish subDish : temp) {
+						subDish.setOrderid(order.getId());
+						subDish.setTable(order.getTable());
 					}
-				}
-				// 值回设
-				if(list!=null){
-					subDishList.setList(list);
+					subDishList.addList(temp);
 				}
 			}
 			
@@ -111,7 +103,6 @@ public class OrderController {
 			order.setTotal(0.00);
 			session.setAttribute("orders",order);
 			session.setAttribute("orderlist",null);
-			Getstatic.setSubDishList(manageId, subDishList);
 			in.setCode(re.getCode());
 			in.setMessage(re.getMessage());
 		}
@@ -150,6 +141,25 @@ public class OrderController {
 		in.setCode(re.getCode());
 		in.setMessage(re.getMessage());
 		return in;
+	}
+	
+	@RequestMapping("findtouser")
+	public @ResponseBody List<Orders> findToUser() {
+		NewReturn re = new NewReturn();
+		Orders order = new Orders();
+		List<Orders> list = null;
+		User user = (User)session.getAttribute("wntcluser");
+		
+//		if(user == null || user.getId() == null)
+//			return null;
+		
+		order.setUserId(1);
+		re = imOrderService.find(order);
+		
+		if(("1").equals(re.getCode()))
+			list = (List<Orders>)re.getObj();
+	
+		return list;
 	}
 
 }

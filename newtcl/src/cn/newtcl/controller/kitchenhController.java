@@ -1,4 +1,5 @@
-package cn.newtcl.controller;
+package cn.newtcl.controller; 
+ 
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,12 +38,10 @@ public class kitchenhController{
 		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 	
 		String id = GetUserId();
-		Map<String, Date> time = subDishList.getLasttime();
 		//添加当前用户操作时间
-		time.put(id, new Date());
-		subDishList.setLasttime(time);
+		subDishList.setLasttime(id,new Date());
 		
-		return subDishList.getList().size();
+		return subDishList.GetListSize();
 	}
 	
 	@RequestMapping("/getlist")
@@ -51,12 +50,11 @@ public class kitchenhController{
 		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 		
 		String id = GetUserId();
-		Map<String, ArrayList<subDish>> map= subDishList.getMap();
-		Map<String, Date> time = subDishList.getLasttime();
+		ArrayList<subDish>  map= (ArrayList<subDish>) subDishList.getMap(id);
 		int num = subDishList.getNum();
 		List<subDish> ulist = null;
 		
-		if(map.containsKey(id)){
+		if(map != null){
 			
 			ulist = subDishList.distributor(id);
 			
@@ -84,8 +82,7 @@ public class kitchenhController{
 		
 		
 		//添加当前用户操作时间
-		time.put(id, new Date());
-		subDishList.setLasttime(time);
+		subDishList.setLasttime(id,new Date());
 		Getstatic.setSubDishList(manageId, subDishList);
 		return ulist;
 	}
@@ -97,9 +94,7 @@ public class kitchenhController{
 		Integer manageId = (Integer)session.getAttribute("managerid");
 		Getstatic subDishList = Getstatic.getSubDishList(manageId);
 		
-		Map<String, ArrayList<subDish>> map= subDishList.getMap();
-		Map<String, Date> time = subDishList.getLasttime();
-		ArrayList<subDish> list = map.get(id);
+		ArrayList<subDish> list = subDishList.getMap(id);
 		
 		Integer staff = Integer.valueOf(GetUserId());
 
@@ -107,7 +102,7 @@ public class kitchenhController{
 			in.setCode("0");
 			in.setMessage("状态异常,请重新进入页面或重新登陆!");
 		}else{
-			if(list.size() < 1){
+			if(list == null || list.size() < 1){
 				in.setCode("0");
 				in.setMessage("当前已无单,移除失败");
 			}else{
@@ -115,25 +110,8 @@ public class kitchenhController{
 				if(re.getCode().equals("1")){
 					
 					int table = list.get(0).getTable();
-					Map<Integer,List<subDish>> temp = subDishList.getOverlist();
-					if(temp == null || temp.size() <= 0)
-						temp = new HashMap<Integer, List<subDish>>();
-						
-					if(temp.containsKey(table)){
-						List<subDish> tempsub = temp.get(table);
-						tempsub.add(list.get(0));
-						temp.put(table, tempsub);
-					}else{
-						List<subDish> tempsub = new ArrayList<subDish>();
-						tempsub.add(list.get(0));
-						temp.put(table, tempsub);
-					}
-					
-					subDishList.setOverlist(temp);
+					subDishList.setOverlist(table,list);
 					list.remove(0);
-					map.put(id, list);
-					subDishList.setMap(map);
-					
 					
 					in.setCode("1");
 					in.setMessage("已完成");
@@ -144,8 +122,7 @@ public class kitchenhController{
 			}
 		}
 		
-		time.put(id, new Date());
-		subDishList.setLasttime(time);
+		subDishList.setLasttime(id, new Date());
 		Getstatic.setSubDishList(manageId, subDishList);
 		return in;
 	}

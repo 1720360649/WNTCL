@@ -12,7 +12,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     
 	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font-awesome/css/font-awesome.min.css"> 
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/jquery_toast/css/toast.style.css">
@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<!-- <script type="text/javascript" src="<%=path %>/js/fullscreen.js"></script>  -->
  
  <style type="text/css">
- 	
+ 
  	*{
  		margin: 0px;
  		padding: 0px;
