@@ -15,6 +15,7 @@ public class User {
 	private String alipayOpenid = null;
 	private String wechatOpenid = null;
 	private String jurisdiction = null;
+	private Integer address = null;
 
 	public Integer getId() {
 		return id;
@@ -117,5 +118,22 @@ public class User {
 
 	public void setPayPassword(String payPassword) {
 		this.payPassword = payPassword;
+	}
+	
+	
+	public String toString() {
+		
+		return id +"------"+ phone +"------"+ password +"------"+ name +"------"+ email 
+				+"------"+ balance +"------"+ managerId +"------"+ payPassword 
+				+"------"+ qqOpenId +"------"+ avatar +"------"+ alipayOpenid 
+				+"------"+ wechatOpenid +"------"+ jurisdiction ;
+	}
+
+	public Integer getAddress() {
+		return address;
+	}
+
+	public void setAddress(Integer address) {
+		this.address = address;
 	}
 }

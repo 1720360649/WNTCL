@@ -136,7 +136,6 @@ public class otherLogin {
 		if(re.getCode().equals("1")){
 			User u = (User)re.getObj();
 			HttpSession session2 = MySessionContext.getInstance().getSession(sessionid);
-			session.setAttribute("wntcluser",u);
 			session2.setAttribute("wntcluser",u);
 			in.setCode("1");
 			in.setMessage("登陆成功");

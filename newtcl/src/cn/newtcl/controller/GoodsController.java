@@ -104,4 +104,24 @@ public class GoodsController {
 		}
 		return in;
 	}
+	
+	@RequestMapping("showgoodsforvue")
+	@ResponseBody
+	public Map<Integer, List<TypeAndGoods>> showGoodsforVue(Integer manager_id){
+		Type type = new Type();
+		if(manager_id == null)
+			return null;
+
+		type.setManagerId(manager_id);
+		type.setStatus(1);
+		
+		NewReturn re = imTypeService.findTypeAndGoods(type);
+	
+		if(("1").equals(re.getCode()))
+			return (Map<Integer, List<TypeAndGoods>>)re.getObj();
+		else
+			return null;
+
+	}
+	
 }

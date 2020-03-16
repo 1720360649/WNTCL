@@ -18,6 +18,24 @@
    <result column="alipayopenid" jdbcType="VARCHAR" property="alipayOpenid" />
    <result column="wechatopenid" jdbcType="VARCHAR" property="wechatOpenid" />
    <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+   <result column="address" jdbcType="VARCHAR" property="address" />
+ </resultMap>
+ 
+ <resultMap id="ShopResultMap" type="cn.newtcl.entity.Shop">
+   <id column="id" jdbcType="INTEGER" property="id" />
+   <result column="phone" jdbcType="VARCHAR" property="phone" />
+   <result column="name" jdbcType="VARCHAR" property="name" />
+   <result column="email" jdbcType="VARCHAR" property="email" />
+   <result column="balance" jdbcType="DOUBLE" property="balance" />
+   <result column="manager_id" jdbcType="INTEGER" property="managerId" />
+   <result column="qqopenid" jdbcType="VARCHAR" property="qqOpenId" />
+   <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+   <result column="alipayopenid" jdbcType="VARCHAR" property="alipayOpenid" />
+   <result column="wechatopenid" jdbcType="VARCHAR" property="wechatOpenid" />
+   <result column="jurisdiction" jdbcType="VARCHAR" property="jurisdiction" />
+   <result column="address" jdbcType="VARCHAR" property="address" />
+   <result column="tabsize" jdbcType="INTEGER" property="tabsize" />
+   <result column="shoptype" jdbcType="INTEGER" property="shoptype" />
  </resultMap>
  
  
@@ -45,37 +63,40 @@
  	update `user`
 	 	<set>
 	 		<if test="phone != null">
-	 			`phone` = #{phone}
+	 			`phone` = #{phone},
 	 		</if>
 	 		<if test="password != null">
-	 			`password` = #{password}
+	 			`password` = #{password},
 	 		</if>
 	 		<if test="name != null">
-	 			`name` = #{name}
+	 			`name` = #{name},
 	 		</if>
 	 		<if test="email != null">
-	 			`email` = #{email}
+	 			`email` = #{email},
 	 		</if>
 	 		<if test="balance != null">
-	 			`balance` = #{balance}
+	 			`balance` = #{balance},
 	 		</if>
 	 		<if test="managerId != null">
-	 			`manager_id` = #{managerId}
+	 			`manager_id` = #{managerId},
 	 		</if>
 	 		<if test="payPassword != null">
-	 			`paypassword` = #{payPassword}
+	 			`paypassword` = #{payPassword},
 	 		</if>
 	 		<if test="qqOpenId != null">
-	 			`qqopenid` = #{qqOpenId}
+	 			`qqopenid` = #{qqOpenId},
 	 		</if>
 	 		<if test="avatar != null">
-	 			`avatar` = #{avatar}
+	 			`avatar` = #{avatar},
 	 		</if>
 	 		<if test="alipayOpenid != null">
-	 			`alipayopenid` = #{alipayOpenid}
+	 			`alipayopenid` = #{alipayOpenid},
 	 		</if>
 	 		<if test="wechatOpenid != null">
-	 			`wechatopenid` = #{wechatOpenid}
+	 			`wechatopenid` = #{wechatOpenid},	
+	 		</if>
+	 		<if test="address != null">
+	 			`address` = #{address},	
 	 		</if>
 	 	</set>
 	 	where id = #{id}
@@ -149,6 +170,11 @@
   			and `wechatopenid` = #{wechatOpenid}
   		</if>   		
   	</where>
+  </select>
+  
+  <select id="findAllShop"  resultMap="ShopResultMap">
+  	SELECT * FROM `user`,shop
+	where `user`.id = shop.manager_id
   </select>
     
 </mapper>

@@ -5,6 +5,7 @@ public class Type {
     private Integer id = null;
     private String name = null;
     private Integer managerId = null;
+    private Integer status = null;
     
     public Integer getId() {
         return id;
@@ -28,6 +29,14 @@ public class Type {
 
 	public void setManagerId(Integer managerId) {
 		this.managerId = managerId;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
     
 

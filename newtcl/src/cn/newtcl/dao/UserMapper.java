@@ -7,6 +7,7 @@ import java.util.List;
  */
 import org.springframework.stereotype.Repository;
 
+import cn.newtcl.entity.Shop;
 import cn.newtcl.entity.User;
 @Repository
 public interface UserMapper {
@@ -23,4 +24,6 @@ public interface UserMapper {
     int add(User user);
     
 	List<User> find(User user);
+	
+	List<Shop> findAllShop();
 }

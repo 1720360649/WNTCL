@@ -1,5 +1,6 @@
 package cn.newtcl.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,6 +11,7 @@ import org.springframework.util.DigestUtils;
 
 import cn.newtcl.dao.UserMapper;
 import cn.newtcl.entity.NewReturn;
+import cn.newtcl.entity.Shop;
 import cn.newtcl.entity.User;
 import cn.newtcl.service.UserService;
 
@@ -63,6 +65,16 @@ public class ImUserService implements UserService {
 		if(user.getId() == null){
 			re.setCode("-1");
 			re.setMessage("此次更改未给出必要主键");
+			return re;
+		}else if(user.getPhone() == null && user.getPassword() == null &&
+				user.getName() == null &&user.getEmail() == null &&
+				user.getBalance() == null &&user.getManagerId() == null &&
+				user.getPayPassword() == null &&user.getQqOpenId() == null &&
+				user.getAvatar() == null &&user.getAlipayOpenid() == null &&
+				user.getWechatOpenid() == null &&user.getJurisdiction() == null)
+		{
+			re.setCode("-1");
+			re.setMessage("此次更改未给出修改项");
 			return re;
 		}
 		
@@ -244,6 +256,11 @@ public class ImUserService implements UserService {
 		}
 		
 		return re;
+	}
+	
+	//查询所有店铺
+	public List<Shop> findAllShop(){
+		return userDao.findAllShop();
 	}
 	
 	

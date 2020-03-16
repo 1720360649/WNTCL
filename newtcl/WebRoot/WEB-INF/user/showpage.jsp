@@ -198,6 +198,16 @@
 		display:none;
 	}
 	
+	#To_My_Account{
+		position:fixed;
+		bottom:100px;
+		right:50px;
+		width:50px;
+		height:50px;
+		background:gray;
+		color:white
+		z-index: 1000;
+	}
 	
     </style>
 </head>
@@ -222,13 +232,12 @@
   		<div class="shopping_orders">
   			<div class="shopping_order_txt">&nbsp;&nbsp;已选商品</div>
   			<div class="shopping_order_list">
-  				<ul>
-  	
-  				</ul>
+  				<ul></ul>
   			</div>
   		</div>
   	</div>
   	<a href="<%=path%>/views/payment.do"><div class="shopping_gopayment">去付款</div></a>
+  <!-- 	<a href="<%=path %>/vueview/#/home"><div id="To_My_Account"><i class="fas fa-camera"></i></div></a>  -->
 </body>
 
 <script type="text/javascript">
@@ -412,24 +421,23 @@ function isMobile(){
   				"width":windowWidth*0.2+"px",
   				"height":windowHeight*0.1+"px",
   				"line-height":windowHeight*0.1+"px",
-  				"line-height":windowHeight*0.1+"px",
-  				"font-size":windowHeight*0.05+"px"
+  				"font-size":windowHeight*0.04+"px"
   			});
   			
   			$(".goodsshow_good").css({
-  				"height":windowHeight*0.4+"px",
+  				"height":windowHeight*0.3+"px",
   				"width":windowWidth*0.35+"px",
   				"margin-left":(windowWidth*0.033)-4+"px",
   				"margin-top":windowHeight*0.03+"px"
   			});
   			
   			$(".goodsshow_good_img").css({
-  				"height":windowHeight*0.3+"px",
+  				"height":windowHeight*0.2+"px",
   				"width":windowWidth*0.35+"px"
   			});
   			
   			$(".goodsshow_good_img img").css({
-  				"height":windowHeight*0.3+"px",
+  				"height":windowHeight*0.2+"px",
   				"width":windowWidth*0.35+"px"
   			});
   			
@@ -441,14 +449,14 @@ function isMobile(){
   			
   			$(".goodsshow_good_price").css({
   				"height":windowHeight*0.05+"px",
+  				"width":windowWidth*0.32+"px",
   				"line-height" : windowHeight*0.05+"px",
   				"font-size":windowHeight*0.04+"px",
   			});
-  			
+  		
   			$(".goodsshow_good_add").css({
-  				"width" : windowHeight*0.45*0.18+'px',
-  				"height" : windowHeight*0.45*0.18+'px',
-  				"margin-top":-(windowHeight*0.035)+"px"
+  				"width" : windowHeight*0.05+'px',
+  				"height" : windowHeight*0.05+'px',
   			});
   			
   			$(".shopping_gopayment").css({
@@ -516,7 +524,7 @@ function isMobile(){
   			
   			$(".shopping_order_list_number").css({
   				"height" : windowHeight*0.1+"px",
-				"width"  : windowHeight*0.3+"px"
+				"width"  : windowHeight*0.25+"px"
   			});
   		
   			$(".shopping_order_list_price").css({
@@ -543,13 +551,20 @@ function isMobile(){
   			});
   			
   			$(".shopping_order_list_number_add").css({
-  				"height" : windowHeight*0.1+"px",
-				"width"  : windowHeight*0.1+"px"
+  				"height" : windowHeight*0.08+"px",
+				"width"  :windowHeight*0.08+"px"
   			});
   			
   			$(".shopping_order_list_number img").css({
+  				"height" : windowHeight*0.08+"px",
+				"width"  : windowHeight*0.08+"px"
+  			});
+  			
+  			$("#To_My_Account").css({
   				"height" : windowHeight*0.1+"px",
-				"width"  : windowHeight*0.1+"px"
+  				"width" : windowHeight*0.1+"px",
+  				"bottom" : windowHeight*0.12+"px",
+  				"right": windowHeight*0.01+"px"
   			});
   			
   			//首次加载完成标记

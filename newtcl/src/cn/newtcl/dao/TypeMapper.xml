@@ -59,10 +59,10 @@
   	update `type` 
   	<set>
   		<if test="name != null">
-  			name = #{name}
+  			name = #{name},
   		</if>
   		<if test="name != null">
-  			`manager_id` = #{managerId}
+  			`manager_id` = #{managerId},
   		</if>
   	</set>
   	where id = #{id}
@@ -87,6 +87,9 @@
 	from `type`,goods
 	where goods.type_id = `type`.id
 	and `type`.manager_id = #{managerId}
+	<if test="status != null">
+  		and `status` = #{status}
+  	</if>
 	) as good
 	order by goodsid desc
   </select>

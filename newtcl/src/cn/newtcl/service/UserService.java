@@ -1,6 +1,9 @@
 package cn.newtcl.service;
 
+import java.util.List;
+
 import cn.newtcl.entity.NewReturn;
+import cn.newtcl.entity.Shop;
 import cn.newtcl.entity.User;
 
 public interface UserService {
@@ -20,4 +23,6 @@ public interface UserService {
 	NewReturn find(User user);
 	
 	NewReturn checkPhone(String phone);
+	
+	List<Shop> findAllShop();
 }

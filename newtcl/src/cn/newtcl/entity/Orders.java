@@ -112,5 +112,11 @@ public class Orders{
 	public void setOrderLines(List<Orderline> orderLines) {
 		this.orderLines = orderLines;
 	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return id+"___"+table+"___"+total+"___"+managerId+"___"+describable;
+	}
 
 }

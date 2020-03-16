@@ -1,4 +1,6 @@
 package cn.newtcl.controller;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.newtcl.entity.Information;
 import cn.newtcl.entity.NewReturn;
+import cn.newtcl.entity.Shop;
 import cn.newtcl.entity.User;
 import cn.newtcl.service.impl.ImUserService;
 import cn.newtcl.utils.photoUp;
@@ -144,35 +147,103 @@ public class UserController {
 		if(user == null || user.getJurisdiction() == null)
 			return "jsps/tologin";
 		else{
-			
-			//页面跳转
-			if("s".equals(user.getJurisdiction())){
-				//写入managerID
-				if(user.getManagerId() != null)
-					session.setAttribute("managerid", user.getManagerId());
-				return "jsps/supporter";
-			}else if("m".equals(user.getJurisdiction())){
-				//写入managerID
-				if(user.getManagerId() != null)
-					session.setAttribute("managerid", user.getManagerId());
-				return "jsps/supporter";
-			}else if("w".equals(user.getJurisdiction())){
-				//写入managerID
-				if(user.getManagerId() != null)
-					session.setAttribute("managerid", user.getManagerId());
-				return "jsps/waiter";
-			}else if("c".equals(user.getJurisdiction())){
-				//写入managerID
-				if(user.getManagerId() != null)
-					session.setAttribute("managerid", user.getManagerId());
-				return "jsps/kitchen";
-			}else if("u".equals(user.getJurisdiction())){
-			
-				return "jsps/tologin";
-			}else{
-				return "jsps/tologin";
-			}
+			return "jsps/toindex";
+//			//页面跳转
+//			if("s".equals(user.getJurisdiction())){
+//				//写入managerID
+//				if(user.getManagerId() != null)
+//					session.setAttribute("managerid", user.getManagerId());
+//				return "jsps/supporter";
+//			}else if("m".equals(user.getJurisdiction())){
+//				//写入managerID
+//				if(user.getManagerId() != null)
+//					session.setAttribute("managerid", user.getManagerId());
+//				return "jsps/supporter";
+//			}else if("w".equals(user.getJurisdiction())){
+//				//写入managerID
+//				if(user.getManagerId() != null)
+//					session.setAttribute("managerid", user.getManagerId());
+//				return "jsps/waiter";
+//			}else if("c".equals(user.getJurisdiction())){
+//				//写入managerID
+//				if(user.getManagerId() != null)
+//					session.setAttribute("managerid", user.getManagerId());
+//				return "jsps/kitchen";
+//			}else if("u".equals(user.getJurisdiction())){
+//			
+//				return "jsps/tologin";
+//			}else{
+//				return "jsps/tologin";
+//			}
 		}	
+    }
+    
+    @RequestMapping("/getuser")
+    @ResponseBody
+    public User GetUser(){
+
+    	if(session.getAttribute("wntcluser") == null || ((User)session.getAttribute("wntcluser")).getId() == null || ((User)session.getAttribute("wntcluser")).getId() < 1){
+//    		//test
+//    		User u = new User();
+//    		u.setAvatar("https://wntcl.top/newtcl/img/managePortrait.png");
+//    		u.setName("卧槽无情");
+//    		u.setId(1);
+//    		u.setEmail("1234567891@qq.com");
+//    		return u;
+    		return null;
+    	}
+    	
+    	if(((User)session.getAttribute("wntcluser")).getId() != null && ((User)session.getAttribute("wntcluser")).getId() > 0){
+    		
+    		User user = (User)session.getAttribute("wntcluser");
+    		//出于安全考虑,虽然已加密但仍对账号密码和支付密码进行清除
+    		user.setPassword("0");
+    		user.setPayPassword("0");
+    		
+    		return user;
+    		
+    	}else{
+    		return null;
+    	}
+    }
+    
+    @RequestMapping("/edituser")
+    @ResponseBody
+    public Boolean EditUser(User user){
+    	if(GetUser() == null)
+    		return false;
+    	else
+    		user.setId(GetUser().getId());
+  
+    	NewReturn re = imUserService.updateUser(user);
+    	
+    	if("1".equals(re.getCode())){
+			User temp = GetUser();
+			if(user.getName() != null)
+				temp.setName(user.getName());
+			if(user.getEmail() != null)
+				temp.setEmail(user.getEmail());
+			if(user.getPhone() != null )
+				temp.setPhone(user.getPhone());
+			if(user.getAvatar() != null)
+				temp.setAvatar(user.getAvatar());
+			if(user.getAlipayOpenid()!= null)
+				temp.setAlipayOpenid(user.getAlipayOpenid());
+			if(user.getWechatOpenid() != null)
+				temp.setWechatOpenid(user.getWechatOpenid());
+			
+    		return true;	
+		}
+    	else
+    		return false;
+    }
+    
+    @RequestMapping("/findallshop")
+    @ResponseBody
+    public List<Shop> FindAllShop(User user){
+ 
+    	return imUserService.findAllShop();
+    	
     }
     
 }

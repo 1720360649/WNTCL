@@ -121,5 +121,18 @@ public class OrderlineController {
 		in.setMessage(re.getMessage());
 		return in;
 	}
+	
+	@RequestMapping("getOrderListforid")
+	public @ResponseBody List<subDish> getOrderListForId(Integer id){
+		Orders order = new Orders();
+		order.setId(id);
+		NewReturn re = new NewReturn();
+		re = imOrderlineService.getOrderList(order);
+		if(re.getCode().equals("1")){
+			return (List<subDish>)re.getObj();
+		}else{
+			return null;
+		}
+	}
 
 }

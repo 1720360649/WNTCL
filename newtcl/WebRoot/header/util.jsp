@@ -14,7 +14,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="description" content="This is my page">
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     
-	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font-awesome/css/font-awesome.min.css"> 
+	<link type="text/css" rel="stylesheet" href="<%=path %>/utils/font-awesome/css/fontawesome.css"> 
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/jquery_toast/css/toast.style.css">
     <link type="text/css" rel="stylesheet" href="<%=path %>/utils/layui/css/layui.css">
 
